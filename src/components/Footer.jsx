@@ -2,8 +2,18 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer 
+      className="text-white py-12 relative -mt-16"
+      style={{
+        backgroundImage: 'url(/src/assets/hochofen.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        filter: 'contrast(1.3) brightness(0.8) saturate(1.5) hue-rotate(10deg)'
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 via-orange-900/30 to-black/80"></div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>

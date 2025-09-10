@@ -62,7 +62,7 @@ const Events = () => {
           price: "Kostenlos"
         }
       ],
-      image: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/src/assets/images/städte/dortmund/DortmunderU.jpg"
     },
     {
       id: 3,
@@ -137,7 +137,7 @@ const Events = () => {
           price: "18€"
         }
       ],
-      image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/src/assets/images/städte/gelsenkirchen/NordsternHerkules.jpg"
     },
     {
       id: 6,
@@ -191,28 +191,28 @@ const Events = () => {
     },
     {
       id: 8,
-      name: "Herne",
+      name: "Herten",
       events: [
         {
-          title: "LWL-Museum für Archäologie",
-          subtitle: "250.000 Jahre Menschheitsgeschichte",
+          title: "Halde Hoheward Observatorium",
+          subtitle: "Horizontalobservatorium und Obelisk",
           date: "2025-10-24",
           time: "11:00",
-          location: "LWL-Museum Herne",
-          category: "Bildung",
-          price: "8€"
+          location: "Halde Hoheward",
+          category: "Wissenschaft",
+          price: "6€"
         },
         {
-          title: "Cranger Kirmes Rückblick",
-          subtitle: "Deutschlands größte Kirmes",
+          title: "Schloss Herten",
+          subtitle: "Wasserschloss im Schlosspark",
           date: "2025-10-29",
           time: "16:00",
-          location: "Cranger Kirmesplatz",
-          category: "Tradition",
-          price: "Kostenlos"
+          location: "Schloss Herten",
+          category: "Kultur",
+          price: "5€"
         }
       ],
-      image: "https://images.unsplash.com/photo-1544967882-bc2e4ec13864?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/src/assets/images/städte/herne/Halde Hoheward.jpg"
     },
     {
       id: 9,
@@ -312,7 +312,7 @@ const Events = () => {
           price: "6€"
         }
       ],
-      image: "https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/src/assets/images/städte/recklinghausen/RuhrfestspielhausRecklinghausen.jpg"
     }
   ]
 
@@ -336,8 +336,9 @@ const Events = () => {
   }
 
   return (
-    <section id="events" className="py-16 bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="events" className="pt-48 pb-16 bg-black text-white relative -mt-32">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%"></div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
@@ -356,7 +357,7 @@ const Events = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cities.map((city) => (
-            <div key={city.id} className="bg-gray-800 rounded-2xl overflow-hidden hover:bg-gray-750 hover:shadow-2xl hover:shadow-orange-500/20 hover:border hover:border-orange-500 transition-all duration-500 group hover:-translate-y-3 hover:rotate-1">
+            <div key={city.id} className="bg-transparent backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-black/20 hover:shadow-2xl hover:shadow-orange-500/20 hover:border hover:border-orange-500 transition-all duration-500 group hover:-translate-y-3 hover:rotate-1">
               <div className="aspect-w-16 aspect-h-10 relative">
                 <img 
                   src={city.image} 
@@ -377,12 +378,12 @@ const Events = () => {
               
               <div className="p-4 space-y-4">
                 {city.events.map((event, index) => (
-                  <div key={index} className="border-l-4 border-emerald-500 hover:border-orange-400 pl-4 py-2 hover:bg-gray-700/50 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg">
+                  <div key={index} className="border-l-4 border-orange-400 hover:border-orange-300 pl-4 py-2 hover:bg-gray-700/50 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg">
                     <div className="flex justify-between items-start mb-2">
-                      <span className={`px-2 py-1 rounded text-white text-xs font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 ${getCategoryColor(event.category)}`}>
+                      <span className="px-2 py-1 rounded text-orange-300 text-xs font-medium bg-transparent border border-orange-400/40 hover:bg-orange-600 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300">
                         {event.category}
                       </span>
-                      <span className="text-xs text-gray-400 bg-gray-700 hover:bg-orange-600 hover:text-white px-2 py-1 rounded transition-all duration-300">
+                      <span className="text-xs text-gray-400 bg-transparent border border-gray-500/30 hover:bg-orange-600 hover:text-white hover:border-orange-600 px-2 py-1 rounded transition-all duration-300">
                         {event.price}
                       </span>
                     </div>

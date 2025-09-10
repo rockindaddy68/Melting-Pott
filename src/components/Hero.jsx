@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const Hero = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('DE')
+  const [selectedLanguage, setSelectedLa              <button className="px-10 py-5 bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-3 justify-center shadow-lg border border-orange-400/50">guage] = useState('DE')
 
   const languages = [
     { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },
@@ -42,13 +42,25 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen bg-gray-900 text-white overflow-hidden">
+      {/* Background Image - WegeLaPaDu */}
+      <div className="absolute inset-0">
+        <div 
+          className="w-full h-full bg-cover bg-center"
+          style={{
+            backgroundImage: `url('/src/assets/images/städte/duisburg/Wege LaPaDu.jpg')`
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 to-black/70"></div>
+      </div>
+
       {/* Language Selector */}
       <div className="absolute top-6 right-6 z-20">
         <div className="relative">
           <select 
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="bg-gray-800/90 backdrop-blur-sm border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-lg"
           >
             {languages.map(lang => (
               <option key={lang.code} value={lang.code}>
@@ -59,76 +71,61 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Industrial Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
-        <div 
-          className="w-full h-full bg-cover bg-center opacity-50"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1518709268805-4e9042af2e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
-          }}
-        ></div>
-      </div>
-
       <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Centered Content */}
-        <div className="text-center py-20">
-          <h1 className="text-5xl lg:text-7xl font-bold mb-4 tracking-tight">
-            {currentLang.title}
-          </h1>
-          <p className="text-xl lg:text-2xl text-gray-300 mb-8 font-light max-w-3xl mx-auto">
-            {currentLang.subtitle}
-          </p>
-
-          {/* Explanation */}
-          <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 mb-8 border border-gray-700 max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold mb-3 text-emerald-400">Was bedeutet "Melting Pott"?</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              {currentLang.explanation}
+        {/* Main Content Layout */}
+        <div className="flex items-center justify-between gap-4 mb-16 mt-20">
+          {/* Left Side - Title */}
+          <div className="flex-1 max-w-2xl">
+            <h1 className="text-6xl lg:text-8xl font-bold mb-8 tracking-tight text-orange-400">
+              {currentLang.title}
+            </h1>
+            <p className="text-2xl lg:text-3xl text-gray-300 mb-16 font-light">
+              {currentLang.subtitle}
             </p>
           </div>
           
-          {/* Search Bar */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 max-w-2xl mx-auto">
-            <div className="flex-1 relative">
-              <input 
-                type="text" 
-                placeholder={currentLang.searchPlaceholder}
-                className="w-full px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              />
-            </div>
-            <button className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center">
-              <span>{currentLang.discoverBtn}</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+          {/* Right Side - Extra Large Zollverein Image */}
+          <div className="hidden lg:block flex-shrink-0">
+            <img 
+              src="/src/assets/images/städte/essen/Extraschicht nacht.jpg"
+              alt="Zeche Zollverein bei Nacht"
+              className="w-[32rem] h-96 object-cover rounded-2xl shadow-2xl"
+            />
           </div>
+        </div>
 
-          {/* Hero Images Preview */}
-          <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto mt-12">
-            <div className="rounded-xl overflow-hidden shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1570495259159-c213ba0e3993?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                alt="Zeche Zollverein"
-                className="w-full h-32 object-cover"
-              />
-            </div>
-            <div className="rounded-xl overflow-hidden shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1518709268805-4e9042af2e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                alt="Landschaftspark Duisburg"
-                className="w-full h-32 object-cover"
-              />
-            </div>
-            <div className="rounded-xl overflow-hidden shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                alt="Gasometer Oberhausen"
-                className="w-full h-32 object-cover"
-              />
-            </div>
+        {/* Search Bar - Moved Down */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-8 max-w-5xl mx-auto mt-12">
+          <div className="flex-1 relative">
+            <input 
+              type="text" 
+              placeholder={currentLang.searchPlaceholder}
+              className="w-full px-6 py-5 text-lg rounded-xl bg-transparent backdrop-blur-sm border border-orange-500/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 shadow-lg"
+            />
           </div>
+          <button className="px-10 py-5 bg-orange-400 hover:bg-orange-300 text-black font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-3 justify-center shadow-lg">
+            <span>{currentLang.discoverBtn}</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Zollverein Image */}
+        <div className="lg:hidden mb-12 flex justify-center">
+          <img 
+            src="/src/assets/images/städte/essen/Extraschicht nacht.jpg"
+            alt="Zeche Zollverein bei Nacht"
+            className="w-full max-w-md h-64 object-cover rounded-2xl shadow-2xl"
+          />
+        </div>
+
+        {/* Explanation - Bottom - Overlapping */}
+        <div className="mt-32 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto relative z-20" style={{ marginBottom: '-8rem' }}>
+          <h3 className="text-xl font-semibold mb-4 text-orange-400">Was bedeutet "Melting Pott"?</h3>
+          <p className="text-gray-200 text-base leading-relaxed">
+            {currentLang.explanation}
+          </p>
         </div>
       </div>
     </section>
