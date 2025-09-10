@@ -62,18 +62,18 @@ const Hero = () => {
       {/* WegeLaPaDu Background */}
       <div className="absolute inset-0">
         <div 
-          className="w-full h-full bg-cover bg-center"
+          className="w-full h-full bg-cover bg-center brightness-50 contrast-125"
           style={{
-            backgroundImage: 'url(/src/assets/images/städte/duisburg/Wege LaPaDu.jpg)'
+            backgroundImage: 'url(/WegeLaPaDu.jpg)'
           }}
         ></div>
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-kohleschwarz/90"></div>
       </div>
 
       <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content Layout */}
-        <div className="flex items-center justify-between gap-4 mb-16 mt-20">
+        <div className="flex items-center justify-between gap-4 mb-16 mt-32">
           {/* Left Side - Title */}
           <div className="flex-1 max-w-2xl">
             <h1 className="text-6xl lg:text-8xl font-bold mb-8 tracking-tight text-orange-400">
@@ -103,7 +103,7 @@ const Hero = () => {
           />
         </div>
 
-        {/* Search Bar - Moved Down */}
+        {/* Search Bar - Same Width as Explanation */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8 max-w-5xl mx-auto mt-12">
             <div className="flex-1 relative">
               <input 
@@ -112,7 +112,7 @@ const Hero = () => {
                 className="w-full px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
-          <button className="px-10 py-5 bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-3 justify-center shadow-lg border border-orange-400/50">
+          <button className="px-10 py-4 bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-3 justify-center shadow-lg border border-orange-400/50">
             <span>{currentLang.discoverBtn}</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -121,7 +121,7 @@ const Hero = () => {
         </div>
 
         {/* Explanation - Bottom */}
-        <div className="mt-32 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
+        <div className="mt-48 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
           <h3 className="text-xl font-semibold mb-4 text-orange-400">Was bedeutet "Melting Pott"?</h3>
           <p className="text-gray-200 text-base leading-relaxed">
             {currentLang.explanation}
