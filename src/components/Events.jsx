@@ -1,6 +1,356 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const Events = () => {
+const Events = ({ selectedLanguage = 'DE' }) => {
+  const [currentLang, setCurrentLang] = useState('DE')
+
+  useEffect(() => {
+    setCurrentLang(selectedLanguage)
+  }, [selectedLanguage])
+
+  const translations = {
+    DE: {
+      title: "Events in den 12 Ruhrgebietsstädten",
+      subtitle: "Entdecke die Vielfalt der Kulturen und Events in den wichtigsten Städten des Ruhrgebiets",
+      categories: {
+        Kultur: "Kultur",
+        Musik: "Musik", 
+        Sport: "Sport",
+        Familie: "Familie",
+        Kunst: "Kunst",
+        Bildung: "Bildung",
+        Shopping: "Shopping",
+        Aussicht: "Aussicht",
+        Wissenschaft: "Wissenschaft"
+      },
+      events: {
+        "Zeche Zollverein UNESCO-Führung": {
+          title: "Zeche Zollverein UNESCO-Führung",
+          subtitle: "Welterbe Industriekultur erleben"
+        },
+        "Philharmonie Essen Konzert": {
+          title: "Philharmonie Essen Konzert", 
+          subtitle: "Ruhr Piano Festival"
+        },
+        "BVB Stadion-Tour": {
+          title: "BVB Stadion-Tour",
+          subtitle: "Signal Iduna Park erleben"
+        },
+        "Phoenix See Herbstfest": {
+          title: "Phoenix See Herbstfest",
+          subtitle: "Familienfest am künstlichen See"
+        },
+        "LaPaDu Lichtinstallation": {
+          title: "LaPaDu Lichtinstallation", 
+          subtitle: "Spektakuläre Lichtshow im Landschaftspark"
+        },
+        "Hafen Duisburg Tour": {
+          title: "Hafen Duisburg Tour",
+          subtitle: "Größter Binnenhafen Europas"
+        },
+        "Deutsches Bergbau-Museum": {
+          title: "Deutsches Bergbau-Museum",
+          subtitle: "Industriegeschichte hautnah erleben"
+        },
+        "Starlight Express Musical": {
+          title: "Starlight Express Musical",
+          subtitle: "Weltberühmtes Rollschuh-Musical"
+        },
+        "ZOOM Erlebniswelt": {
+          title: "ZOOM Erlebniswelt",
+          subtitle: "Weltreise an einem Tag"
+        },
+        "Schalke Arena Tour": {
+          title: "Schalke Arena Tour",
+          subtitle: "Veltins-Arena entdecken"
+        },
+        "Gasometer Ausstellung": {
+          title: "Gasometer Ausstellung",
+          subtitle: "Das zerbrechliche Paradies"
+        },
+        "CentrO Shopping & Kultur": {
+          title: "CentrO Shopping & Kultur",
+          subtitle: "Einkaufen und Entertainment"
+        },
+        "Tetraeder Aussichtsturm": {
+          title: "Tetraeder Aussichtsturm",
+          subtitle: "360° Panorama über das Ruhrgebiet"
+        },
+        "Movie Park Germany": {
+          title: "Movie Park Germany",
+          subtitle: "Filmpark mit Achterbahnen"
+        },
+        "Halde Hoheward Observatorium": {
+          title: "Halde Hoheward Observatorium",
+          subtitle: "Horizontalobservatorium und Obelisk"
+        },
+        "Schloss Herten": {
+          title: "Schloss Herten",
+          subtitle: "Wasserschloss im Schlosspark"
+        },
+        "Moers Festival": {
+          title: "Moers Festival",
+          subtitle: "Internationales Jazz & World Music Festival"
+        },
+        "Grafschafter Museum": {
+          title: "Grafschafter Museum",
+          subtitle: "Geschichte der Grafschaft Moers"
+        },
+        "Camera Obscura": {
+          title: "Camera Obscura",
+          subtitle: "Weltweit höchste begehbare Kamera"
+        },
+        "Aquarius Wassermuseum": {
+          title: "Aquarius Wassermuseum",
+          subtitle: "Industriekultur der Wasserwirtschaft"
+        },
+        "LWL-Industriemuseum Henrichshütte": {
+          title: "LWL-Industriemuseum Henrichshütte",
+          subtitle: "Hochofenanlage und Industriegeschichte"
+        },
+        "Altstadt Hattingen": {
+          title: "Altstadt Hattingen",
+          subtitle: "Mittelalterliche Fachwerkarchitektur"
+        },
+        "Ruhrfestspiele": {
+          title: "Ruhrfestspiele",
+          subtitle: "Europas größtes Theaterfestival"
+        },
+        "Ikonen-Museum": {
+          title: "Ikonen-Museum",
+          subtitle: "Ostkirchliche Kunst"
+        }
+      }
+    },
+    EN: {
+      title: "Events in the 12 Ruhr Area Cities",
+      subtitle: "Discover the diversity of cultures and events in the most important cities of the Ruhr area",
+      categories: {
+        Kultur: "Culture",
+        Musik: "Music",
+        Sport: "Sports", 
+        Familie: "Family",
+        Kunst: "Arts",
+        Bildung: "Education",
+        Shopping: "Shopping",
+        Aussicht: "Viewpoint",
+        Wissenschaft: "Science"
+      },
+      events: {
+        "Zeche Zollverein UNESCO-Führung": {
+          title: "Zeche Zollverein UNESCO Tour",
+          subtitle: "Experience World Heritage Industrial Culture"
+        },
+        "Philharmonie Essen Konzert": {
+          title: "Essen Philharmonic Concert", 
+          subtitle: "Ruhr Piano Festival"
+        },
+        "BVB Stadion-Tour": {
+          title: "BVB Stadium Tour",
+          subtitle: "Experience Signal Iduna Park"
+        },
+        "Phoenix See Herbstfest": {
+          title: "Phoenix Lake Autumn Festival",
+          subtitle: "Family Festival at the Artificial Lake"
+        },
+        "LaPaDu Lichtinstallation": {
+          title: "LaPaDu Light Installation", 
+          subtitle: "Spectacular Light Show in Landscape Park"
+        },
+        "Hafen Duisburg Tour": {
+          title: "Duisburg Harbor Tour",
+          subtitle: "Europe's Largest Inland Port"
+        },
+        "Deutsches Bergbau-Museum": {
+          title: "German Mining Museum",
+          subtitle: "Experience Industrial History Up Close"
+        },
+        "Starlight Express Musical": {
+          title: "Starlight Express Musical",
+          subtitle: "World-Famous Roller Skate Musical"
+        },
+        "ZOOM Erlebniswelt": {
+          title: "ZOOM Experience World",
+          subtitle: "World Tour in One Day"
+        },
+        "Schalke Arena Tour": {
+          title: "Schalke Arena Tour",
+          subtitle: "Discover Veltins-Arena"
+        },
+        "Gasometer Ausstellung": {
+          title: "Gasometer Exhibition",
+          subtitle: "The Fragile Paradise"
+        },
+        "CentrO Shopping & Kultur": {
+          title: "CentrO Shopping & Culture",
+          subtitle: "Shopping and Entertainment"
+        },
+        "Tetraeder Aussichtsturm": {
+          title: "Tetrahedron Observation Tower",
+          subtitle: "360° Panorama over the Ruhr Area"
+        },
+        "Movie Park Germany": {
+          title: "Movie Park Germany",
+          subtitle: "Film Park with Roller Coasters"
+        },
+        "Halde Hoheward Observatorium": {
+          title: "Hoheward Observatory",
+          subtitle: "Horizon Observatory and Obelisk"
+        },
+        "Schloss Herten": {
+          title: "Herten Castle",
+          subtitle: "Water Castle in Castle Park"
+        },
+        "Moers Festival": {
+          title: "Moers Festival",
+          subtitle: "International Jazz & World Music Festival"
+        },
+        "Grafschafter Museum": {
+          title: "Grafschaft Museum",
+          subtitle: "History of County Moers"
+        },
+        "Camera Obscura": {
+          title: "Camera Obscura",
+          subtitle: "World's Highest Walk-in Camera"
+        },
+        "Aquarius Wassermuseum": {
+          title: "Aquarius Water Museum",
+          subtitle: "Industrial Culture of Water Management"
+        },
+        "LWL-Industriemuseum Henrichshütte": {
+          title: "LWL Industrial Museum Henrichshütte",
+          subtitle: "Blast Furnace Plant and Industrial History"
+        },
+        "Altstadt Hattingen": {
+          title: "Hattingen Old Town",
+          subtitle: "Medieval Half-Timbered Architecture"
+        },
+        "Ruhrfestspiele": {
+          title: "Ruhr Festival",
+          subtitle: "Europe's Largest Theater Festival"
+        },
+        "Ikonen-Museum": {
+          title: "Icon Museum",
+          subtitle: "Eastern Church Art"
+        }
+      }
+    },
+    TR: {
+      title: "12 Ruhr Bölgesi Şehrinde Etkinlikler",
+      subtitle: "Ruhr bölgesinin en önemli şehirlerindeki kültür ve etkinlik çeşitliliğini keşfedin",
+      categories: {
+        Kultur: "Kültür",
+        Musik: "Müzik",
+        Sport: "Spor",
+        Familie: "Aile",
+        Kunst: "Sanat",
+        Bildung: "Eğitim",
+        Shopping: "Alışveriş",
+        Aussicht: "Manzara",
+        Wissenschaft: "Bilim"
+      },
+      events: {
+        "Zeche Zollverein UNESCO-Führung": {
+          title: "Zeche Zollverein UNESCO Turu",
+          subtitle: "Dünya Mirası Endüstri Kültürünü Deneyimleyin"
+        },
+        "Philharmonie Essen Konzert": {
+          title: "Essen Filarmoni Konseri", 
+          subtitle: "Ruhr Piyano Festivali"
+        },
+        "BVB Stadion-Tour": {
+          title: "BVB Stadyum Turu",
+          subtitle: "Signal Iduna Park'ı Deneyimleyin"
+        },
+        "Phoenix See Herbstfest": {
+          title: "Phoenix Gölü Sonbahar Festivali",
+          subtitle: "Yapay Göl'de Aile Festivali"
+        },
+        "LaPaDu Lichtinstallation": {
+          title: "LaPaDu Işık Enstalasyonu", 
+          subtitle: "Peyzaj Parkında Muhteşem Işık Gösterisi"
+        },
+        "Hafen Duisburg Tour": {
+          title: "Duisburg Limanı Turu",
+          subtitle: "Avrupa'nın En Büyük İç Limanı"
+        },
+        "Deutsches Bergbau-Museum": {
+          title: "Alman Maden Müzesi",
+          subtitle: "Endüstri Tarihini Yakından Deneyimleyin"
+        },
+        "Starlight Express Musical": {
+          title: "Starlight Express Müzikali",
+          subtitle: "Dünyaca Ünlü Paten Müzikali"
+        },
+        "ZOOM Erlebniswelt": {
+          title: "ZOOM Deneyim Dünyası",
+          subtitle: "Bir Günde Dünya Turu"
+        },
+        "Schalke Arena Tour": {
+          title: "Schalke Arena Turu",
+          subtitle: "Veltins-Arena'yı Keşfedin"
+        },
+        "Gasometer Ausstellung": {
+          title: "Gasometer Sergisi",
+          subtitle: "Kırılgan Cennet"
+        },
+        "CentrO Shopping & Kultur": {
+          title: "CentrO Alışveriş & Kültür",
+          subtitle: "Alışveriş ve Eğlence"
+        },
+        "Tetraeder Aussichtsturm": {
+          title: "Tetraeder Gözlem Kulesi",
+          subtitle: "Ruhr Bölgesi üzerinde 360° Panorama"
+        },
+        "Movie Park Germany": {
+          title: "Movie Park Germany",
+          subtitle: "Hız Trenli Film Parkı"
+        },
+        "Halde Hoheward Observatorium": {
+          title: "Hoheward Gözlemevi",
+          subtitle: "Ufuk Gözlemevi ve Obelisk"
+        },
+        "Schloss Herten": {
+          title: "Herten Şatosu",
+          subtitle: "Şato Parkında Su Şatosu"
+        },
+        "Moers Festival": {
+          title: "Moers Festivali",
+          subtitle: "Uluslararası Caz ve Dünya Müziği Festivali"
+        },
+        "Grafschafter Museum": {
+          title: "Grafschaft Müzesi",
+          subtitle: "Moers Kontluğu Tarihi"
+        },
+        "Camera Obscura": {
+          title: "Camera Obscura",
+          subtitle: "Dünyanın En Yüksek Yürünebilir Kamerası"
+        },
+        "Aquarius Wassermuseum": {
+          title: "Aquarius Su Müzesi",
+          subtitle: "Su Yönetimi Endüstri Kültürü"
+        },
+        "LWL-Industriemuseum Henrichshütte": {
+          title: "LWL Endüstri Müzesi Henrichshütte",
+          subtitle: "Yüksek Fırın Tesisi ve Endüstri Tarihi"
+        },
+        "Altstadt Hattingen": {
+          title: "Hattingen Eski Şehir",
+          subtitle: "Ortaçağ Ahşap Çerçeveli Mimarisi"
+        },
+        "Ruhrfestspiele": {
+          title: "Ruhr Festivalleri",
+          subtitle: "Avrupa'nın En Büyük Tiyatro Festivali"
+        },
+        "Ikonen-Museum": {
+          title: "İkon Müzesi",
+          subtitle: "Doğu Kilisesi Sanatı"
+        }
+      }
+    }
+  }
+
+  const lang = translations[currentLang] || translations.DE
+
   const formatGermanDate = (dateStr) => {
     const months = [
       'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
@@ -347,11 +697,11 @@ const Events = () => {
               </svg>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-orange-400">
-              Events in den 12 Ruhrgebietsstädten
+              {lang.title}
             </h2>
           </div>
           <p className="text-gray-400">
-            Entdecke die Vielfalt der Kulturen und Events in den wichtigsten Städten des Ruhrgebiets
+            {lang.subtitle}
           </p>
         </div>
 
@@ -385,7 +735,7 @@ const Events = () => {
                   <div key={index} className="border-l-4 border-orange-400 hover:border-orange-300 pl-4 py-2 hover:bg-gray-700/50 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg">
                     <div className="flex justify-between items-start mb-2">
                       <span className="px-2 py-1 rounded text-orange-300 text-xs font-medium bg-transparent border border-orange-400/40 hover:bg-orange-600 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300">
-                        {event.category}
+                        {lang.categories[event.category] || event.category}
                       </span>
                       <span className="text-xs text-gray-300 bg-gray-700/50 border border-gray-500 hover:bg-orange-500 hover:text-white hover:border-orange-500 px-3 py-1.5 rounded-full font-medium transition-all duration-300">
                         {event.price}
@@ -393,11 +743,11 @@ const Events = () => {
                     </div>
                     
                     <h4 className="text-sm font-bold text-orange-400 mb-1 line-clamp-1">
-                      {event.title}
+                      {lang.events?.[event.title]?.title || event.title}
                     </h4>
                     
                     <p className="text-xs text-gray-400 mb-2 line-clamp-1">
-                      {event.subtitle}
+                      {lang.events?.[event.title]?.subtitle || event.subtitle}
                     </p>
                     
                     <div className="space-y-1 text-xs text-gray-500">

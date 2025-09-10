@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 
-const Hero = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('DE')
+const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
 
-  const languages = [
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'EN', name: 'English', flag: '🇬🇧' },
-    { code: 'TR', name: 'Türkçe', flag: '🇹🇷' },
-    { code: 'PL', name: 'Polski', flag: '🇵🇱' },
-    { code: 'RU', name: 'Русский', flag: '🇷🇺' },
-    { code: 'FR', name: 'Français', flag: '🇫🇷' },
-    { code: 'ES', name: 'Español', flag: '🇪🇸' },
-    { code: 'IT', name: 'Italiano', flag: '🇮🇹' }
+  const welcomeButtons = [
+    { code: 'DE', text: 'Willkommen im Ruhrgebiet', flag: '🇩🇪' },
+    { code: 'EN', text: 'Welcome to the Ruhr Area', flag: '🇬🇧' },
+    { code: 'TR', text: 'Ruhr Bölgesine Hoş Geldiniz', flag: '🇹🇷' },
+    { code: 'PL', text: 'Witamy w Zagłębiu Ruhry', flag: '🇵🇱' },
+    { code: 'RU', text: 'Добро пожаловать в Рурскую область', flag: '🇷🇺' },
+    { code: 'AR', text: 'مرحباً بكم في منطقة الرور', flag: '🇸🇦' },
+    { code: 'FR', text: 'Bienvenue dans la Ruhr', flag: '🇫🇷' },
+    { code: 'ES', text: 'Bienvenidos al Área del Ruhr', flag: '🇪🇸' },
+    { code: 'IT', text: 'Benvenuti nella Ruhr', flag: '🇮🇹' },
+    { code: 'NL', text: 'Welkom in het Ruhrgebied', flag: '🇳🇱' }
   ]
 
   const translations = {
@@ -20,13 +21,15 @@ const Hero = () => {
       subtitle: "Dein Guide für Events im Ruhrgebiet",
       searchPlaceholder: "Event oder Location suchen...",
       discoverBtn: "Entdecken",
+      explanationTitle: "Was bedeutet \"Melting Pott\"?",
       explanation: "Der Begriff 'Melting Pott' verbindet das englische Wort für Schmelztiegel mit dem regionalen 'Pott' für das Ruhrgebiet. Seit über 150 Jahren leben und arbeiten hier Menschen aus aller Welt zusammen - von polnischen Bergleuten über türkische Gastarbeiter bis hin zu Familien aus über 180 Nationen. Diese kulturelle Vielfalt macht das Ruhrgebiet zu einem einzigartigen Schmelztiegel der Kulturen."
     },
     EN: {
-      title: "Melting Pott",
+      title: "Melting Pott", 
       subtitle: "Your Guide to Events in the Ruhr Area",
       searchPlaceholder: "Search events or locations...",
       discoverBtn: "Discover",
+      explanationTitle: "What does \"Melting Pott\" mean?",
       explanation: "The term 'Melting Pott' combines the English word for melting pot with the regional 'Pott' for the Ruhr area. For over 150 years, people from all over the world have lived and worked together here - from Polish miners to Turkish guest workers to families from over 180 nations. This cultural diversity makes the Ruhr area a unique melting pot of cultures."
     },
     TR: {
@@ -34,7 +37,57 @@ const Hero = () => {
       subtitle: "Ruhr Bölgesi Etkinlik Rehberiniz",
       searchPlaceholder: "Etkinlik veya konum ara...",
       discoverBtn: "Keşfet",
+      explanationTitle: "\"Melting Pott\" ne anlama gelir?",
       explanation: "Melting Pott terimi, İngilizce eritme potası anlamındaki kelime ile bölgesel 'Pott'u birleştirir. 150 yılı aşkın süredir dünyanın her yerinden insanlar burada birlikte yaşıyor ve çalışıyor - Polonyalı madencilerden Türk misafir işçilere, 180'den fazla ulustan ailelere kadar."
+    },
+    PL: {
+      title: "Melting Pott",
+      subtitle: "Twój przewodnik po wydarzeniach w Zagłębiu Ruhry",
+      searchPlaceholder: "Szukaj wydarzeń lub lokalizacji...",
+      discoverBtn: "Odkryj",
+      explanation: "Termin 'Melting Pott' łączy angielskie słowo oznaczające tygiel z regionalnym 'Pott' dla Zagłębia Ruhry. Przez ponad 150 lat ludzie z całego świata żyją i pracują tutaj razem - od polskich górników po tureckich robotników gościnnych, po rodziny z ponad 180 narodów."
+    },
+    RU: {
+      title: "Melting Pott", 
+      subtitle: "Ваш гид по событиям в Рурской области",
+      searchPlaceholder: "Поиск событий или локаций...",
+      discoverBtn: "Открыть",
+      explanation: "Термин 'Melting Pott' объединяет английское слово 'плавильный котел' с региональным 'Pott' для Рурской области. Уже более 150 лет здесь живут и работают вместе люди со всего мира - от польских шахтеров до турецких гастарбайтеров и семей из более чем 180 стран."
+    },
+    AR: {
+      title: "Melting Pott",
+      subtitle: "دليلكم لفعاليات منطقة الرور", 
+      searchPlaceholder: "البحث عن الأحداث أو المواقع...",
+      discoverBtn: "اكتشف",
+      explanation: "يجمع مصطلح 'Melting Pott' بين الكلمة الإنجليزية التي تعني بوتقة الانصهار و'Pott' الإقليمية لمنطقة الرور. لأكثر من 150 عاماً، يعيش ويعمل الناس من جميع أنحاء العالم هنا معاً - من عمال المناجم البولنديين إلى العمال الضيوف الأتراك وحتى العائلات من أكثر من 180 دولة."
+    },
+    FR: {
+      title: "Melting Pott",
+      subtitle: "Votre guide des événements dans la Ruhr",
+      searchPlaceholder: "Rechercher des événements ou des lieux...",
+      discoverBtn: "Découvrir",
+      explanation: "Le terme 'Melting Pott' combine le mot anglais pour creuset avec le 'Pott' régional pour la région de la Ruhr. Depuis plus de 150 ans, des gens du monde entier vivent et travaillent ensemble ici - des mineurs polonais aux travailleurs invités turcs, en passant par des familles de plus de 180 nations."
+    },
+    ES: {
+      title: "Melting Pott", 
+      subtitle: "Tu guía de eventos en el Área del Ruhr",
+      searchPlaceholder: "Buscar eventos o ubicaciones...",
+      discoverBtn: "Descubrir",
+      explanation: "El término 'Melting Pott' combina la palabra inglesa para crisol con el 'Pott' regional para el Área del Ruhr. Durante más de 150 años, personas de todo el mundo han vivido y trabajado juntas aquí - desde mineros polacos hasta trabajadores invitados turcos y familias de más de 180 naciones."
+    },
+    IT: {
+      title: "Melting Pott",
+      subtitle: "La tua guida agli eventi nella Ruhr", 
+      searchPlaceholder: "Cerca eventi o luoghi...",
+      discoverBtn: "Scopri",
+      explanation: "Il termine 'Melting Pott' combina la parola inglese per crogiolo con il 'Pott' regionale per l'area della Ruhr. Da oltre 150 anni, persone di tutto il mondo vivono e lavorano insieme qui - dai minatori polacchi ai lavoratori ospiti turchi, alle famiglie di oltre 180 nazioni."
+    },
+    NL: {
+      title: "Melting Pott",
+      subtitle: "Jouw gids voor evenementen in het Ruhrgebied",
+      searchPlaceholder: "Zoek evenementen of locaties...",
+      discoverBtn: "Ontdek",
+      explanation: "De term 'Melting Pott' combineert het Engelse woord voor smeltpot met de regionale 'Pott' voor het Ruhrgebied. Al meer dan 150 jaar leven en werken mensen uit de hele wereld hier samen - van Poolse mijnwerkers tot Turkse gastarbeiders tot families uit meer dan 180 landen."
     }
   }
 
@@ -42,22 +95,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen bg-gray-900 text-gray-400 overflow-hidden">
-      {/* Language Selector */}
-      <div className="absolute top-6 right-6 z-20">
-        <div className="relative">
-          <select 
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
-            {languages.map(lang => (
-              <option key={lang.code} value={lang.code}>
-                {lang.flag} {lang.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+
 
       {/* WegeLaPaDu Background */}
       <div className="absolute inset-0">
@@ -71,9 +109,31 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black"></div>
       </div>
 
-      <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Welcome Texts in Different Languages - Higher up */}
+        <div className="pt-8 pb-16">
+          <div className="flex flex-wrap justify-center gap-4">
+            {welcomeButtons.map((button) => (
+              <div
+                key={button.code}
+                onClick={() => setSelectedLanguage(button.code)}
+                className={`cursor-pointer transition-all duration-300 ${
+                  selectedLanguage === button.code
+                    ? 'text-orange-400 opacity-100'
+                    : 'text-gray-300 opacity-80 hover:text-orange-300 hover:opacity-100'
+                }`}
+                title={`Switch to ${button.code}`}
+              >
+                <span className="mr-2">{button.flag}</span>
+                <span className="text-sm font-light">{button.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Main Content Layout */}
-        <div className="flex items-center justify-between gap-4 mb-12 mt-20">
+        <div className="flex flex-col justify-center min-h-[calc(100vh-200px)]">
+        <div className="flex items-center justify-between gap-4 mb-12">
           {/* Left Side - Title */}
           <div className="flex-1 max-w-2xl">
             <h1 className="text-6xl lg:text-8xl font-bold mb-6 tracking-tight text-orange-400">
@@ -112,7 +172,7 @@ const Hero = () => {
                 className="w-full h-[60px] px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-400 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
-          <button className="px-6 py-4 h-[60px] bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center shadow-lg border border-orange-400/50 flex-shrink-0">
+          <button className="px-6 py-4 h-[60px] bg-orange-400/60 hover:bg-orange-300/70 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center shadow-lg border border-orange-400/30 backdrop-blur-sm flex-shrink-0">
             <span>{currentLang.discoverBtn}</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -128,7 +188,7 @@ const Hero = () => {
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-orange-400">Was bedeutet "Melting Pott"?</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-orange-400">{currentLang.explanationTitle}</h3>
           </div>
           <p className="text-gray-400 text-base leading-relaxed">
             {currentLang.explanation}
@@ -264,6 +324,7 @@ const Hero = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

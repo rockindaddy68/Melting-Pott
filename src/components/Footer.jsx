@@ -1,6 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Footer = () => {
+const Footer = ({ selectedLanguage = 'DE' }) => {
+  const [lang, setLang] = useState({})
+
+  const translations = {
+    DE: {
+      title: "Melting Pott",
+      subtitle: "Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts.",
+      cities: "Ruhrgebietsstädte",
+      socialMedia: "Social Media",
+      copyright: "Alle Rechte vorbehalten."
+    },
+    EN: {
+      title: "Melting Pott",
+      subtitle: "Your guide for events in the Ruhr area. Discover the culture and history of the Ruhrpott.",
+      cities: "Ruhr Area Cities",
+      socialMedia: "Social Media",
+      copyright: "All rights reserved."
+    },
+    TR: {
+      title: "Melting Pott",
+      subtitle: "Ruhr bölgesindeki etkinlikler için rehberiniz. Ruhrpott'un kültürünü ve tarihini keşfedin.",
+      cities: "Ruhr Bölgesi Şehirleri",
+      socialMedia: "Sosyal Medya",
+      copyright: "Tüm hakları saklıdır."
+    }
+  }
+
+  useEffect(() => {
+    setLang(translations[selectedLanguage] || translations.DE)
+  }, [selectedLanguage])
   return (
     <footer 
       className="text-gray-400 py-12 relative -mt-16"
@@ -17,15 +46,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">Melting Pott</h3>
+            <h3 className="text-2xl font-bold mb-4">{lang.title || "Melting Pott"}</h3>
             <p className="text-gray-400 mb-4">
-              Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts.
+              {lang.subtitle || "Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts."}
             </p>
           </div>
 
           {/* Städte */}
           <div>
-            <h4 className="font-semibold mb-4">Ruhrgebietsstädte</h4>
+            <h4 className="font-semibold mb-4">{lang.cities || "Ruhrgebietsstädte"}</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li><a href="#" className="hover:text-orange-400 transition-colors">Essen</a></li>
               <li><a href="#" className="hover:text-orange-400 transition-colors">Dortmund</a></li>
@@ -50,7 +79,7 @@ const Footer = () => {
 
           {/* Social Media */}
           <div>
-            <h4 className="font-semibold mb-4">Social Media</h4>
+            <h4 className="font-semibold mb-4">{lang.socialMedia || "Social Media"}</h4>
             <div className="grid grid-cols-4 gap-3">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -99,7 +128,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          <p>&copy; 2025 Melting Pott. Alle Rechte vorbehalten.</p>
+          <p>&copy; 2025 Melting Pott. {lang.copyright || "Alle Rechte vorbehalten."}</p>
         </div>
       </div>
     </footer>
