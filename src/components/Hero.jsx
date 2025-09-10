@@ -104,15 +104,15 @@ const Hero = () => {
         </div>
 
         {/* Search Bar - Same Width as Explanation */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8 max-w-5xl mx-auto mt-12">
+        <div className="flex flex-col sm:flex-row gap-3 mb-8 max-w-5xl mx-auto mt-8 w-full">
             <div className="flex-1 relative">
               <input 
                 type="text" 
                 placeholder={currentLang.searchPlaceholder}
-                className="w-full px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full h-[60px] px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
-          <button className="px-10 py-4 bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-3 justify-center shadow-lg border border-orange-400/50">
+          <button className="px-6 py-4 h-[60px] bg-orange-400/70 hover:bg-orange-300/80 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center shadow-lg border border-orange-400/50 flex-shrink-0">
             <span>{currentLang.discoverBtn}</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -121,7 +121,7 @@ const Hero = () => {
         </div>
 
         {/* Explanation - Bottom */}
-        <div className="mt-48 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
+        <div className="mt-16 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
           <h3 className="text-xl font-semibold mb-4 text-orange-400">Was bedeutet "Melting Pott"?</h3>
           <p className="text-gray-200 text-base leading-relaxed">
             {currentLang.explanation}

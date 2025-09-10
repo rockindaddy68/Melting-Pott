@@ -336,7 +336,7 @@ const Events = () => {
   }
 
   return (
-    <section id="events" className="pt-48 pb-16 bg-black text-white relative -mt-32">
+    <section id="events" className="pt-48 pb-32 bg-black text-white relative -mt-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%"></div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
@@ -346,7 +346,7 @@ const Events = () => {
                 <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
               </svg>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold">
+            <h2 className="text-2xl md:text-3xl font-bold text-orange-400">
               Events in den 12 Ruhrgebietsstädten
             </h2>
           </div>
@@ -366,7 +366,7 @@ const Events = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-orange-900/40 group-hover:via-orange-800/10 transition-all duration-500">
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-white text-2xl font-bold group-hover:text-orange-200 transition-colors duration-300">{city.name}</h3>
+                    <h3 className="text-gray-300 text-2xl font-bold group-hover:text-orange-200 transition-colors duration-300">{city.name}</h3>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">
                       <span className="text-orange-300 text-sm font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
                         {city.events.length} Events verfügbar
@@ -383,12 +383,12 @@ const Events = () => {
                       <span className="px-2 py-1 rounded text-orange-300 text-xs font-medium bg-transparent border border-orange-400/40 hover:bg-orange-600 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300">
                         {event.category}
                       </span>
-                      <span className="text-xs text-gray-400 bg-transparent border border-gray-500/30 hover:bg-orange-600 hover:text-white hover:border-orange-600 px-2 py-1 rounded transition-all duration-300">
+                      <span className="text-xs text-gray-300 bg-gray-700/50 border border-gray-500 hover:bg-orange-500 hover:text-white hover:border-orange-500 px-3 py-1.5 rounded-full font-medium transition-all duration-300">
                         {event.price}
                       </span>
                     </div>
                     
-                    <h4 className="text-sm font-bold text-white mb-1 line-clamp-1">
+                    <h4 className="text-sm font-bold text-orange-400 mb-1 line-clamp-1">
                       {event.title}
                     </h4>
                     
