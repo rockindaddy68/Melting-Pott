@@ -59,15 +59,16 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Industrial Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
+      {/* WegeLaPaDu Background */}
+      <div className="absolute inset-0">
         <div 
-          className="w-full h-full bg-cover bg-center opacity-50"
+          className="w-full h-full bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1518709268805-4e9042af2e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+            backgroundImage: 'url(/src/assets/images/städte/duisburg/Wege LaPaDu.jpg)'
           }}
         ></div>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
       </div>
 
       <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
