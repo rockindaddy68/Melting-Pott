@@ -336,13 +336,13 @@ const Events = () => {
   }
 
   return (
-    <section id="events" className="pt-48 pb-32 bg-black text-white relative -mt-32">
+    <section id="events" className="pt-48 pb-32 bg-black text-gray-400 relative -mt-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%"></div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
               </svg>
             </div>
@@ -357,16 +357,20 @@ const Events = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cities.map((city) => (
-            <div key={city.id} className="bg-transparent backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-black/20 hover:shadow-2xl hover:shadow-orange-500/20 hover:border hover:border-orange-500 transition-all duration-500 group hover:-translate-y-3 hover:rotate-1">
+            <div key={city.id} className="bg-transparent backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-gray-700/60 hover:shadow-2xl hover:shadow-gray-400/50 transition-all duration-500 group hover:-translate-y-3 hover:rotate-1">
               <div className="aspect-w-16 aspect-h-10 relative">
                 <img 
                   src={city.image} 
                   alt={city.name}
-                  className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700"
+                  className={`w-full h-72 group-hover:scale-110 transition-transform duration-700 ${
+                    city.name === 'Gelsenkirchen' 
+                      ? 'object-cover object-top' 
+                      : 'object-cover'
+                  }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-orange-900/40 group-hover:via-orange-800/10 transition-all duration-500">
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-gray-300 text-2xl font-bold group-hover:text-orange-200 transition-colors duration-300">{city.name}</h3>
+                    <h3 className="text-gray-400 text-2xl font-bold group-hover:text-orange-200 transition-colors duration-300">{city.name}</h3>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">
                       <span className="text-orange-300 text-sm font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
                         {city.events.length} Events verfügbar

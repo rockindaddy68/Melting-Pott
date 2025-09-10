@@ -7,3 +7,17 @@
 body {
   font-family: 'Inter', system-ui, sans-serif;
 }
+
+/* Historical Images Scroll Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}

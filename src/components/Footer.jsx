@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer 
-      className="text-white py-12 relative -mt-16"
+      className="text-gray-400 py-12 relative -mt-16"
       style={{
         backgroundImage: 'url(/src/assets/hochofen.jpg)',
         backgroundSize: 'cover',
@@ -27,24 +27,24 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Ruhrgebietsstädte</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Essen</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Dortmund</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Duisburg</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Bochum</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Gelsenkirchen</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Oberhausen</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Essen</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Dortmund</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Duisburg</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Bochum</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Gelsenkirchen</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Oberhausen</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4 text-transparent">.</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Bottrop</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Herne</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Moers</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Mülheim an der Ruhr</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Hattingen</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Recklinghausen</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Bottrop</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Herne</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Moers</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Mülheim an der Ruhr</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Hattingen</a></li>
+              <li><a href="#" className="hover:text-orange-400 transition-colors">Recklinghausen</a></li>
             </ul>
           </div>
 
