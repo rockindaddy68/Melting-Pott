@@ -24,6 +24,55 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
       cities: "Ruhr Bölgesi Şehirleri",
       socialMedia: "Sosyal Medya",
       copyright: "Tüm hakları saklıdır."
+    },
+    IT: {
+      title: "Melting Pott",
+      subtitle: "La tua guida per gli eventi nella regione della Ruhr. Scopri la cultura e la storia del Ruhrpott.",
+      cities: "Città della Ruhr",
+      socialMedia: "Social Media",
+      copyright: "Tutti i diritti riservati."
+    },
+    FR: {
+      title: "Melting Pott",
+      subtitle: "Votre guide pour les événements dans la région de la Ruhr. Découvrez la culture et l'histoire du Ruhrpott.",
+      cities: "Villes de la Ruhr",
+      socialMedia: "Médias Sociaux",
+      copyright: "Tous droits réservés."
+    },
+    ES: {
+      title: "Melting Pott",
+      subtitle: "Tu guía para eventos en la región del Ruhr. Descubre la cultura e historia del Ruhrpott.",
+      cities: "Ciudades del Ruhr",
+      socialMedia: "Redes Sociales",
+      copyright: "Todos los derechos reservados."
+    },
+    PL: {
+      title: "Melting Pott",
+      subtitle: "Twój przewodnik po wydarzeniach w regionie Ruhry. Odkryj kulturę i historię Ruhrpott.",
+      cities: "Miasta Zagłębia Ruhry",
+      socialMedia: "Media Społecznościowe",
+      copyright: "Wszelkie prawa zastrzeżone."
+    },
+    RU: {
+      title: "Melting Pott",
+      subtitle: "Ваш гид по событиям в Рурской области. Откройте культуру и историю Рурпотта.",
+      cities: "Города Рурской области",
+      socialMedia: "Социальные сети",
+      copyright: "Все права защищены."
+    },
+    AR: {
+      title: "Melting Pott",
+      subtitle: "دليلك للأحداث في منطقة الرور. اكتشف ثقافة وتاريخ الرورپوت.",
+      cities: "مدن منطقة الرور",
+      socialMedia: "وسائل التواصل الاجتماعي",
+      copyright: "جميع الحقوق محفوظة."
+    },
+    NL: {
+      title: "Melting Pott",
+      subtitle: "Jouw gids voor evenementen in het Ruhrgebied. Ontdek de cultuur en geschiedenis van het Ruhrpott.",
+      cities: "Ruhrgebied Steden",
+      socialMedia: "Sociale Media",
+      copyright: "Alle rechten voorbehouden."
     }
   }
 
