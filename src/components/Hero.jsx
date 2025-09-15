@@ -1,6 +1,34 @@
 import React, { useState } from 'react'
+import RealEventSearch from './RealEventSearch'
 
 const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Aktuelle Sprache ableiten
+  const currentLanguageCode = selectedLanguage.toLowerCase();
+
+  // Scroll zur EventSearch Komponente
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // Event für EventSearch Komponente dispatchen
+      const event = new CustomEvent('heroSearch', { 
+        detail: { query: searchQuery } 
+      });
+      window.dispatchEvent(event);
+      
+      // Scroll zur Suchsektion
+      const searchSection = document.querySelector('[data-event-search]');
+      if (searchSection) {
+        searchSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const welcomeButtons = [
     { code: 'DE', text: 'Willkommen im Ruhrgebiet', flag: '🇩🇪' },
@@ -168,16 +196,27 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
             <div className="flex-1 relative">
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder={currentLang.searchPlaceholder}
-                className="w-full h-[60px] px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-400 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full h-[60px] px-6 py-4 rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
-          <button className="px-6 py-4 h-[60px] bg-orange-400/60 hover:bg-orange-300/70 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center shadow-lg border border-orange-400/30 backdrop-blur-sm flex-shrink-0">
+          <button 
+            onClick={handleSearch}
+            className="px-6 py-4 h-[60px] bg-orange-400/60 hover:bg-orange-300/70 text-white font-semibold text-lg rounded-xl transition-colors duration-200 flex items-center gap-2 justify-center shadow-lg border border-orange-400/30 backdrop-blur-sm flex-shrink-0"
+          >
             <span>{currentLang.discoverBtn}</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
+        </div>
+
+        {/* Event Suche Container - ÜBER der Erklärung */}
+        <div className="mt-12 mb-8">
+          <RealEventSearch language={currentLanguageCode} />
         </div>
 
         {/* Explanation - Bottom */}

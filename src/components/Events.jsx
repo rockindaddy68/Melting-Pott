@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import eventsTranslations from '../translations/eventsTranslations'
-import citiesData from '../data/citiesData'
+import citiesData from '../data/permanentAttractions'
 import { formatGermanDate, getCategoryColor, getCityImageClass } from '../utils/eventsHelpers'
 
 const Events = ({ selectedLanguage = 'DE' }) => {
