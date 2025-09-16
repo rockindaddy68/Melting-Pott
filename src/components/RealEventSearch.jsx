@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { formatGermanDate, getCategoryColor } from '../utils/eventsHelpers';
+import userService from '../services/userService';
+import ticketShopService from '../services/ticketShopService';
 
 const RealEventSearch = ({ language = 'de' }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -778,19 +780,53 @@ const RealEventSearch = ({ language = 'de' }) => {
                     )}
                   </div>
 
-                  {/* Tickets Button */}
-                  <div className="flex-shrink-0">
+                  {/* Action Buttons */}
+                  <div className="flex-shrink-0 space-y-3">
+                    {/* Favoriten Button */}
+                    {userService.getCurrentUser() && (
+                      <button
+                        onClick={() => userService.isEventFavorite(event.id) 
+                          ? userService.removeFromFavorites(event.id)
+                          : userService.addToFavorites(event.id, event)
+                        }
+                        className={`w-full px-6 py-3 rounded-xl font-semibold border transition-all duration-200 flex items-center justify-center gap-2 ${
+                          userService.isEventFavorite(event.id)
+                            ? 'bg-red-500/20 border-red-500/40 text-red-400 hover:bg-red-500/30'
+                            : 'bg-gray-700/30 border-gray-600/40 text-gray-400 hover:bg-orange-500/20 hover:border-orange-500/40 hover:text-orange-400'
+                        }`}
+                      >
+                        <svg className="w-5 h-5" fill={userService.isEventFavorite(event.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        {userService.isEventFavorite(event.id) ? 'Favorit ❤️' : 'Favorit'}
+                      </button>
+                    )}
+
+                    {/* Tickets Button */}
                     <a
                       href={event.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block px-8 py-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 text-orange-400 rounded-xl transition-all duration-200 text-center font-semibold border border-orange-500/20 hover:border-orange-500/40 text-lg"
+                      onClick={() => {
+                        if (userService.getCurrentUser()) {
+                          userService.addTicketPurchase(event.id, {
+                            eventTitle: event.name,
+                            eventDate: event.date,
+                            eventLocation: event.location,
+                            price: event.price,
+                            ticketType: 'Standard',
+                            purchasedAt: new Date().toISOString(),
+                            status: 'purchased'
+                          });
+                        }
+                      }}
+                      className="block w-full px-8 py-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 text-orange-400 rounded-xl transition-all duration-200 text-center font-semibold border border-orange-500/20 hover:border-orange-500/40 text-lg"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center gap-3">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
-                        <span>Tickets</span>
+                        <span>Tickets kaufen</span>
                       </div>
                     </a>
                   </div>
@@ -831,4 +867,4 @@ const RealEventSearch = ({ language = 'de' }) => {
   );
 };
 
-export default RealEventSearch;
+export default RealEventSearch
