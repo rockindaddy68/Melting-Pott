@@ -1,5 +1,5 @@
 import React from 'react'
-import RealEventSearch from './RealEventSearch'
+import RealEventSearch from '../events/RealEventSearch'
 
 const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
   // Aktuelle Sprache ableiten
@@ -166,7 +166,7 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
           />
         </div>
 
-        {/* Event Suche Container - ÜBER der Erklärung */}
+        {/* Event Suche Container - Ersetzt das Hero-Suchfeld */}
         <div className="mt-12 mb-8">
           <RealEventSearch language={currentLanguageCode} />
         </div>

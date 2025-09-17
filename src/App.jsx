@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import Header from './components/Header'
+import Header from './components/layout/Header'
 import Hero from './components/Hero'
 import Events from './components/Events'
-import Footer from './components/Footer'
+import EnhancedEventTicker from './components/EnhancedEventTicker'
+import Footer from './components/layout/Footer'
 import AdminDashboard from './components/AdminDashboard'
 import userService from './services/userService'
 import ticketShopService from './services/ticketShopService'
@@ -51,9 +52,9 @@ function App() {
         ⚙️
       </button>
       
-      <Header selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
       <main>
         <Hero selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+        <EnhancedEventTicker />
         <Events selectedLanguage={selectedLanguage} />
       </main>
       <Footer selectedLanguage={selectedLanguage} />

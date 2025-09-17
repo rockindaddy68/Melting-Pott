@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { formatGermanDate } from '../utils/eventsHelpers';
-import eventService from '../services/adminEventService';
-import MemberDatabaseAdmin from './MemberDatabaseAdmin';
-import EventbriteAdmin from './EventbriteAdmin';
+import { formatGermanDate } from '../../utils/eventsHelpers';
+import eventService from '../../services/adminEventService';
+import userService from '../../services/userService';
 
 const AdminDashboard = ({ onClose }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,6 +34,12 @@ const AdminDashboard = ({ onClose }) => {
   const loadData = () => {
     const loadedEvents = eventService.getEvents();
     const stats = eventService.getStatistics();
+    
+    // Newsletter-Statistiken hinzufügen
+    const newsletterSubscribers = userService.getNewsletterSubscribers();
+    stats.newsletterSubscribers = newsletterSubscribers.length;
+    stats.activeNewsletterSubscribers = newsletterSubscribers.filter(sub => sub.isActive).length;
+    
     setEvents(loadedEvents);
     setStatistics(stats);
   };
@@ -149,10 +154,8 @@ const AdminDashboard = ({ onClose }) => {
           <div className="flex space-x-8">
             {[
               { id: 'overview', label: 'Übersicht', icon: '📊' },
-              { id: 'members', label: 'Member Database', icon: '👥' },
-              { id: 'events', label: 'Events verwalten', icon: '🎉' },
-              { id: 'eventbrite', label: 'Eventbrite Sync', icon: '🔄' },
-              { id: 'export', label: 'Export/Import', icon: '💾' },
+              { id: 'events', label: 'Events verwalten', icon: '�' },
+              { id: 'export', label: 'Export/Import', icon: '�' },
               { id: 'settings', label: 'Einstellungen', icon: '⚙️' }
             ].map((tab) => (
               <button
@@ -177,7 +180,7 @@ const AdminDashboard = ({ onClose }) => {
           <div className="space-y-8">
             {/* Statistiken */}
             {statistics && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
                 <div className="bg-black p-6 rounded-2xl">
                   <h3 className="text-lg font-semibold text-white mb-2">📅 Gesamt Events</h3>
                   <p className="text-3xl font-bold text-orange-400">{statistics.totalEvents}</p>
@@ -193,6 +196,11 @@ const AdminDashboard = ({ onClose }) => {
                 <div className="bg-black p-6 rounded-2xl">
                   <h3 className="text-lg font-semibold text-white mb-2">🏷️ Kategorien</h3>
                   <p className="text-3xl font-bold text-purple-400">{statistics.categories}</p>
+                </div>
+                <div className="bg-black p-6 rounded-2xl">
+                  <h3 className="text-lg font-semibold text-white mb-2">📧 Newsletter</h3>
+                  <p className="text-3xl font-bold text-pink-400">{statistics.newsletterSubscribers || 0}</p>
+                  <p className="text-sm text-gray-400">Abonnenten</p>
                 </div>
               </div>
             )}
@@ -256,10 +264,6 @@ const AdminDashboard = ({ onClose }) => {
               </div>
             </div>
           </div>
-        )}
-
-        {activeTab === 'members' && (
-          <MemberDatabaseAdmin />
         )}
 
         {activeTab === 'events' && (
@@ -380,10 +384,6 @@ const AdminDashboard = ({ onClose }) => {
               </div>
             </div>
           </div>
-        )}
-
-        {activeTab === 'eventbrite' && (
-          <EventbriteAdmin />
         )}
 
         {activeTab === 'export' && (

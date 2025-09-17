@@ -14,23 +14,68 @@ class EventbriteService {
     ];
   }
 
+  // API-Verbindung testen
+  async testConnection() {
+    if (this.token === 'YOUR_EVENTBRITE_TOKEN_HERE' || !this.token) {
+      console.log('❌ Kein gültiger API Token konfiguriert');
+      return false;
+    }
+
+    try {
+      console.log('🧪 Teste Eventbrite API Verbindung...');
+      const response = await fetch(`${this.apiUrl}/users/me/`, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        console.log('✅ Eventbrite API Verbindung erfolgreich:', userData.name);
+        return true;
+      } else {
+        console.error('❌ API Test fehlgeschlagen:', response.status, response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ API Test Fehler:', error.message);
+      // Spezifische CORS-Behandlung
+      if (error.message.includes('CORS') || error.message.includes('fetch')) {
+        console.log('🔧 CORS-Problem erkannt - verwende Mock-Daten für Entwicklung');
+      }
+      return false;
+    }
+  }
+
   // Events aus dem Ruhrgebiet abrufen
   async fetchRuhrgebietEvents(limit = 20) {
-    // Entwicklungsmodus: Mock-Daten verwenden um CORS zu vermeiden
-    if (this.token === 'YOUR_EVENTBRITE_TOKEN_HERE' || import.meta.env.DEV) {
-      console.log('🔧 Entwicklungsmodus: Verwende Mock Eventbrite-Daten');
+    // Nur Mock-Daten verwenden wenn kein Token konfiguriert ist
+    if (this.token === 'YOUR_EVENTBRITE_TOKEN_HERE' || !this.token) {
+      console.log('🔧 Kein API Token: Verwende Mock Eventbrite-Daten');
       return this.getMockEventbriteEvents();
     }
+
+    // API-Verbindung erst testen
+    const connectionOk = await this.testConnection();
+    if (!connectionOk) {
+      console.log('📝 API nicht erreichbar - verwende Mock-Daten');
+      return this.getMockEventbriteEvents();
+    }
+
+    console.log('🚀 Verwende echte Eventbrite API mit Token:', this.token.substring(0, 8) + '...');
 
     try {
       const events = [];
       
       // Für jede Stadt Events abrufen
       for (const city of this.ruhrgebietCities.slice(0, 5)) { // Erstmal 5 Städte testen
+        console.log(`🔍 Suche Events in ${city}...`);
         const cityEvents = await this.fetchEventsByLocation(city, 5);
         events.push(...cityEvents);
       }
 
+      console.log(`✅ ${events.length} Events von Eventbrite API geladen`);
       return this.formatEventsForApp(events);
     } catch (error) {
       console.error('Eventbrite API Fehler:', error);

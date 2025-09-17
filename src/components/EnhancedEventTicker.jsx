@@ -23,13 +23,22 @@ const EnhancedEventTicker = () => {
       
       // Eventbrite Events laden (falls API verfügbar)
       let eventbriteEvents = [];
-      const isEventbriteAvailable = await eventbriteService.testConnection();
       
-      if (isEventbriteAvailable) {
+      try {
+        console.log('🔄 Lade Eventbrite Events...');
         eventbriteEvents = await eventbriteService.fetchRuhrgebietEvents(15);
-        console.log(`✅ Eventbrite: ${eventbriteEvents.length} Events geladen`);
-      } else {
+        
+        if (eventbriteEvents && eventbriteEvents.length > 0) {
+          console.log(`✅ Eventbrite: ${eventbriteEvents.length} Events geladen`);
+          setDataSource('mixed');
+        } else {
+          console.log('📝 Keine Eventbrite Events erhalten - nur lokale Events');
+          setDataSource('local');
+        }
+      } catch (error) {
+        console.error('❌ Fehler beim Laden von Eventbrite Events:', error);
         console.log('⚠️ Eventbrite API nicht verfügbar - nur lokale Events');
+        setDataSource('local');
       }
       
       // Events kombinieren und sortieren

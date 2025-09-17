@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { formatGermanDate, getCategoryColor } from '../utils/eventsHelpers';
-import userService from '../services/userService';
-import ticketShopService from '../services/ticketShopService';
+import { formatGermanDate, getCategoryColor } from '../../utils/eventsHelpers';
+import userService from '../../services/userService';
+import ticketShopService from '../../services/ticketShopService';
 
 const RealEventSearch = ({ language = 'de' }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -183,21 +183,6 @@ const RealEventSearch = ({ language = 'de' }) => {
   };
 
   const t = translations[language] || translations.de;
-
-  // Hero-Suche Event Listener
-  useEffect(() => {
-    const handleHeroSearch = (event) => {
-      const query = event.detail.query;
-      setSearchQuery(query);
-      setShowResults(true);
-      performSearch(query, selectedCity);
-    };
-
-    window.addEventListener('heroSearch', handleHeroSearch);
-    return () => {
-      window.removeEventListener('heroSearch', handleHeroSearch);
-    };
-  }, [selectedCity]);
 
   // Automatische Suche beim Tippen (Debounced)
   useEffect(() => {
@@ -609,17 +594,18 @@ const RealEventSearch = ({ language = 'de' }) => {
   };
 
   return (
-    <div data-event-search className={`bg-black backdrop-blur-sm rounded-2xl p-6 max-w-6xl mx-auto mb-8 border border-gray-800 ${
-      showResults && results.length > 0 ? 'min-h-[600px]' : 'min-h-[200px]'
-    }`}>
-      {/* Header */}
-      <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-        <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        {t.title}
-        <span className="text-sm bg-orange-500/20 text-orange-400 px-2 py-1 rounded-full">LIVE</span>
-      </h2>
+    <div data-event-search className={`bg-black/90 backdrop-blur-sm rounded-2xl p-6 max-w-6xl mx-auto mb-8 transition-all duration-500 border border-gray-800 ${showResults && results.length > 0 ? 'min-h-[600px]' : 'min-h-[200px]'}`}>
+      {/* Kompakter Header */}
+      <div className="text-center mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+          <svg className="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          {t.title}
+          <span className="text-sm bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full">LIVE</span>
+        </h2>
+        <p className="text-gray-400 text-lg">Finden Sie echte Events im Ruhrgebiet - live und aktuell</p>
+      </div>
 
       {/* Suchsteuerung */}
       <div className="space-y-4">

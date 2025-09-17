@@ -1,21 +1,24 @@
 // User Management Service - Ruhrpott Event Platform
-// Handles registration, login, profile management with LocalStorage
+// Handles registration, login, profile management with MemberDatabase
+
+import memberDatabase from './memberDatabase.js';
 
 class UserService {
   constructor() {
+    // Deprecated - using memberDatabase now
     this.storageKey = 'ruhrpott_users'
     this.sessionKey = 'ruhrpott_session'
     this.favoriteEventsKey = 'ruhrpott_user_favorites'
     this.ticketHistoryKey = 'ruhrpott_ticket_history'
   }
 
-  // User Registration
+  // User Registration - using memberDatabase
   async registerUser(userData) {
     try {
-      const { email, name, password, confirmPassword } = userData
+      const { firstName, lastName, email, password, confirmPassword, city, newsletter } = userData
 
       // Validation
-      if (!email || !name || !password || !confirmPassword) {
+      if (!email || !firstName || !lastName || !password || !confirmPassword) {
         throw new Error('Alle Felder sind erforderlich')
       }
 
@@ -31,20 +34,14 @@ class UserService {
         throw new Error('Bitte geben Sie eine gültige E-Mail-Adresse ein')
       }
 
-      // Check if user already exists
-      const existingUsers = this.getAllUsers()
-      if (existingUsers.find(user => user.email === email)) {
-        throw new Error('Ein Benutzer mit dieser E-Mail-Adresse existiert bereits')
-      }
-
-      // Create new user
-      const newUser = {
-        id: this.generateUserId(),
+      // Use memberDatabase for registration
+      const memberData = {
         email,
-        name,
+        firstName,
+        lastName,
+        name: `${firstName} ${lastName}`,
         password: this.hashPassword(password), // Simple hash for demo
-        createdAt: new Date().toISOString(),
-        lastLogin: null,
+        city: city || 'Essen',
         preferences: {
           language: 'de',
           emailNotifications: true,
@@ -52,30 +49,38 @@ class UserService {
           favoriteCities: []
         },
         profile: {
-          firstName: name.split(' ')[0],
-          lastName: name.split(' ').slice(1).join(' ') || '',
+          firstName,
+          lastName,
           phone: '',
           birthday: '',
           address: {
             street: '',
-            city: '',
+            city: city || 'Essen',
             zip: '',
             country: 'Deutschland'
           }
         }
+      };
+
+      // Register in memberDatabase
+      const result = memberDatabase.addMember(memberData);
+      
+      if (!result.success) {
+        throw new Error(result.error);
       }
 
-      // Save user
-      existingUsers.push(newUser)
-      localStorage.setItem(this.storageKey, JSON.stringify(existingUsers))
+      // Newsletter subscription if requested
+      if (newsletter) {
+        memberDatabase.addNewsletterSubscriber(email, `${firstName} ${lastName}`, 'registration');
+      }
 
       // Auto login after registration
-      this.createSession(newUser)
+      this.createSession(result.member)
 
       return {
         success: true,
         message: 'Registrierung erfolgreich! Willkommen bei Ruhrpott Events!',
-        user: this.sanitizeUser(newUser)
+        user: this.sanitizeUser(result.member)
       }
 
     } catch (error) {
@@ -86,42 +91,35 @@ class UserService {
     }
   }
 
-  // User Login
-  async loginUser(email, password) {
+  // User Login - using memberDatabase
+  async loginUser(loginData) {
     try {
+      const { email, password } = loginData;
+      
       if (!email || !password) {
         throw new Error('E-Mail und Passwort sind erforderlich')
       }
 
-      const users = this.getAllUsers()
-      const user = users.find(u => u.email === email)
-
-      if (!user) {
-        throw new Error('Benutzer nicht gefunden')
+      // Use memberDatabase for login
+      const result = memberDatabase.loginMember(email, this.hashPassword(password));
+      
+      if (!result.success) {
+        throw new Error(result.error);
       }
-
-      if (!this.verifyPassword(password, user.password)) {
-        throw new Error('Ungültiges Passwort')
-      }
-
-      // Update last login
-      user.lastLogin = new Date().toISOString()
-      const updatedUsers = users.map(u => u.id === user.id ? user : u)
-      localStorage.setItem(this.storageKey, JSON.stringify(updatedUsers))
 
       // Create session
-      this.createSession(user)
+      this.createSession(result.member)
 
       return {
         success: true,
-        message: `Willkommen zurück, ${user.name}!`,
-        user: this.sanitizeUser(user)
+        message: `Willkommen zurück, ${result.member.name}!`,
+        user: this.sanitizeUser(result.member)
       }
 
     } catch (error) {
       return {
         success: false,
-        message: error.message
+        error: error.message
       }
     }
   }

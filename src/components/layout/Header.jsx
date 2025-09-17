@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import MemberAuth from './MemberAuth'
-import MemberDashboard from './MemberDashboard'
-import userService from '../services/userService'
+import { AuthModal, MemberDashboard } from '../auth'
+import userService from '../../services/userService'
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -221,7 +220,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
       </header>
 
       {/* Member Authentication Modal */}
-      <MemberAuth
+              <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         initialMode={authMode}
