@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { citiesData } from '../data/citiesData.js';
 import { formatGermanDate } from '../utils/eventsHelpers.js';
-import EventbriteService from '../services/eventbriteService.js';
 
-const EnhancedEventTicker = () => {
+const EventTicker = () => {
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [allEvents, setAllEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [dataSource, setDataSource] = useState('local');
 
-  // Eventbrite Service initialisieren
-  const eventbriteService = new EventbriteService();
-
-  // Lokale Events laden
-  const getLocalEvents = () => {
+  // Alle Events sammeln und nach Datum sortieren
+  const getAllEvents = () => {
     const allEvents = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -22,166 +15,104 @@ const EnhancedEventTicker = () => {
     citiesData.forEach(city => {
       city.events.forEach(event => {
         const eventDate = new Date(event.date);
+        // Nur zukünftige Events anzeigen
         if (eventDate >= today) {
           allEvents.push({
             ...event,
             cityName: city.name,
-            cityId: city.id,
-            source: 'local'
+            cityId: city.id
           });
         }
       });
     });
 
+    // Nach Datum sortieren (nächste Events zuerst)
     return allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
 
-  // Alle Events laden (lokale + Eventbrite)
-  const loadAllEvents = async () => {
-    setIsLoading(true);
-    
-    try {
-      const localEvents = getLocalEvents();
-      let eventbriteEvents = [];
-      
-      try {
-        console.log('🔄 Lade Eventbrite Events...');
-        eventbriteEvents = await eventbriteService.fetchRuhrgebietEvents(15);
-        
-        if (eventbriteEvents && eventbriteEvents.length > 0) {
-          console.log(`✅ Eventbrite: ${eventbriteEvents.length} Events geladen`);
-          setDataSource('mixed');
-        } else {
-          console.log('📝 Keine Eventbrite Events erhalten - nur lokale Events');
-          setDataSource('local');
-        }
-      } catch (error) {
-        console.error('❌ Fehler beim Laden von Eventbrite Events:', error);
-        console.log('⚠️ Eventbrite API nicht verfügbar - nur lokale Events');
-        setDataSource('local');
-      }
-      
-      const combinedEvents = [...localEvents, ...eventbriteEvents]
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .slice(0, 25);
-      
-      setAllEvents(combinedEvents);
-      setDataSource(eventbriteEvents.length > 0 ? 'mixed' : 'local');
-      
-    } catch (error) {
-      console.error('❌ Fehler beim Laden der Events:', error);
-      setAllEvents(getLocalEvents());
-      setDataSource('local');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const upcomingEvents = getAllEvents();
 
+  // Ticker-Animation alle 4 Sekunden
   useEffect(() => {
-    loadAllEvents();
-  }, []);
-
-  // Ticker Animation
-  useEffect(() => {
-    if (allEvents.length === 0) return;
+    if (upcomingEvents.length === 0) return;
 
     const interval = setInterval(() => {
       setIsVisible(false);
       
       setTimeout(() => {
         setCurrentEventIndex(prev => 
-          prev >= allEvents.length - 1 ? 0 : prev + 1
+          prev >= upcomingEvents.length - 1 ? 0 : prev + 1
         );
         setIsVisible(true);
       }, 300);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [allEvents.length]);
+  }, [upcomingEvents.length]);
 
-  // Kategorie bestimmen
+  // Zeitkategorien bestimmen
   const getEventCategory = (eventDate) => {
     const today = new Date();
-    const eventDay = new Date(eventDate);
-    const diffTime = eventDay.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays <= 1) {
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    const thisWeekEnd = new Date(today);
+    thisWeekEnd.setDate(today.getDate() + (7 - today.getDay()));
+    
+    const eventDateObj = new Date(eventDate);
+    
+    if (eventDateObj.toDateString() === today.toDateString()) {
       return { label: "HEUTE", color: "text-orange-400", pulse: true };
-    } else if (diffDays <= 2) {
+    } else if (eventDateObj.toDateString() === tomorrow.toDateString()) {
       return { label: "MORGEN", color: "text-orange-400", pulse: false };
-    } else if (diffDays <= 7) {
+    } else if (eventDateObj <= thisWeekEnd) {
       return { label: "DIESE WOCHE", color: "text-orange-400", pulse: false };
     } else {
       return { label: "DEMNÄCHST", color: "text-orange-400", pulse: false };
     }
   };
 
-  if (isLoading) {
+  if (upcomingEvents.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p>Lade Events...</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[200px]">
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center space-y-4">
+              <div className="text-4xl mb-4">🎫</div>
+              <span className="text-xl font-semibold text-white">
+                Keine aktuellen Veranstaltungen verfügbar
+              </span>
+              <p className="text-gray-400 text-sm">
+                Alle Events wurden bereits durchgeführt oder sind noch nicht geplant.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  if (allEvents.length === 0) {
-    return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-4xl mb-4">🎫</div>
-            <span className="text-xl font-semibold text-white">
-              Keine aktuellen Veranstaltungen verfügbar
-            </span>
-            <p className="text-gray-400 text-sm">
-              Alle Events wurden bereits durchgeführt oder sind noch nicht geplant.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const currentEvent = allEvents[currentEventIndex];
+  const currentEvent = upcomingEvents[currentEventIndex];
   const category = getEventCategory(currentEvent.date);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
-        {/* Header mit Datenquelle */}
+        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <div className="animate-pulse">
               <span className="text-3xl">🎫</span>
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-orange-400">LIVE EVENT-TICKER</h2>
-              <div className="flex items-center space-x-2 mt-1">
-                {dataSource === 'mixed' && (
-                  <>
-                    <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LIVE</span>
-                    <span className="text-orange-400 text-sm">Eventbrite + Lokale Daten</span>
-                  </>
-                )}
-                {dataSource === 'local' && (
-                  <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LOKAL</span>
-                )}
-              </div>
-            </div>
+            <h2 className="text-2xl font-bold text-white">LIVE EVENT-TICKER</h2>
           </div>
           
           <div className="flex items-center space-x-3 text-sm">
             <span className="opacity-75 text-gray-300">
-              {currentEventIndex + 1} von {allEvents.length}
+              {currentEventIndex + 1} von {upcomingEvents.length}
             </span>
             <div className="flex space-x-1">
-              {allEvents.slice(0, 10).map((_, index) => (
+              {upcomingEvents.map((_, index) => (
                 <div
                   key={index}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -216,13 +147,6 @@ const EnhancedEventTicker = () => {
                 <span className="text-gray-300 font-semibold text-lg">
                   📍 {currentEvent.cityName}
                 </span>
-
-                {/* Datenquelle Badge */}
-                {currentEvent.source === 'eventbrite' && (
-                  <span className="px-2 py-1 text-orange-400 text-xs rounded font-semibold">
-                    🔴 LIVE
-                  </span>
-                )}
               </div>
 
               {/* Event Titel */}
@@ -235,9 +159,9 @@ const EnhancedEventTicker = () => {
                 {currentEvent.subtitle}
               </p>
 
-              {/* Event Details Grid */}
+              {/* Event Details */}
               <div className="grid grid-cols-2 gap-4 text-base">
-                <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                <div className="flex items-center space-x-2 bg-black/70 px-4 py-3 rounded-lg">
                   <span className="text-xl">📅</span>
                   <div>
                     <span className="text-gray-400 text-sm block">Datum</span>
@@ -247,7 +171,7 @@ const EnhancedEventTicker = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                <div className="flex items-center space-x-2 bg-black/70 px-4 py-3 rounded-lg">
                   <span className="text-xl">⏰</span>
                   <div>
                     <span className="text-gray-400 text-sm block">Uhrzeit</span>
@@ -255,7 +179,7 @@ const EnhancedEventTicker = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                <div className="flex items-center space-x-2 bg-black/70 px-4 py-3 rounded-lg">
                   <span className="text-xl">📍</span>
                   <div>
                     <span className="text-gray-400 text-sm block">Ort</span>
@@ -263,7 +187,7 @@ const EnhancedEventTicker = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                <div className="flex items-center space-x-2 bg-black/70 px-4 py-3 rounded-lg">
                   <span className="text-xl">🎫</span>
                   <div>
                     <span className="text-gray-400 text-sm block">Preis</span>
@@ -297,7 +221,7 @@ const EnhancedEventTicker = () => {
                     fill="transparent"
                     className="text-white animate-pulse"
                     strokeDasharray={`${2 * Math.PI * 35}`}
-                    strokeDashoffset={`${2 * Math.PI * 35 * (1 - (currentEventIndex + 1) / allEvents.length)}`}
+                    strokeDashoffset={`${2 * Math.PI * 35 * (1 - (currentEventIndex + 1) / upcomingEvents.length)}`}
                     style={{
                       transition: 'stroke-dashoffset 0.5s ease-in-out'
                     }}
@@ -305,7 +229,7 @@ const EnhancedEventTicker = () => {
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-sm font-bold text-white">
-                    {Math.round(((currentEventIndex + 1) / allEvents.length) * 100)}%
+                    {Math.round(((currentEventIndex + 1) / upcomingEvents.length) * 100)}%
                   </span>
                 </div>
               </div>
@@ -321,9 +245,6 @@ const EnhancedEventTicker = () => {
                 <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
               </div>
               <span>Automatische Aktualisierung alle 4 Sekunden</span>
-              {dataSource === 'mixed' && (
-                <span className="text-blue-300">• Live-Daten aktiv</span>
-              )}
             </div>
           </div>
         </div>
@@ -332,4 +253,4 @@ const EnhancedEventTicker = () => {
   );
 };
 
-export default EnhancedEventTicker;
+export default EventTicker;

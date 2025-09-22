@@ -94,9 +94,10 @@ const EventTicker = () => {
   const category = getEventCategory(currentEvent.date);
 
   return (
-    <div className="bg-black text-white p-8 rounded-xl shadow-2xl mb-12 min-h-[280px]">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <div className="animate-pulse">
             <span className="text-3xl">🎫</span>

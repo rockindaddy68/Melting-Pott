@@ -119,7 +119,7 @@ const EnhancedEventTicker = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
@@ -132,7 +132,7 @@ const EnhancedEventTicker = () => {
 
   if (allEvents.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
           <div className="text-center">
             <div className="text-4xl mb-4">🎫</div>
@@ -152,7 +152,7 @@ const EnhancedEventTicker = () => {
   const category = getEventCategory(currentEvent.date);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
         {/* Header mit Datenquelle */}
         <div className="flex items-center justify-between mb-6">
@@ -161,7 +161,7 @@ const EnhancedEventTicker = () => {
               <span className="text-3xl">🎫</span>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-orange-400">LIVE EVENT-TICKER</h2>
+              <h2 className="text-2xl font-bold text-white">LIVE EVENT-TICKER</h2>
               <div className="flex items-center space-x-2 mt-1">
                 {dataSource === 'mixed' && (
                   <>
