@@ -62,13 +62,13 @@ const EventTicker = () => {
     const eventDateObj = new Date(eventDate);
     
     if (eventDateObj.toDateString() === today.toDateString()) {
-      return { label: "HEUTE", color: "bg-orange-500", pulse: true };
+      return { label: "HEUTE", color: "text-orange-400", pulse: true };
     } else if (eventDateObj.toDateString() === tomorrow.toDateString()) {
-      return { label: "MORGEN", color: "bg-orange-500", pulse: false };
+      return { label: "MORGEN", color: "text-orange-400", pulse: false };
     } else if (eventDateObj <= thisWeekEnd) {
-      return { label: "DIESE WOCHE", color: "bg-orange-500", pulse: false };
+      return { label: "DIESE WOCHE", color: "text-orange-400", pulse: false };
     } else {
-      return { label: "DEMNÄCHST", color: "bg-orange-500", pulse: false };
+      return { label: "DEMNÄCHST", color: "text-orange-400", pulse: false };
     }
   };
 
@@ -133,7 +133,7 @@ const EventTicker = () => {
             <div className="flex items-center space-x-4">
               {/* Kategorie Badge */}
               <span 
-                className={`px-4 py-2 rounded-full text-sm font-bold text-white ${category.color} ${
+                className={`px-4 py-2 rounded-full text-sm font-bold ${category.color} ${
                   category.pulse ? 'animate-pulse' : ''
                 } shadow-lg`}
               >
@@ -188,7 +188,7 @@ const EventTicker = () => {
                 <span className="text-xl">🎫</span>
                 <div>
                   <span className="text-gray-400 text-sm block">Preis</span>
-                  <span className="font-bold text-orange-300 text-lg">
+                  <span className="font-bold text-orange-400 text-lg">
                     {currentEvent.price}
                   </span>
                 </div>

@@ -46,7 +46,7 @@ function App() {
       {/* Hidden Admin Access Button */}
       <button
         onClick={toggleAdmin}
-        className="fixed bottom-4 right-4 w-12 h-12 bg-orange-500/20 hover:bg-orange-500/40 text-orange-400 rounded-full opacity-30 hover:opacity-100 transition-all z-50 text-xs"
+        className="fixed bottom-4 right-4 w-12 h-12 text-orange-400 rounded-full opacity-30 hover:opacity-100 transition-all z-50 text-xs border border-orange-400/20 hover:border-orange-400/40"
         title="Admin Panel (Strg+Shift+A)"
       >
         ⚙️

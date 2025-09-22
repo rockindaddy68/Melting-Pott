@@ -100,12 +100,12 @@ const AdminDashboard = ({ onClose }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Admin Passwort eingeben..."
-              className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
             />
             <button
               onClick={handleLogin}
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+              className="w-full text-orange-400 py-3 rounded-lg font-semibold border border-orange-400/40 hover:border-orange-400/60 transition-all"
             >
               Anmelden
             </button>
@@ -160,7 +160,7 @@ const AdminDashboard = ({ onClose }) => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
-                    ? 'border-orange-500 text-orange-400'
+                    ? 'border-orange-400 text-orange-400'
                     : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -203,7 +203,7 @@ const AdminDashboard = ({ onClose }) => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button
                   onClick={() => setActiveTab('events')}
-                  className="bg-orange-600 text-white p-4 rounded-lg hover:bg-orange-700 transition-colors text-left"
+                  className="text-orange-400 p-4 rounded-lg border border-orange-400/40 hover:border-orange-400/60 transition-all text-left"
                 >
                   <div className="text-2xl mb-2">🆕</div>
                   <div className="font-semibold">Neues Event</div>
@@ -273,31 +273,31 @@ const AdminDashboard = ({ onClose }) => {
                   placeholder="Event Name *"
                   value={newEvent.name}
                   onChange={(e) => setNewEvent({...newEvent, name: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <input
                   type="date"
                   value={newEvent.date}
                   onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <input
                   type="time"
                   value={newEvent.time}
                   onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <input
                   type="text"
                   placeholder="Location"
                   value={newEvent.location}
                   onChange={(e) => setNewEvent({...newEvent, location: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <select
                   value={newEvent.city}
                   onChange={(e) => setNewEvent({...newEvent, city: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 >
                   <option value="">Stadt wählen *</option>
                   {['Essen', 'Dortmund', 'Bochum', 'Duisburg', 'Gelsenkirchen', 'Oberhausen', 'Hagen', 'Bottrop', 'Recklinghausen', 'Herne', 'Mülheim an der Ruhr', 'Witten'].map(city => (
@@ -307,7 +307,7 @@ const AdminDashboard = ({ onClose }) => {
                 <select
                   value={newEvent.category}
                   onChange={(e) => setNewEvent({...newEvent, category: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 >
                   <option value="">Kategorie wählen</option>
                   <option value="Music">Musik</option>
@@ -322,18 +322,18 @@ const AdminDashboard = ({ onClose }) => {
                   placeholder="Preis (z.B. 25€ oder Kostenlos)"
                   value={newEvent.price}
                   onChange={(e) => setNewEvent({...newEvent, price: e.target.value})}
-                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <textarea
                   placeholder="Beschreibung"
                   value={newEvent.description}
                   onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
-                  className="md:col-span-2 px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-24 resize-none"
+                  className="md:col-span-2 px-4 py-3 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 h-24 resize-none"
                 />
               </div>
               <button
                 onClick={handleAddEvent}
-                className="bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+                className="text-orange-400 px-6 py-3 rounded-lg font-semibold border border-orange-400/40 hover:border-orange-400/60 transition-all"
               >
                 Event hinzufügen
               </button>

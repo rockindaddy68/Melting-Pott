@@ -141,12 +141,12 @@ export const citiesData = [
         price: "85€"
       },
       {
-        title: "Bochum Total Stadtfestival",
-        subtitle: "Das größte kostenlose Festival im Ruhrgebiet",
+        title: "Ruhr-Universität Open Campus",
+        subtitle: "Wissenschaft zum Anfassen",
         date: "2025-09-19",
         time: "16:00",
-        location: "Bermudadreieck",
-        category: "Festival",
+        location: "RUB Campus",
+        category: "Bildung",
         price: "Kostenlos"
       },
       {

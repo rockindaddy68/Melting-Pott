@@ -101,7 +101,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
 
   return (
     <>
-      <header className="bg-black shadow-lg border-b border-orange-500/30">
+      <header className="bg-black shadow-lg border-b border-orange-400/30">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -114,7 +114,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
             <div className="hidden md:flex items-center space-x-6">
               {/* Language Selector */}
               <div className="relative group">
-                <button className="flex items-center text-gray-300 hover:text-orange-400 transition-colors">
+                <button className="flex items-center text-orange-400 transition-colors">
                   <span className="mr-2">{languages.find(l => l.code === selectedLanguage)?.flag}</span>
                   <span className="text-sm">{selectedLanguage}</span>
                   <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +153,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                   </span>
                   <button
                     onClick={() => setShowMemberDashboard(true)}
-                    className="flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors text-sm"
+                    className="flex items-center px-4 py-2 text-orange-400 rounded-lg transition-all text-sm border border-orange-400/40 hover:border-orange-400/60"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -177,7 +177,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                   </button>
                   <button
                     onClick={() => openAuthModal('register')}
-                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors text-sm"
+                    className="px-4 py-2 text-orange-400 rounded-lg transition-all text-sm border border-orange-400/40 hover:border-orange-400/60"
                   >
                     {t.register}
                   </button>
@@ -209,7 +209,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 </button>
               )}
               
-              <button className="text-gray-300 hover:text-orange-400 p-2">
+              <button className="text-orange-400 p-2">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>

@@ -206,7 +206,7 @@ const SimpleEventSearch = ({ language = 'de' }) => {
     <div data-event-search className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 max-w-6xl mx-auto">
       {/* Header */}
       <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-        <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         {t.title}
@@ -220,7 +220,7 @@ const SimpleEventSearch = ({ language = 'de' }) => {
             value={searchQuery}
             onChange={handleInputChange}
             placeholder={t.searchPlaceholder}
-            className="w-full px-4 py-3 pr-10 rounded-xl bg-gray-800/80 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-4 py-3 pr-10 rounded-xl bg-gray-800/80 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
           />
           {searchQuery && (
             <button
@@ -252,7 +252,7 @@ const SimpleEventSearch = ({ language = 'de' }) => {
       {/* Loading */}
       {isLoading && showResults && (
         <div className="bg-gray-800/30 rounded-xl p-6 text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-400 mx-auto mb-4"></div>
           <p className="text-gray-400">Suche Events...</p>
         </div>
       )}
@@ -263,7 +263,7 @@ const SimpleEventSearch = ({ language = 'de' }) => {
           {results.map((event) => (
             <div
               key={event.id}
-              className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 hover:border-orange-500/30 transition-colors duration-200"
+              className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 hover:border-orange-400/30 transition-colors duration-200"
             >
               <div className="flex flex-col md:flex-row md:items-center gap-3">
                 <div className="flex-1">
@@ -314,7 +314,7 @@ const SimpleEventSearch = ({ language = 'de' }) => {
                     href={event.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-lg transition-colors duration-200 text-sm font-medium whitespace-nowrap"
+                    className="px-4 py-2 text-orange-400 rounded-lg transition-colors duration-200 text-sm font-medium whitespace-nowrap"
                   >
                     Details →
                   </a>

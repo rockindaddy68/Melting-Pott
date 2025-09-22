@@ -97,7 +97,7 @@ const MemberDatabaseAdmin = () => {
             onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === tab.id
-                ? 'bg-orange-600 text-white'
+                ? 'text-orange-400 border border-orange-400/40'
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >

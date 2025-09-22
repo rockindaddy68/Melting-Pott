@@ -100,7 +100,7 @@ const MemberAuth = ({ isOpen, onClose, initialMode = 'login', onAuthSuccess }) =
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 border border-orange-500/30 rounded-lg shadow-2xl w-full max-w-md relative">
+      <div className="bg-gray-900 border border-orange-400/30 rounded-lg shadow-2xl w-full max-w-md relative">
         {/* Close Button */}
         <button
           onClick={onClose}

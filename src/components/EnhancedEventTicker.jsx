@@ -117,13 +117,13 @@ const EnhancedEventTicker = () => {
     const eventDateObj = new Date(eventDate);
     
     if (eventDateObj.toDateString() === today.toDateString()) {
-      return { label: "HEUTE", color: "bg-red-500", pulse: true };
+      return { label: "HEUTE", color: "text-orange-400", pulse: true };
     } else if (eventDateObj.toDateString() === tomorrow.toDateString()) {
-      return { label: "MORGEN", color: "bg-orange-500", pulse: false };
+      return { label: "MORGEN", color: "text-orange-400", pulse: false };
     } else if (eventDateObj <= thisWeekEnd) {
-      return { label: "DIESE WOCHE", color: "bg-purple-600", pulse: false };
+      return { label: "DIESE WOCHE", color: "text-orange-400", pulse: false };
     } else {
-      return { label: "DEMNÄCHST", color: "bg-green-500", pulse: false };
+      return { label: "DEMNÄCHST", color: "text-orange-400", pulse: false };
     }
   };
 
@@ -177,12 +177,12 @@ const EnhancedEventTicker = () => {
             <div className="flex items-center space-x-2 mt-1">
               {dataSource === 'mixed' && (
                 <>
-                  <span className="px-2 py-1 bg-blue-600 text-xs rounded-full font-semibold">LIVE</span>
-                  <span className="text-gray-400 text-sm">Eventbrite + Lokale Daten</span>
+                  <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LIVE</span>
+                  <span className="text-orange-400 text-sm">Eventbrite + Lokale Daten</span>
                 </>
               )}
               {dataSource === 'local' && (
-                <span className="px-2 py-1 bg-gray-600 text-xs rounded-full font-semibold">LOKAL</span>
+                <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LOKAL</span>
               )}
             </div>
           </div>
@@ -217,7 +217,7 @@ const EnhancedEventTicker = () => {
             <div className="flex items-center space-x-4">
               {/* Kategorie Badge */}
               <span 
-                className={`px-4 py-2 rounded-full text-sm font-bold text-white ${category.color} ${
+                className={`px-4 py-2 rounded-full text-sm font-bold ${category.color} ${
                   category.pulse ? 'animate-pulse' : ''
                 } shadow-lg`}
               >
@@ -231,7 +231,7 @@ const EnhancedEventTicker = () => {
 
               {/* Datenquelle Badge */}
               {currentEvent.source === 'eventbrite' && (
-                <span className="px-2 py-1 bg-blue-500 text-xs rounded font-semibold">
+                <span className="px-2 py-1 text-orange-400 text-xs rounded font-semibold">
                   🔴 LIVE
                 </span>
               )}
@@ -279,7 +279,7 @@ const EnhancedEventTicker = () => {
                 <span className="text-xl">🎫</span>
                 <div>
                   <span className="text-gray-400 text-sm block">Preis</span>
-                  <span className="font-bold text-green-300 text-lg">
+                  <span className="font-bold text-orange-400 text-lg">
                     {currentEvent.price}
                   </span>
                 </div>

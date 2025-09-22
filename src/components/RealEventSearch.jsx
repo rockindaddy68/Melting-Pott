@@ -614,11 +614,11 @@ const RealEventSearch = ({ language = 'de' }) => {
     }`}>
       {/* Header */}
       <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-        <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         {t.title}
-        <span className="text-sm bg-orange-500/20 text-orange-400 px-2 py-1 rounded-full">LIVE</span>
+  <span className="text-sm text-orange-400 px-2 py-1 rounded-full">LIVE</span>
       </h2>
 
       {/* Suchsteuerung */}
@@ -631,7 +631,7 @@ const RealEventSearch = ({ language = 'de' }) => {
               value={searchQuery}
               onChange={handleInputChange}
               placeholder={t.searchPlaceholder}
-              className="w-full px-4 py-3 pr-10 rounded-xl bg-black/80 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-3 pr-10 rounded-xl bg-black/80 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
             />
             {searchQuery && (
               <button
@@ -651,7 +651,7 @@ const RealEventSearch = ({ language = 'de' }) => {
             <select
               value={selectedCity}
               onChange={handleCityChange}
-              className="w-full px-4 py-3 rounded-xl bg-black/80 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl bg-black/80 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
             >
               <option value="">{t.allCities}</option>
               {ruhrgebietCities.map(city => (
@@ -674,7 +674,7 @@ const RealEventSearch = ({ language = 'de' }) => {
         )}
 
         {results.length > 0 && showResults && !isLoading && (
-          <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
+          <div className="border border-orange-400/20 rounded-lg p-3">
             <p className="text-orange-400 text-sm font-medium flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -689,7 +689,7 @@ const RealEventSearch = ({ language = 'de' }) => {
         {/* Loading */}
         {isLoading && showResults && (
           <div className="bg-black/60 rounded-lg p-4 text-center border border-gray-700/50">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500 mx-auto mb-3"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-400 mx-auto mb-3"></div>
             <p className="text-gray-400 text-sm">{t.loading}</p>
           </div>
         )}
@@ -703,18 +703,18 @@ const RealEventSearch = ({ language = 'de' }) => {
 
         {/* Ergebnisse - direkt nach Suchsteuerung mit besserer Trennung */}
         {showResults && results.length > 0 && !isLoading && (
-          <div className="mt-8 space-y-8 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-orange-500/50 scrollbar-track-black/20 pr-2 pb-4">
+          <div className="mt-8 space-y-8 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-orange-400/50 scrollbar-track-black/20 pr-2 pb-4">
             {results.map((event) => (
               <div
                 key={event.id}
-                className="bg-black/70 rounded-2xl p-8 border border-gray-700/50 hover:border-orange-500/40 transition-all duration-200 hover:bg-black/80 shadow-xl"
+                className="bg-black/70 rounded-2xl p-8 border border-gray-700/50 hover:border-orange-400/40 transition-all duration-200 hover:bg-black/80 shadow-xl"
               >
                 <div className="flex flex-col lg:flex-row lg:items-start gap-6">
                   <div className="flex-1 space-y-4">
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="text-xl font-bold text-white leading-tight">{event.name}</h3>
                       <div className="flex gap-2 flex-shrink-0">
-                        <span className="bg-orange-500/20 text-orange-400 px-4 py-2 rounded-full text-sm font-medium">
+                        <span className="text-orange-400 px-4 py-2 rounded-full text-sm font-medium">
                           LIVE
                         </span>
                         <span className={`px-4 py-2 rounded-full text-sm font-medium ${getCategoryColor(event.category)}`}>
@@ -726,7 +726,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                     {/* Event Details */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
                       <div className="flex items-center gap-4 bg-black/50 rounded-xl p-4">
-                        <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <div className="border border-orange-400/20 p-3 rounded-xl">
                           <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
@@ -743,7 +743,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                       </div>
                       
                       <div className="flex items-center gap-4 bg-black/50 rounded-xl p-4">
-                        <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <div className="border border-orange-400/20 p-3 rounded-xl">
                           <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -757,7 +757,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                       </div>
                       
                       <div className="flex items-center gap-4 bg-black/50 rounded-xl p-4">
-                        <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <div className="border border-orange-400/20 p-3 rounded-xl">
                           <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                           </svg>
@@ -794,7 +794,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                         className={`w-full px-6 py-3 rounded-xl font-semibold border transition-all duration-200 flex items-center justify-center gap-2 ${
                           userService.isEventFavorite(event.id)
                             ? 'bg-red-500/20 border-red-500/40 text-red-400 hover:bg-red-500/30'
-                            : 'bg-gray-700/30 border-gray-600/40 text-gray-400 hover:bg-orange-500/20 hover:border-orange-500/40 hover:text-orange-400'
+                            : 'bg-gray-700/30 border-gray-600/40 text-gray-400 hover:text-orange-400'
                         }`}
                       >
                         <svg className="w-5 h-5" fill={userService.isEventFavorite(event.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
@@ -822,7 +822,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                           });
                         }
                       }}
-                      className="block w-full px-8 py-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 text-orange-400 rounded-xl transition-all duration-200 text-center font-semibold border border-orange-500/20 hover:border-orange-500/40 text-lg"
+                      className="block w-full px-8 py-4 text-orange-400 rounded-xl transition-all duration-200 text-center font-semibold border border-orange-400/20 hover:border-orange-400/40 text-lg"
                     >
                       <div className="flex items-center justify-center gap-3">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -855,7 +855,7 @@ const RealEventSearch = ({ language = 'de' }) => {
                   <button
                     key={term}
                     onClick={() => setSearchQuery(term)}
-                    className="px-4 py-2 bg-orange-500/20 text-orange-400 rounded-xl text-sm hover:bg-orange-500/30 transition-colors font-medium"
+                    className="px-4 py-2 text-orange-400 rounded-xl text-sm transition-colors font-medium"
                   >
                     {term}
                   </button>

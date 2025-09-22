@@ -223,10 +223,10 @@ const Events = ({ selectedLanguage = 'DE' }) => {
                   city.events.map((event, index) => (
                     <div key={index} className="border-l-4 border-orange-400 hover:border-orange-300 pl-4 py-2 hover:bg-gray-700/50 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="px-2 py-1 rounded text-orange-300 text-xs font-medium bg-transparent border border-orange-400/40 hover:bg-orange-600 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <span className="px-2 py-1 rounded text-orange-400 text-xs font-medium bg-transparent border border-orange-400/40 hover:text-orange-400 hover:shadow-lg hover:scale-105 transition-all duration-300">
                           {lang.categories?.[event.category] || event.category}
                         </span>
-                        <span className="text-xs text-gray-300 bg-gray-700/50 border border-gray-500 hover:bg-orange-500 hover:text-white hover:border-orange-500 px-3 py-1.5 rounded-full font-medium transition-all duration-300">
+                        <span className="text-xs text-orange-400 border border-orange-400/40 px-3 py-1.5 rounded-full font-medium transition-all duration-300">
                           {event.price}
                         </span>
                       </div>
