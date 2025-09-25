@@ -3,76 +3,247 @@ import React, { useState, useEffect } from 'react'
 const Footer = ({ selectedLanguage = 'DE' }) => {
   const [lang, setLang] = useState({})
 
+  // Wikipedia URLs für jede Stadt in verschiedenen Sprachen
+  const cityWikipediaLinks = {
+    'Essen': {
+      DE: 'https://de.wikipedia.org/wiki/Essen',
+      EN: 'https://en.wikipedia.org/wiki/Essen',
+      TR: 'https://tr.wikipedia.org/wiki/Essen',
+      IT: 'https://it.wikipedia.org/wiki/Essen',
+      FR: 'https://fr.wikipedia.org/wiki/Essen',
+      ES: 'https://es.wikipedia.org/wiki/Essen',
+      PL: 'https://pl.wikipedia.org/wiki/Essen',
+      RU: 'https://ru.wikipedia.org/wiki/Эссен',
+      AR: 'https://ar.wikipedia.org/wiki/إيسن',
+      NL: 'https://nl.wikipedia.org/wiki/Essen_(Duitsland)'
+    },
+    'Dortmund': {
+      DE: 'https://de.wikipedia.org/wiki/Dortmund',
+      EN: 'https://en.wikipedia.org/wiki/Dortmund',
+      TR: 'https://tr.wikipedia.org/wiki/Dortmund',
+      IT: 'https://it.wikipedia.org/wiki/Dortmund',
+      FR: 'https://fr.wikipedia.org/wiki/Dortmund',
+      ES: 'https://es.wikipedia.org/wiki/Dortmund',
+      PL: 'https://pl.wikipedia.org/wiki/Dortmund',
+      RU: 'https://ru.wikipedia.org/wiki/Дортмунд',
+      AR: 'https://ar.wikipedia.org/wiki/دورتموند',
+      NL: 'https://nl.wikipedia.org/wiki/Dortmund'
+    },
+    'Duisburg': {
+      DE: 'https://de.wikipedia.org/wiki/Duisburg',
+      EN: 'https://en.wikipedia.org/wiki/Duisburg',
+      TR: 'https://tr.wikipedia.org/wiki/Duisburg',
+      IT: 'https://it.wikipedia.org/wiki/Duisburg',
+      FR: 'https://fr.wikipedia.org/wiki/Duisbourg',
+      ES: 'https://es.wikipedia.org/wiki/Duisburgo',
+      PL: 'https://pl.wikipedia.org/wiki/Duisburg',
+      RU: 'https://ru.wikipedia.org/wiki/Дуйсбург',
+      AR: 'https://ar.wikipedia.org/wiki/دويسبورغ',
+      NL: 'https://nl.wikipedia.org/wiki/Duisburg'
+    },
+    'Bochum': {
+      DE: 'https://de.wikipedia.org/wiki/Bochum',
+      EN: 'https://en.wikipedia.org/wiki/Bochum',
+      TR: 'https://tr.wikipedia.org/wiki/Bochum',
+      IT: 'https://it.wikipedia.org/wiki/Bochum',
+      FR: 'https://fr.wikipedia.org/wiki/Bochum',
+      ES: 'https://es.wikipedia.org/wiki/Bochum',
+      PL: 'https://pl.wikipedia.org/wiki/Bochum',
+      RU: 'https://ru.wikipedia.org/wiki/Бохум',
+      AR: 'https://ar.wikipedia.org/wiki/بوخوم',
+      NL: 'https://nl.wikipedia.org/wiki/Bochum'
+    },
+    'Gelsenkirchen': {
+      DE: 'https://de.wikipedia.org/wiki/Gelsenkirchen',
+      EN: 'https://en.wikipedia.org/wiki/Gelsenkirchen',
+      TR: 'https://tr.wikipedia.org/wiki/Gelsenkirchen',
+      IT: 'https://it.wikipedia.org/wiki/Gelsenkirchen',
+      FR: 'https://fr.wikipedia.org/wiki/Gelsenkirchen',
+      ES: 'https://es.wikipedia.org/wiki/Gelsenkirchen',
+      PL: 'https://pl.wikipedia.org/wiki/Gelsenkirchen',
+      RU: 'https://ru.wikipedia.org/wiki/Гельзенкирхен',
+      AR: 'https://ar.wikipedia.org/wiki/غيلزنكيرشن',
+      NL: 'https://nl.wikipedia.org/wiki/Gelsenkirchen'
+    },
+    'Oberhausen': {
+      DE: 'https://de.wikipedia.org/wiki/Oberhausen',
+      EN: 'https://en.wikipedia.org/wiki/Oberhausen',
+      TR: 'https://tr.wikipedia.org/wiki/Oberhausen',
+      IT: 'https://it.wikipedia.org/wiki/Oberhausen',
+      FR: 'https://fr.wikipedia.org/wiki/Oberhausen',
+      ES: 'https://es.wikipedia.org/wiki/Oberhausen',
+      PL: 'https://pl.wikipedia.org/wiki/Oberhausen',
+      RU: 'https://ru.wikipedia.org/wiki/Оберхаузен',
+      AR: 'https://ar.wikipedia.org/wiki/أوبرهاوزن',
+      NL: 'https://nl.wikipedia.org/wiki/Oberhausen'
+    },
+    'Bottrop': {
+      DE: 'https://de.wikipedia.org/wiki/Bottrop',
+      EN: 'https://en.wikipedia.org/wiki/Bottrop',
+      TR: 'https://tr.wikipedia.org/wiki/Bottrop',
+      IT: 'https://it.wikipedia.org/wiki/Bottrop',
+      FR: 'https://fr.wikipedia.org/wiki/Bottrop',
+      ES: 'https://es.wikipedia.org/wiki/Bottrop',
+      PL: 'https://pl.wikipedia.org/wiki/Bottrop',
+      RU: 'https://ru.wikipedia.org/wiki/Боттроп',
+      AR: 'https://ar.wikipedia.org/wiki/بوتروب',
+      NL: 'https://nl.wikipedia.org/wiki/Bottrop'
+    },
+    'Herne': {
+      DE: 'https://de.wikipedia.org/wiki/Herne',
+      EN: 'https://en.wikipedia.org/wiki/Herne,_North_Rhine-Westphalia',
+      TR: 'https://tr.wikipedia.org/wiki/Herne',
+      IT: 'https://it.wikipedia.org/wiki/Herne_(Germania)',
+      FR: 'https://fr.wikipedia.org/wiki/Herne_(Allemagne)',
+      ES: 'https://es.wikipedia.org/wiki/Herne_(Alemania)',
+      PL: 'https://pl.wikipedia.org/wiki/Herne',
+      RU: 'https://ru.wikipedia.org/wiki/Херне',
+      AR: 'https://ar.wikipedia.org/wiki/هيرنه',
+      NL: 'https://nl.wikipedia.org/wiki/Herne_(Duitsland)'
+    },
+    'Moers': {
+      DE: 'https://de.wikipedia.org/wiki/Moers',
+      EN: 'https://en.wikipedia.org/wiki/Moers',
+      TR: 'https://tr.wikipedia.org/wiki/Moers',
+      IT: 'https://it.wikipedia.org/wiki/Moers',
+      FR: 'https://fr.wikipedia.org/wiki/Moers',
+      ES: 'https://es.wikipedia.org/wiki/Moers',
+      PL: 'https://pl.wikipedia.org/wiki/Moers',
+      RU: 'https://ru.wikipedia.org/wiki/Мёрс',
+      AR: 'https://ar.wikipedia.org/wiki/موئرس',
+      NL: 'https://nl.wikipedia.org/wiki/Moers'
+    },
+    'Mülheim an der Ruhr': {
+      DE: 'https://de.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      EN: 'https://en.wikipedia.org/wiki/Mülheim',
+      TR: 'https://tr.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      IT: 'https://it.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      FR: 'https://fr.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      ES: 'https://es.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      PL: 'https://pl.wikipedia.org/wiki/Mülheim_an_der_Ruhr',
+      RU: 'https://ru.wikipedia.org/wiki/Мюльхайм-на-Руре',
+      AR: 'https://ar.wikipedia.org/wiki/مولهايم_أن_در_رور',
+      NL: 'https://nl.wikipedia.org/wiki/Mülheim_an_der_Ruhr'
+    },
+    'Hattingen': {
+      DE: 'https://de.wikipedia.org/wiki/Hattingen',
+      EN: 'https://en.wikipedia.org/wiki/Hattingen',
+      TR: 'https://tr.wikipedia.org/wiki/Hattingen',
+      IT: 'https://it.wikipedia.org/wiki/Hattingen',
+      FR: 'https://fr.wikipedia.org/wiki/Hattingen',
+      ES: 'https://es.wikipedia.org/wiki/Hattingen',
+      PL: 'https://pl.wikipedia.org/wiki/Hattingen',
+      RU: 'https://ru.wikipedia.org/wiki/Хаттинген',
+      AR: 'https://ar.wikipedia.org/wiki/هاتينغن',
+      NL: 'https://nl.wikipedia.org/wiki/Hattingen'
+    },
+    'Recklinghausen': {
+      DE: 'https://de.wikipedia.org/wiki/Recklinghausen',
+      EN: 'https://en.wikipedia.org/wiki/Recklinghausen',
+      TR: 'https://tr.wikipedia.org/wiki/Recklinghausen',
+      IT: 'https://it.wikipedia.org/wiki/Recklinghausen',
+      FR: 'https://fr.wikipedia.org/wiki/Recklinghausen',
+      ES: 'https://es.wikipedia.org/wiki/Recklinghausen',
+      PL: 'https://pl.wikipedia.org/wiki/Recklinghausen',
+      RU: 'https://ru.wikipedia.org/wiki/Реклингхаузен',
+      AR: 'https://ar.wikipedia.org/wiki/ريكلنغهاوزن',
+      NL: 'https://nl.wikipedia.org/wiki/Recklinghausen'
+    }
+  }
+
+  // Funktion zum Abrufen der Wikipedia-URL
+  const getWikipediaLink = (cityName) => {
+    const cityData = cityWikipediaLinks[cityName]
+    if (!cityData) return '#'
+    return cityData[selectedLanguage] || cityData.DE || '#'
+  }
+
+  // Funktion für lokalisierten Tooltip-Text
+  const getTooltipText = (cityName) => {
+    const template = lang.learnMore || "Mehr über {city} erfahren"
+    return template.replace('{city}', cityName)
+  }
+
   const translations = {
     DE: {
       title: "Melting Pott",
       subtitle: "Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts.",
       cities: "Ruhrgebietsstädte",
       socialMedia: "Social Media",
-      copyright: "Alle Rechte vorbehalten."
+      copyright: "Alle Rechte vorbehalten.",
+      learnMore: "Mehr über {city} erfahren"
     },
     EN: {
       title: "Melting Pott",
       subtitle: "Your guide for events in the Ruhr area. Discover the culture and history of the Ruhrpott.",
       cities: "Ruhr Area Cities",
       socialMedia: "Social Media",
-      copyright: "All rights reserved."
+      copyright: "All rights reserved.",
+      learnMore: "Learn more about {city}"
     },
     TR: {
       title: "Melting Pott",
       subtitle: "Ruhr bölgesindeki etkinlikler için rehberiniz. Ruhrpott'un kültürünü ve tarihini keşfedin.",
       cities: "Ruhr Bölgesi Şehirleri",
       socialMedia: "Sosyal Medya",
-      copyright: "Tüm hakları saklıdır."
+      copyright: "Tüm hakları saklıdır.",
+      learnMore: "{city} hakkında daha fazla bilgi edinin"
     },
     IT: {
       title: "Melting Pott",
       subtitle: "La tua guida per gli eventi nella regione della Ruhr. Scopri la cultura e la storia del Ruhrpott.",
       cities: "Città della Ruhr",
       socialMedia: "Social Media",
-      copyright: "Tutti i diritti riservati."
+      copyright: "Tutti i diritti riservati.",
+      learnMore: "Scopri di più su {city}"
     },
     FR: {
       title: "Melting Pott",
       subtitle: "Votre guide pour les événements dans la région de la Ruhr. Découvrez la culture et l'histoire du Ruhrpott.",
       cities: "Villes de la Ruhr",
       socialMedia: "Médias Sociaux",
-      copyright: "Tous droits réservés."
+      copyright: "Tous droits réservés.",
+      learnMore: "En savoir plus sur {city}"
     },
     ES: {
       title: "Melting Pott",
       subtitle: "Tu guía para eventos en la región del Ruhr. Descubre la cultura e historia del Ruhrpott.",
       cities: "Ciudades del Ruhr",
       socialMedia: "Redes Sociales",
-      copyright: "Todos los derechos reservados."
+      copyright: "Todos los derechos reservados.",
+      learnMore: "Conoce más sobre {city}"
     },
     PL: {
       title: "Melting Pott",
       subtitle: "Twój przewodnik po wydarzeniach w regionie Ruhry. Odkryj kulturę i historię Ruhrpott.",
       cities: "Miasta Zagłębia Ruhry",
       socialMedia: "Media Społecznościowe",
-      copyright: "Wszelkie prawa zastrzeżone."
+      copyright: "Wszelkie prawa zastrzeżone.",
+      learnMore: "Dowiedz się więcej o {city}"
     },
     RU: {
       title: "Melting Pott",
       subtitle: "Ваш гид по событиям в Рурской области. Откройте культуру и историю Рурпотта.",
       cities: "Города Рурской области",
       socialMedia: "Социальные сети",
-      copyright: "Все права защищены."
+      copyright: "Все права защищены.",
+      learnMore: "Узнать больше о {city}"
     },
     AR: {
       title: "Melting Pott",
       subtitle: "دليلك للأحداث في منطقة الرور. اكتشف ثقافة وتاريخ الرورپوت.",
       cities: "مدن منطقة الرور",
       socialMedia: "وسائل التواصل الاجتماعي",
-      copyright: "جميع الحقوق محفوظة."
+      copyright: "جميع الحقوق محفوظة.",
+      learnMore: "تعرف على المزيد حول {city}"
     },
     NL: {
       title: "Melting Pott",
       subtitle: "Jouw gids voor evenementen in het Ruhrgebied. Ontdek de cultuur en geschiedenis van het Ruhrpott.",
       cities: "Ruhrgebied Steden",
       socialMedia: "Sociale Media",
-      copyright: "Alle rechten voorbehouden."
+      copyright: "Alle rechten voorbehouden.",
+      learnMore: "Leer meer over {city}"
     }
   }
 
@@ -105,24 +276,180 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
           <div>
             <h4 className="font-semibold mb-4">{lang.cities || "Ruhrgebietsstädte"}</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Essen</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Dortmund</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Duisburg</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Bochum</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Gelsenkirchen</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Oberhausen</a></li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Essen')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Essen')}
+                >
+                  Essen
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Dortmund')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Dortmund')}
+                >
+                  Dortmund
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Duisburg')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Duisburg')}
+                >
+                  Duisburg
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Bochum')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Bochum')}
+                >
+                  Bochum
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Gelsenkirchen')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Gelsenkirchen')}
+                >
+                  Gelsenkirchen
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Oberhausen')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Oberhausen')}
+                >
+                  Oberhausen
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4 text-transparent">.</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Bottrop</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Herne</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Moers</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Mülheim an der Ruhr</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Hattingen</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Recklinghausen</a></li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Bottrop')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Bottrop')}
+                >
+                  Bottrop
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Herne')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Herne')}
+                >
+                  Herne
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Moers')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Moers')}
+                >
+                  Moers
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Mülheim an der Ruhr')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Mülheim an der Ruhr')}
+                >
+                  Mülheim an der Ruhr
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Hattingen')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Hattingen')}
+                >
+                  Hattingen
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href={getWikipediaLink('Recklinghausen')} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-orange-400 transition-colors flex items-center group"
+                  title={getTooltipText('Recklinghausen')}
+                >
+                  Recklinghausen
+                  <svg className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
             </ul>
           </div>
 

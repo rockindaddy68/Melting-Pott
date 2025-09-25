@@ -44,6 +44,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     DE: {
       events: 'Events',
       about: 'Über uns',
+      contact: 'Kontakt',
       login: 'Anmelden',
       register: 'Registrieren',
       dashboard: 'Mein Bereich',
@@ -53,6 +54,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     EN: {
       events: 'Events',
       about: 'About us',
+      contact: 'Contact',
       login: 'Login',
       register: 'Register',
       dashboard: 'My Area',
@@ -62,6 +64,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     TR: {
       events: 'Etkinlikler',
       about: 'Hakkımızda',
+      contact: 'İletişim',
       login: 'Giriş',
       register: 'Kayıt',
       dashboard: 'Benim Alanım',
@@ -71,6 +74,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     PL: {
       events: 'Wydarzenia',
       about: 'O nas',
+      contact: 'Kontakt',
       login: 'Zaloguj',
       register: 'Zarejestruj',
       dashboard: 'Mój obszar',
@@ -80,6 +84,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     RU: {
       events: 'События',
       about: 'О нас',
+      contact: 'Контакт',
       login: 'Войти',
       register: 'Регистрация',
       dashboard: 'Моя область',
@@ -89,6 +94,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     AR: {
       events: 'الأحداث',
       about: 'معلومات عنا',
+      contact: 'اتصل',
       login: 'تسجيل الدخول',
       register: 'التسجيل',
       dashboard: 'منطقتي',
@@ -143,6 +149,9 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
               </a>
               <a href="#about" className="text-gray-300 hover:text-orange-400 transition-colors">
                 {t.about}
+              </a>
+              <a href="#contact" className="text-gray-300 hover:text-orange-400 transition-colors">
+                {t.contact}
               </a>
 
               {/* User Authentication */}

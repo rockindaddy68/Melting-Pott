@@ -3,6 +3,7 @@ import Header from './components/layout/Header'
 import Hero from './components/Hero'
 import Events from './components/Events'
 import EnhancedEventTicker from './components/EnhancedEventTicker'
+import ContactSection from './components/ContactSection'
 import Footer from './components/layout/Footer'
 import AdminDashboard from './components/AdminDashboard'
 import userService from './services/userService'
@@ -56,6 +57,7 @@ function App() {
         <Hero selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
         <EnhancedEventTicker />
         <Events selectedLanguage={selectedLanguage} />
+        <ContactSection selectedLanguage={selectedLanguage} />
       </main>
       <Footer selectedLanguage={selectedLanguage} />
     </div>
