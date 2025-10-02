@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose'); // Disabled for file database
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -30,16 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 // Logging
 app.use(morgan('combined'));
 
-// Database connection
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ruhrpott');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error('Database connection failed:', error.message);
-    process.exit(1);
-  }
-};
+// Initialize File Database
+const database = require('./database/fileDatabase');
+console.log('✅ File Database initialized');
 
 // Routes
 app.get('/', (req, res) => {
@@ -71,11 +64,11 @@ app.use((req, res) => {
 });
 
 // Start server
-const startServer = async () => {
-  await connectDB();
+const startServer = () => {
   app.listen(PORT, () => {
     console.log(`🚀 Ruhrpott Backend running on port ${PORT}`);
     console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`💾 Using File Database: ${database ? 'Ready' : 'Error'}`);
   });
 };
 

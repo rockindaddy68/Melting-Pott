@@ -6,6 +6,7 @@ import EnhancedEventTicker from './components/EnhancedEventTicker'
 import ContactSection from './components/ContactSection'
 import Footer from './components/layout/Footer'
 import AdminDashboard from './components/AdminDashboard'
+import BackendStatus from './components/BackendStatus'
 import userService from './services/userService'
 import ticketShopService from './services/ticketShopService'
 
@@ -44,10 +45,13 @@ function App() {
     <div className="min-h-screen bg-black">
       <Header selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
       
+      {/* Backend Status Anzeige */}
+      <BackendStatus />
+      
       {/* Hidden Admin Access Button */}
       <button
         onClick={toggleAdmin}
-        className="fixed bottom-4 right-4 w-12 h-12 text-orange-400 rounded-full opacity-30 hover:opacity-100 transition-all z-50 text-xs border border-orange-400/20 hover:border-orange-400/40"
+        className="fixed bottom-4 left-4 w-12 h-12 text-orange-400 rounded-full opacity-30 hover:opacity-100 transition-all z-50 text-xs border border-orange-400/20 hover:border-orange-400/40"
         title="Admin Panel (Strg+Shift+A)"
       >
         ⚙️

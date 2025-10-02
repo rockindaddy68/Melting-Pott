@@ -241,7 +241,7 @@ const MemberDashboard = ({ onClose }) => {
                             <h4 className="text-xl font-bold text-white mb-2">{event.title}</h4>
                             <div className="space-y-2">
                               <p className="text-orange-400 font-semibold">📍 {event.city}</p>
-                              <p className="text-gray-300">📅 {event.date}</p>
+                              <p className="text-gray-300">📅 {formatGermanDate(event.date)}</p>
                               {event.venue && <p className="text-gray-400">🏟️ {event.venue}</p>}
                               {event.category && (
                                 <span className="inline-block px-3 py-1 text-orange-400 rounded-full text-sm border border-orange-400/40">
@@ -295,7 +295,7 @@ const MemberDashboard = ({ onClose }) => {
                         <div className="flex items-center justify-between">
                           <div>
                             <h4 className="text-xl font-bold text-white">{ticket.eventTitle}</h4>
-                            <p className="text-orange-400">📅 {ticket.eventDate}</p>
+                            <p className="text-orange-400">📅 {formatGermanDate(ticket.eventDate)}</p>
                             <p className="text-gray-400">🏟️ {ticket.venue}</p>
                             <p className="text-gray-300 mt-2">Gekauft am: {formatGermanDate(ticket.purchasedAt)}</p>
                           </div>

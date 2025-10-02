@@ -158,12 +158,6 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
     return cityData[selectedLanguage] || cityData.DE || '#'
   }
 
-  // Funktion für lokalisierten Tooltip-Text
-  const getTooltipText = (cityName) => {
-    const template = lang.learnMore || "Mehr über {city} erfahren"
-    return template.replace('{city}', cityName)
-  }
-
   const translations = {
     DE: {
       title: "Melting Pott",
@@ -250,6 +244,13 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
   useEffect(() => {
     setLang(translations[selectedLanguage] || translations.DE)
   }, [selectedLanguage])
+
+  // Funktion für lokalisierten Tooltip-Text
+  const getTooltipText = (cityName) => {
+    const template = lang.learnMore || translations.DE.learnMore || "Mehr über {city} erfahren"
+    return template.replace('{city}', cityName)
+  }
+
   return (
     <footer 
       className="text-gray-400 py-12 relative -mt-16"

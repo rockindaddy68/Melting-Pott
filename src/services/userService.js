@@ -1,19 +1,50 @@
 // User Management Service - Ruhrpott Event Platform
-// Handles registration, login, profile management with MemberDatabase
+// Handles registration, login, profile management - now with Backend API
 
+import userServiceAPI from './userServiceAPI.js';
 import memberDatabase from './memberDatabase.js';
 
 class UserService {
   constructor() {
-    // Deprecated - using memberDatabase now
+    // Check if backend is available
+    this.useBackend = this.checkBackendAvailability();
+    
+    // Fallback keys for localStorage
     this.storageKey = 'ruhrpott_users'
     this.sessionKey = 'ruhrpott_session'
     this.favoriteEventsKey = 'ruhrpott_user_favorites'
     this.ticketHistoryKey = 'ruhrpott_ticket_history'
+    
+    console.log(this.useBackend ? '🌐 Using Backend API' : '💾 Using Local Storage');
   }
 
-  // User Registration - using memberDatabase
+  // Check if backend is available
+  async checkBackendAvailability() {
+    try {
+      const response = await fetch('http://localhost:5000/api', { 
+        method: 'GET',
+        timeout: 3000 
+      });
+      return response.ok;
+    } catch (error) {
+      console.log('Backend not available, using local storage');
+      return false;
+    }
+  }
+
+  // User Registration - Backend API or Local
   async registerUser(userData) {
+    // Try backend first, fallback to local
+    try {
+      return await userServiceAPI.registerUser(userData);
+    } catch (error) {
+      console.log('Backend registration failed, using local:', error.message);
+      return await this.registerUserLocal(userData);
+    }
+  }
+
+  // Local registration fallback
+  async registerUserLocal(userData) {
     try {
       const { firstName, lastName, email, password, confirmPassword, city, newsletter } = userData
 
@@ -91,8 +122,19 @@ class UserService {
     }
   }
 
-  // User Login - using memberDatabase
+  // User Login - Backend API or Local
   async loginUser(loginData) {
+    // Try backend first, fallback to local
+    try {
+      return await userServiceAPI.loginUser(loginData);
+    } catch (error) {
+      console.log('Backend login failed, using local:', error.message);
+      return await this.loginUserLocal(loginData);
+    }
+  }
+
+  // Local login fallback
+  async loginUserLocal(loginData) {
     try {
       const { email, password } = loginData;
       
@@ -126,6 +168,14 @@ class UserService {
 
   // Logout
   logout() {
+    try {
+      // Try backend logout first
+      userServiceAPI.logout();
+    } catch (error) {
+      console.log('Backend logout failed:', error.message);
+    }
+    
+    // Always clear local session
     localStorage.removeItem(this.sessionKey)
     return {
       success: true,

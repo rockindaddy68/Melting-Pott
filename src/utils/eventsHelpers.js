@@ -2,11 +2,41 @@
 
 // Deutsche Datumsformatierung
 export const formatGermanDate = (dateString) => {
+  if (!dateString) return 'Datum unbekannt'
+  
   const date = new Date(dateString)
+  
+  // Prüfe ob das Datum gültig ist
+  if (isNaN(date.getTime())) {
+    console.warn('Ungültiges Datum:', dateString)
+    return 'Ungültiges Datum'
+  }
+  
   const options = { 
     year: 'numeric', 
     month: 'long', 
-    day: 'numeric' 
+    day: 'numeric',
+    timeZone: 'Europe/Berlin'
+  }
+  return date.toLocaleDateString('de-DE', options)
+}
+
+// Kurzes deutsches Datumsformat (DD.MM.YYYY)
+export const formatGermanDateShort = (dateString) => {
+  if (!dateString) return 'Datum unbekannt'
+  
+  const date = new Date(dateString)
+  
+  if (isNaN(date.getTime())) {
+    console.warn('Ungültiges Datum:', dateString)
+    return 'Ungültiges Datum'
+  }
+  
+  const options = { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit',
+    timeZone: 'Europe/Berlin'
   }
   return date.toLocaleDateString('de-DE', options)
 }
