@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useEvents } from '../hooks/useEvents'
+import { formatGermanDate } from '../utils/eventsHelpers'
 
 const Events = ({ selectedLanguage = 'DE' }) => {
   const [lang, setLang] = useState({})
@@ -135,13 +136,7 @@ const Events = ({ selectedLanguage = 'DE' }) => {
   // Verwende dynamische Events wenn verfügbar, ansonsten statische
   const events = dynamicEvents.length > 0 ? dynamicEvents : staticCities
 
-  const formatGermanDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('de-DE', { 
-      day: '2-digit', 
-      month: '2-digit'
-    })
-  }
+  // Verwende die importierte formatGermanDate Funktion
 
   if (loading) {
     return (

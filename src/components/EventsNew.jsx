@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import mockEventService from '../services/mockEventService'
+import { formatGermanDate } from '../utils/eventsHelpers'
 
 const Events = ({ selectedLanguage = 'DE' }) => {
   const [lang, setLang] = useState({})
@@ -135,13 +136,7 @@ const Events = ({ selectedLanguage = 'DE' }) => {
     setLang(translations[selectedLanguage] || translations.DE)
   }, [selectedLanguage])
 
-  const formatGermanDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('de-DE', { 
-      day: '2-digit', 
-      month: '2-digit'
-    })
-  }
+  // Verwende die importierte formatGermanDate Funktion
 
   const refresh = () => {
     fetchEvents()
