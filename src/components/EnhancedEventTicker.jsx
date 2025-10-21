@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { citiesData } from '../data/citiesData.js';
 import { formatGermanDate } from '../utils/eventsHelpers.js';
 import EventbriteService from '../services/eventbriteService.js';
+import realEventsService from '../services/realEventsService.js';
 
 const EnhancedEventTicker = () => {
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [dataSource, setDataSource] = useState('local');
+  const [dataSource, setDataSource] = useState('loading');
+  const [realEventsEnabled, setRealEventsEnabled] = useState(true);
 
   // Eventbrite Service initialisieren
   const eventbriteService = new EventbriteService();
@@ -36,41 +38,40 @@ const EnhancedEventTicker = () => {
     return allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
 
-  // Alle Events laden (lokale + Eventbrite)
+  // Alle Events laden (lokale + reale Events)
   const loadAllEvents = async () => {
     setIsLoading(true);
+    setDataSource('loading');
     
     try {
-      const localEvents = getLocalEvents();
-      let eventbriteEvents = [];
-      
-      try {
-        console.log('🔄 Lade Eventbrite Events...');
-        eventbriteEvents = await eventbriteService.fetchRuhrgebietEvents(15);
+      if (realEventsEnabled) {
+        console.log('🎯 Lade reale Events für Ticker...');
         
-        if (eventbriteEvents && eventbriteEvents.length > 0) {
-          console.log(`✅ Eventbrite: ${eventbriteEvents.length} Events geladen`);
-          setDataSource('mixed');
+        // Real Events Service verwenden
+        const realEvents = await realEventsService.getRealEventsForTicker(25);
+        
+        if (realEvents && realEvents.length > 0) {
+          console.log(`✅ Real Events: ${realEvents.length} Events geladen`);
+          setAllEvents(realEvents);
+          setDataSource('real-events');
+          return;
         } else {
-          console.log('📝 Keine Eventbrite Events erhalten - nur lokale Events');
-          setDataSource('local');
+          console.log('⚠️ Keine realen Events verfügbar - verwende lokale Events');
         }
-      } catch (error) {
-        console.error('❌ Fehler beim Laden von Eventbrite Events:', error);
-        console.log('⚠️ Eventbrite API nicht verfügbar - nur lokale Events');
-        setDataSource('local');
       }
       
-      const combinedEvents = [...localEvents, ...eventbriteEvents]
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .slice(0, 25);
-      
-      setAllEvents(combinedEvents);
-      setDataSource(eventbriteEvents.length > 0 ? 'mixed' : 'local');
+      // Fallback: Lokale Events
+      console.log('📝 Verwende lokale Events als Fallback');
+      const localEvents = getLocalEvents();
+      setAllEvents(localEvents);
+      setDataSource('local');
       
     } catch (error) {
       console.error('❌ Fehler beim Laden der Events:', error);
-      setAllEvents(getLocalEvents());
+      
+      // Notfall-Fallback
+      const localEvents = getLocalEvents();
+      setAllEvents(localEvents);
       setDataSource('local');
     } finally {
       setIsLoading(false);
@@ -163,6 +164,12 @@ const EnhancedEventTicker = () => {
             <div>
               <h2 className="text-2xl font-bold text-orange-400">LIVE EVENT-TICKER</h2>
               <div className="flex items-center space-x-2 mt-1">
+                {dataSource === 'real-events' && (
+                  <>
+                    <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-semibold">REAL EVENTS</span>
+                    <span className="text-green-400 text-sm">Live-Daten aus mehreren Quellen</span>
+                  </>
+                )}
                 {dataSource === 'mixed' && (
                   <>
                     <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LIVE</span>
@@ -172,11 +179,33 @@ const EnhancedEventTicker = () => {
                 {dataSource === 'local' && (
                   <span className="px-2 py-1 text-orange-400 text-xs rounded-full font-semibold">LOKAL</span>
                 )}
+                {dataSource === 'loading' && (
+                  <>
+                    <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full font-semibold animate-pulse">LADEN...</span>
+                    <span className="text-blue-400 text-sm">Events werden geladen</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
           
           <div className="flex items-center space-x-3 text-sm">
+            {/* Real Events Toggle */}
+            <button
+              onClick={() => {
+                setRealEventsEnabled(!realEventsEnabled);
+                setTimeout(() => loadAllEvents(), 100);
+              }}
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                realEventsEnabled
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-gray-600 text-white hover:bg-gray-700'
+              }`}
+              title={realEventsEnabled ? 'Real Events deaktivieren' : 'Real Events aktivieren'}
+            >
+              {realEventsEnabled ? '🟢 REAL' : '⚫ MOCK'}
+            </button>
+            
             <span className="opacity-75 text-gray-300">
               {currentEventIndex + 1} von {allEvents.length}
             </span>
@@ -218,9 +247,34 @@ const EnhancedEventTicker = () => {
                 </span>
 
                 {/* Datenquelle Badge */}
+                {currentEvent.source === 'eventbrite-api' && (
+                  <span className="px-2 py-1 bg-green-600 text-white text-xs rounded font-semibold">
+                    🟢 LIVE API
+                  </span>
+                )}
+                {currentEvent.source === 'eventbrite-mock' && (
+                  <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded font-semibold">
+                    📋 EVENTBRITE DEMO
+                  </span>
+                )}
+                {currentEvent.source === 'admin-backend' && (
+                  <span className="px-2 py-1 bg-purple-600 text-white text-xs rounded font-semibold">
+                    🎯 ADMIN EVENT
+                  </span>
+                )}
+                {currentEvent.source === 'mock-events' && (
+                  <span className="px-2 py-1 bg-orange-600 text-white text-xs rounded font-semibold">
+                    🎪 REAL MOCK
+                  </span>
+                )}
                 {currentEvent.source === 'eventbrite' && (
                   <span className="px-2 py-1 text-orange-400 text-xs rounded font-semibold">
                     🔴 LIVE
+                  </span>
+                )}
+                {currentEvent.source === 'local' && (
+                  <span className="px-2 py-1 bg-gray-600 text-white text-xs rounded font-semibold">
+                    📁 LOKALE DATEN
                   </span>
                 )}
               </div>

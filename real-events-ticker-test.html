@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Events Ticker Test</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Mock Real Events Service
+        class MockRealEventsService {
+            constructor() {
+                this.mockEvents = [
+                    {
+                        id: 'real_1',
+                        title: 'Jazz Night im Blue Note',
+                        subtitle: 'Live Jazz @ Blue Note Essen',
+                        date: '2025-10-25',
+                        time: '20:00',
+                        location: 'Blue Note Jazz Club',
+                        category: 'Musik',
+                        price: '15€',
+                        cityName: 'Essen',
+                        source: 'eventbrite-api',
+                        priority: 1,
+                        organizer: 'Ruhr Jazz Events'
+                    },
+                    {
+                        id: 'real_2',
+                        title: 'Digital Future Conference',
+                        subtitle: 'Innovation @ Dortmunder U',
+                        date: '2025-10-28',
+                        time: '09:00',
+                        location: 'Dortmunder U',
+                        category: 'Business',
+                        price: 'Kostenlos',
+                        cityName: 'Dortmund',
+                        source: 'admin-backend',
+                        priority: 1,
+                        organizer: 'Digital Ruhr e.V.'
+                    },
+                    {
+                        id: 'real_3',
+                        title: 'Streetfood Festival',
+                        subtitle: 'Kulinarische Weltreise @ Phoenix See',
+                        date: '2025-11-02',
+                        time: '12:00',
+                        location: 'Phoenix See',
+                        category: 'Festival',
+                        price: 'Kostenlos',
+                        cityName: 'Dortmund',
+                        source: 'eventbrite-mock',
+                        priority: 2,
+                        organizer: 'Dortmund Events'
+                    },
+                    {
+                        id: 'real_4',
+                        title: 'Herbstfest auf Zollverein',
+                        subtitle: 'Saisonale Feier @ UNESCO-Welterbe',
+                        date: '2025-10-31',
+                        time: '15:00',
+                        location: 'Zeche Zollverein',
+                        category: 'Familie',
+                        price: '8€',
+                        cityName: 'Essen',
+                        source: 'mock-events',
+                        priority: 3,
+                        organizer: 'Zollverein Events'
+                    },
+                    {
+                        id: 'real_5',
+                        title: 'Startup Pitch Night',
+                        subtitle: 'Innovation im Ruhrgebiet',
+                        date: '2025-11-15',
+                        time: '18:30',
+                        location: 'TechnologieZentrum Dortmund',
+                        category: 'Business',
+                        price: '5€',
+                        cityName: 'Dortmund',
+                        source: 'local',
+                        priority: 4,
+                        organizer: 'Ruhr Startup Hub'
+                    }
+                ];
+            }
+
+            async getRealEventsForTicker(limit = 20) {
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return this.mockEvents.slice(0, limit);
+            }
+        }
+
+        const RealEventsTicker = () => {
+            const [currentEventIndex, setCurrentEventIndex] = useState(0);
+            const [isVisible, setIsVisible] = useState(true);
+            const [allEvents, setAllEvents] = useState([]);
+            const [isLoading, setIsLoading] = useState(true);
+            const [dataSource, setDataSource] = useState('loading');
+
+            const realEventsService = new MockRealEventsService();
+
+            const loadRealEvents = async () => {
+                setIsLoading(true);
+                setDataSource('loading');
+                
+                try {
+                    console.log('🎯 Lade reale Events für Ticker...');
+                    const realEvents = await realEventsService.getRealEventsForTicker(10);
+                    
+                    if (realEvents && realEvents.length > 0) {
+                        console.log(`✅ Real Events: ${realEvents.length} Events geladen`);
+                        setAllEvents(realEvents);
+                        setDataSource('real-events');
+                    }
+                } catch (error) {
+                    console.error('❌ Fehler beim Laden der Events:', error);
+                    setDataSource('error');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                loadRealEvents();
+            }, []);
+
+            // Ticker Animation
+            useEffect(() => {
+                if (allEvents.length === 0) return;
+
+                const interval = setInterval(() => {
+                    setIsVisible(false);
+                    
+                    setTimeout(() => {
+                        setCurrentEventIndex(prev => 
+                            prev >= allEvents.length - 1 ? 0 : prev + 1
+                        );
+                        setIsVisible(true);
+                    }, 300);
+                }, 4000);
+
+                return () => clearInterval(interval);
+            }, [allEvents.length]);
+
+            const formatGermanDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('de-DE', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            };
+
+            const getEventCategory = (date) => {
+                const today = new Date();
+                const eventDate = new Date(date);
+                const diffTime = eventDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays <= 1) {
+                    return { 
+                        name: 'HEUTE/MORGEN', 
+                        emoji: '🔥', 
+                        bgColor: 'bg-red-600',
+                        color: 'bg-red-600 text-white',
+                        label: '🔥 HEUTE/MORGEN',
+                        pulse: true
+                    };
+                } else if (diffDays <= 7) {
+                    return { 
+                        name: 'DIESE WOCHE', 
+                        emoji: '⭐', 
+                        bgColor: 'bg-orange-600',
+                        color: 'bg-orange-600 text-white',
+                        label: '⭐ DIESE WOCHE',
+                        pulse: false
+                    };
+                } else {
+                    return { 
+                        name: 'DEMNÄCHST', 
+                        emoji: '📅', 
+                        bgColor: 'bg-blue-600',
+                        color: 'bg-blue-600 text-white',
+                        label: '📅 DEMNÄCHST',
+                        pulse: false
+                    };
+                }
+            };
+
+            if (isLoading) {
+                return (
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
+                            <div className="text-center">
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
+                                <p className="text-orange-400 text-lg">Lade reale Events...</p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (allEvents.length === 0) {
+                return (
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
+                            <div className="text-center">
+                                <p className="text-red-400 text-lg">❌ Keine Events verfügbar</p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const currentEvent = allEvents[currentEventIndex];
+            const category = getEventCategory(currentEvent.date);
+
+            return (
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                    <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center space-x-4">
+                                <div className="animate-pulse">
+                                    <span className="text-3xl">🎫</span>
+                                </div>
+                                <div>
+                                    <h2 className="text-2xl font-bold text-orange-400">REAL EVENTS TICKER</h2>
+                                    <div className="flex items-center space-x-2 mt-1">
+                                        <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-semibold">LIVE DEMO</span>
+                                        <span className="text-green-400 text-sm">Reale Events aus mehreren Quellen</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 text-sm">
+                                <button
+                                    onClick={loadRealEvents}
+                                    className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-700 transition-colors"
+                                >
+                                    🔄 Refresh
+                                </button>
+                                
+                                <span className="opacity-75 text-gray-300">
+                                    {currentEventIndex + 1} von {allEvents.length}
+                                </span>
+                                <div className="flex space-x-1">
+                                    {allEvents.slice(0, 5).map((_, index) => (
+                                        <div
+                                            key={index}
+                                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                                index === currentEventIndex ? 'bg-white' : 'bg-white/30'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Event Content */}
+                        <div 
+                            className={`transition-all duration-300 transform ${
+                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+                            }`}
+                        >
+                            <div className="flex items-start justify-between">
+                                {/* Event Info */}
+                                <div className="flex-1 space-y-4">
+                                    <div className="flex items-center space-x-4">
+                                        {/* Kategorie Badge */}
+                                        <span 
+                                            className={`px-4 py-2 rounded-full text-sm font-bold ${category.color} ${
+                                                category.pulse ? 'animate-pulse' : ''
+                                            } shadow-lg`}
+                                        >
+                                            {category.label}
+                                        </span>
+                                        
+                                        {/* Stadt */}
+                                        <span className="text-gray-300 font-semibold text-lg">
+                                            📍 {currentEvent.cityName}
+                                        </span>
+
+                                        {/* Source Badge */}
+                                        {currentEvent.source === 'eventbrite-api' && (
+                                            <span className="px-2 py-1 bg-green-600 text-white text-xs rounded font-semibold">
+                                                🟢 LIVE API
+                                            </span>
+                                        )}
+                                        {currentEvent.source === 'admin-backend' && (
+                                            <span className="px-2 py-1 bg-purple-600 text-white text-xs rounded font-semibold">
+                                                🎯 ADMIN
+                                            </span>
+                                        )}
+                                        {currentEvent.source === 'eventbrite-mock' && (
+                                            <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded font-semibold">
+                                                📋 DEMO
+                                            </span>
+                                        )}
+                                        {currentEvent.source === 'mock-events' && (
+                                            <span className="px-2 py-1 bg-orange-600 text-white text-xs rounded font-semibold">
+                                                🎪 MOCK
+                                            </span>
+                                        )}
+                                        {currentEvent.source === 'local' && (
+                                            <span className="px-2 py-1 bg-gray-600 text-white text-xs rounded font-semibold">
+                                                📁 LOKAL
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Event Titel */}
+                                    <h3 className="text-2xl font-bold mb-2 text-white leading-tight">
+                                        {currentEvent.title}
+                                    </h3>
+                                    
+                                    {/* Event Untertitel */}
+                                    <p className="text-gray-300 mb-4 text-lg leading-relaxed">
+                                        {currentEvent.subtitle}
+                                    </p>
+
+                                    {/* Event Details Grid */}
+                                    <div className="grid grid-cols-2 gap-4 text-base">
+                                        <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                                            <span className="text-xl">📅</span>
+                                            <div>
+                                                <span className="text-gray-400 text-sm block">Datum</span>
+                                                <span className="font-medium text-white">
+                                                    {formatGermanDate(currentEvent.date)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                                            <span className="text-xl">⏰</span>
+                                            <div>
+                                                <span className="text-gray-400 text-sm block">Uhrzeit</span>
+                                                <span className="text-white font-medium">{currentEvent.time}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                                            <span className="text-xl">📍</span>
+                                            <div>
+                                                <span className="text-gray-400 text-sm block">Ort</span>
+                                                <span className="text-white font-medium">{currentEvent.location}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center space-x-2 bg-gray-800/50 px-4 py-3 rounded-lg">
+                                            <span className="text-xl">🎫</span>
+                                            <div>
+                                                <span className="text-gray-400 text-sm block">Preis</span>
+                                                <span className="font-bold text-orange-400 text-lg">
+                                                    {currentEvent.price}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="min-h-screen py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-white mb-4">🎯 Real Events Ticker Demo</h1>
+                        <p className="text-gray-300 text-lg">Live-Events aus verschiedenen Datenquellen</p>
+                    </div>
+                    <RealEventsTicker />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import eventbriteAPI from '../services/eventbriteAPI.js';
 import eventSyncService from '../services/eventSyncService.js';
+import eventbriteAutoSync from '../services/eventbriteAutoSync.js';
 
 const EventbriteAdmin = () => {
   const [config, setConfig] = useState({
@@ -17,6 +18,15 @@ const EventbriteAdmin = () => {
     lastSync: null
   });
   
+  // Auto-Sync Status
+  const [autoSyncStatus, setAutoSyncStatus] = useState({
+    isRunning: false,
+    config: {},
+    stats: {},
+    lastSync: null,
+    nextSync: null
+  });
+  
   const [syncStats, setSyncStats] = useState(null);
   const [testResults, setTestResults] = useState(null);
   const [logs, setLogs] = useState([]);
@@ -24,6 +34,7 @@ const EventbriteAdmin = () => {
   useEffect(() => {
     loadConfig();
     loadStatus();
+    loadAutoSyncStatus();
     
     // Event Listener für Sync Updates
     const handleSyncEvent = (eventType, data) => {
@@ -41,10 +52,18 @@ const EventbriteAdmin = () => {
       }
     };
     
+    // Auto-Sync Event Listener
+    const handleAutoSyncEvent = (eventType, data) => {
+      addLog(`Auto-Sync ${eventType}: ${JSON.stringify(data)}`);
+      loadAutoSyncStatus();
+    };
+    
     eventSyncService.addEventListener(handleSyncEvent);
+    eventbriteAutoSync.addEventListener(handleAutoSyncEvent);
     
     return () => {
       eventSyncService.removeEventListener(handleSyncEvent);
+      eventbriteAutoSync.removeEventListener(handleAutoSyncEvent);
     };
   }, []);
 
@@ -70,6 +89,11 @@ const EventbriteAdmin = () => {
       syncing: syncStatus.isRunning,
       lastSync: syncStatus.lastSync
     });
+  };
+
+  const loadAutoSyncStatus = () => {
+    const autoStatus = eventbriteAutoSync.getStatus();
+    setAutoSyncStatus(autoStatus);
   };
 
   const addLog = (message) => {
@@ -138,6 +162,44 @@ const EventbriteAdmin = () => {
       addLog(`Auto-Sync gestartet (${config.syncFrequency} Minuten)`);
       setConfig(prev => ({ ...prev, syncEnabled: true }));
     }
+  };
+
+  // Neue Auto-Sync Funktionen
+  const startAutoSync = async () => {
+    try {
+      const result = await eventbriteAutoSync.start();
+      addLog(`🚀 ${result.message}`);
+      loadAutoSyncStatus();
+    } catch (error) {
+      addLog(`❌ Auto-Sync Start fehlgeschlagen: ${error.message}`);
+    }
+  };
+
+  const stopAutoSync = async () => {
+    try {
+      const result = await eventbriteAutoSync.stop();
+      addLog(`⏹️ ${result.message}`);
+      loadAutoSyncStatus();
+    } catch (error) {
+      addLog(`❌ Auto-Sync Stop fehlgeschlagen: ${error.message}`);
+    }
+  };
+
+  const triggerManualSync = async () => {
+    try {
+      addLog('🔄 Starte manuellen Sync...');
+      const result = await eventbriteAutoSync.triggerManualSync();
+      addLog(`✅ ${result.message}`);
+      loadAutoSyncStatus();
+    } catch (error) {
+      addLog(`❌ Manueller Sync fehlgeschlagen: ${error.message}`);
+    }
+  };
+
+  const updateAutoSyncConfig = (newConfig) => {
+    eventbriteAutoSync.updateConfig(newConfig);
+    addLog('Auto-Sync Konfiguration aktualisiert');
+    loadAutoSyncStatus();
   };
 
   const performManualSync = async () => {
@@ -264,7 +326,7 @@ const EventbriteAdmin = () => {
             </div>
             
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Auto-Sync</span>
+              <span className="text-sm font-medium text-gray-700">Legacy Auto-Sync</span>
               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                 config.syncEnabled 
                   ? 'bg-green-100 text-green-800' 
@@ -273,10 +335,39 @@ const EventbriteAdmin = () => {
                 {config.syncEnabled ? 'Aktiv' : 'Inaktiv'}
               </span>
             </div>
+
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">Eventbrite Auto-Sync</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                autoSyncStatus.isRunning 
+                  ? 'bg-green-100 text-green-800' 
+                  : 'bg-gray-100 text-gray-800'
+              }`}>
+                {autoSyncStatus.isRunning ? 'Läuft' : 'Gestoppt'}
+              </span>
+            </div>
+            
+            {autoSyncStatus.lastSync && (
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">Letzter Auto-Sync</span>
+                <span className="text-xs text-gray-600">
+                  {new Date(autoSyncStatus.lastSync).toLocaleString('de-DE')}
+                </span>
+              </div>
+            )}
+
+            {autoSyncStatus.nextSync && (
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">Nächster Auto-Sync</span>
+                <span className="text-xs text-gray-600">
+                  {new Date(autoSyncStatus.nextSync).toLocaleString('de-DE')}
+                </span>
+              </div>
+            )}
             
             {status.lastSync && (
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Letzter Sync</span>
+                <span className="text-sm font-medium text-gray-700">Letzter Legacy Sync</span>
                 <span className="text-xs text-gray-600">
                   {new Date(status.lastSync).toLocaleString('de-DE')}
                 </span>
@@ -284,8 +375,89 @@ const EventbriteAdmin = () => {
             )}
           </div>
 
+          {/* Auto-Sync Konfiguration */}
+          <div className="bg-blue-50 rounded-lg p-4 mb-4">
+            <h4 className="text-md font-semibold text-blue-900 mb-3">🚀 Eventbrite Auto-Sync</h4>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-blue-700">Auto-Sync aktivieren</label>
+                <button
+                  onClick={() => updateAutoSyncConfig({ 
+                    enabled: !autoSyncStatus.config.enabled 
+                  })}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                    autoSyncStatus.config.enabled
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                  }`}
+                >
+                  {autoSyncStatus.config.enabled ? 'EIN' : 'AUS'}
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-blue-700">Sync-Intervall</label>
+                <select
+                  value={autoSyncStatus.config.frequency || 15}
+                  onChange={(e) => updateAutoSyncConfig({ 
+                    frequency: parseInt(e.target.value) 
+                  })}
+                  className="px-2 py-1 text-xs border border-blue-300 rounded focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value={5}>5 min</option>
+                  <option value={15}>15 min</option>
+                  <option value={30}>30 min</option>
+                  <option value={60}>1 Std</option>
+                  <option value={120}>2 Std</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-blue-700">Auto-Start</label>
+                <button
+                  onClick={() => updateAutoSyncConfig({ 
+                    autoStart: !autoSyncStatus.config.autoStart 
+                  })}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                    autoSyncStatus.config.autoStart
+                      ? 'bg-orange-600 text-white hover:bg-orange-700'
+                      : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                  }`}
+                >
+                  {autoSyncStatus.config.autoStart ? 'EIN' : 'AUS'}
+                </button>
+              </div>
+            </div>
+
+            {/* Auto-Sync Statistiken */}
+            {autoSyncStatus.stats && Object.keys(autoSyncStatus.stats).length > 0 && (
+              <div className="mt-4 pt-3 border-t border-blue-200">
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-blue-600">Gesamt:</span>
+                    <span className="ml-1 font-medium">{autoSyncStatus.stats.totalSyncs || 0}</span>
+                  </div>
+                  <div>
+                    <span className="text-green-600">Erfolgreich:</span>
+                    <span className="ml-1 font-medium">{autoSyncStatus.stats.successfulSyncs || 0}</span>
+                  </div>
+                  <div>
+                    <span className="text-red-600">Fehler:</span>
+                    <span className="ml-1 font-medium">{autoSyncStatus.stats.failedSyncs || 0}</span>
+                  </div>
+                  <div>
+                    <span className="text-blue-600">Events:</span>
+                    <span className="ml-1 font-medium">{autoSyncStatus.stats.eventsAdded || 0} neu</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Synchronisation Steuerung */}
           <div className="space-y-3">
+            {/* Legacy Auto-Sync */}
             <button
               onClick={toggleAutoSync}
               disabled={!status.connected}
@@ -295,7 +467,47 @@ const EventbriteAdmin = () => {
                   : 'bg-green-600 text-white hover:bg-green-700'
               } ${!status.connected ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {config.syncEnabled ? 'Auto-Sync Stoppen' : 'Auto-Sync Starten'}
+              {config.syncEnabled ? 'Legacy Auto-Sync Stoppen' : 'Legacy Auto-Sync Starten'}
+            </button>
+
+            {/* Eventbrite Auto-Sync Controls */}
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={startAutoSync}
+                disabled={autoSyncStatus.isRunning}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  autoSyncStatus.isRunning
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                🚀 Auto-Sync Start
+              </button>
+
+              <button
+                onClick={stopAutoSync}
+                disabled={!autoSyncStatus.isRunning}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  !autoSyncStatus.isRunning
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-red-600 text-white hover:bg-red-700'
+                }`}
+              >
+                ⏹️ Auto-Sync Stop
+              </button>
+            </div>
+
+            {/* Manual Sync */}
+            <button
+              onClick={triggerManualSync}
+              disabled={autoSyncStatus.isRunning}
+              className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
+                autoSyncStatus.isRunning
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-orange-600 text-white hover:bg-orange-700'
+              }`}
+            >
+              🔄 Manueller Sync
             </button>
             
             <button
