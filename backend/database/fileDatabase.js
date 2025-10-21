@@ -91,6 +91,17 @@ class FileDatabase {
     return db.users.find(u => u._id === id && u.isActive);
   }
 
+  async getAllUsers() {
+    const db = this.loadDatabase();
+    if (!db) return [];
+    
+    // Return users without passwords
+    return db.users.map(user => {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    });
+  }
+
   async updateUser(id, updateData) {
     const db = this.loadDatabase();
     if (!db) throw new Error('Database not available');
@@ -224,6 +235,79 @@ class FileDatabase {
     if (!db) return [];
     
     return db.tickets.filter(t => t.userId === userId);
+  }
+
+  // Message Operations
+  async addMessage(messageData) {
+    const db = this.loadDatabase();
+    if (!db) throw new Error('Database not available');
+
+    const message = {
+      _id: this.generateId(),
+      name: messageData.name,
+      email: messageData.email,
+      message: messageData.message,
+      subject: messageData.subject || 'Kontaktformular',
+      createdAt: new Date().toISOString(),
+      isRead: false,
+      status: 'new'
+    };
+
+    if (!db.messages) {
+      db.messages = [];
+    }
+    
+    db.messages.push(message);
+    
+    if (this.saveDatabase(db)) {
+      return message;
+    } else {
+      throw new Error('Failed to save message');
+    }
+  }
+
+  async getAllMessages() {
+    const db = this.loadDatabase();
+    if (!db) return [];
+    
+    return db.messages || [];
+  }
+
+  async markMessageAsRead(messageId) {
+    const db = this.loadDatabase();
+    if (!db) throw new Error('Database not available');
+
+    const messageIndex = db.messages.findIndex(m => m._id === messageId);
+    if (messageIndex === -1) {
+      throw new Error('Message not found');
+    }
+
+    db.messages[messageIndex].isRead = true;
+    db.messages[messageIndex].readAt = new Date().toISOString();
+    
+    if (this.saveDatabase(db)) {
+      return db.messages[messageIndex];
+    } else {
+      throw new Error('Failed to update message');
+    }
+  }
+
+  async deleteMessage(messageId) {
+    const db = this.loadDatabase();
+    if (!db) throw new Error('Database not available');
+
+    const messageIndex = db.messages.findIndex(m => m._id === messageId);
+    if (messageIndex === -1) {
+      throw new Error('Message not found');
+    }
+
+    db.messages.splice(messageIndex, 1);
+    
+    if (this.saveDatabase(db)) {
+      return true;
+    } else {
+      throw new Error('Failed to delete message');
+    }
   }
 
   // Statistics

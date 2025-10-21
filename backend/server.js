@@ -48,6 +48,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/newsletter', require('./routes/newsletter'));
+app.use('/api/messages', require('./routes/messages'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

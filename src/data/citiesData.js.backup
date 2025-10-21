@@ -5,22 +5,22 @@ export const citiesData = [
     name: "Essen",
     events: [
       {
-        title: "Zollverein Lichtinstallation",
-        subtitle: "Nachtspektakel im UNESCO-Welterbe",
-        date: "2025-11-15",
-        time: "18:00-22:00",
+        title: "Zeche Zollverein UNESCO-Welterbe",
+        subtitle: "Dauerausstellung Industriekultur",
+        date: "permanent",
+        time: "10:00-18:00",
         location: "Zeche Zollverein",
-        category: "Event",
-        price: "15€"
+        category: "Museum",
+        price: "8€"
       },
       {
-        title: "Ruhr Museum Sonderschau",
-        subtitle: "Wandel der Arbeit - Interactive Multimedia Show",
-        date: "2025-11-08",
-        time: "19:00-21:00",
+        title: "Ruhr Museum",
+        subtitle: "Geschichte des Ruhrgebiets - Dauerausstellung",
+        date: "permanent",
+        time: "10:00-18:00",
         location: "Zeche Zollverein",
-        category: "Ausstellung",
-        price: "12€"
+        category: "Museum",
+        price: "8€"
       },
       {
         title: "Zollverein Design Festival",
@@ -48,22 +48,22 @@ export const citiesData = [
     name: "Dortmund",
     events: [
       {
-        title: "BVB Heimspiel vs. Bayern München",
-        subtitle: "Bundesliga Spitzenspiel im Signal Iduna Park",
-        date: "2025-11-23",
-        time: "15:30-17:30",
-        location: "Signal Iduna Park",
-        category: "Sport",
-        price: "45€"
+        title: "Deutsches Fußballmuseum",
+        subtitle: "Dauerausstellung zur deutschen Fußballgeschichte",
+        date: "permanent",
+        time: "10:00-18:00",
+        location: "Deutsches Fußballmuseum",
+        category: "Museum",
+        price: "17€"
       },
       {
-        title: "Dortmunder Weihnachtsmarkt",
-        subtitle: "Traditioneller Weihnachtsmarkt in der Innenstadt",
-        date: "2025-11-30",
-        time: "11:00-21:00",
-        location: "Hansaplatz Dortmund",
-        category: "Markt",
-        price: "Kostenlos"
+        title: "DASA Arbeitswelt Ausstellung",
+        subtitle: "Deutschlands größte Arbeitswelt-Ausstellung",
+        date: "permanent",
+        time: "09:00-17:00",
+        location: "DASA Dortmund",
+        category: "Museum",
+        price: "9€"
       }
     ],
     image: "/images/städte/essen/Rolltreppe Zollverein nacht.jpg"
@@ -123,27 +123,27 @@ export const citiesData = [
     name: "Bochum",
     events: [
       {
-        title: "Bergbau-Museum Sonderausstellung",
-        subtitle: "Kohle & Stahl - Multimediale Zeitreise",
-        date: "2025-10-25",
-        time: "19:00-21:00",
+        title: "Deutsches Bergbau-Museum",
+        subtitle: "Industriegeschichte hautnah erleben",
+        date: "permanent",
+        time: "10:00-17:00",
         location: "Bergbau-Museum Bochum",
-        category: "Ausstellung",
-        price: "18€"
+        category: "Museum",
+        price: "10€"
       },
       {
-        title: "Starlight Express Premiere",
-        subtitle: "Neue Inszenierung des weltberühmten Rollschuh-Musicals",
-        date: "2025-12-14",
-        time: "19:00-22:00",
+        title: "Starlight Express Musical",
+        subtitle: "Weltberühmtes Rollschuh-Musical",
+        date: "permanent",
+        time: "19:00",
         location: "Starlight Express Theater",
         category: "Musical",
-        price: "89€"
+        price: "85€"
       },
       {
         title: "Ruhr-Universität Open Campus",
         subtitle: "Wissenschaft zum Anfassen",
-        date: "2025-10-29",
+        date: "2025-09-19",
         time: "16:00",
         location: "RUB Campus",
         category: "Bildung",
@@ -152,7 +152,7 @@ export const citiesData = [
       {
         title: "Jahrhunderthalle - AnnenMayKantereit Konzert",
         subtitle: "Die Kölner Band live in der historischen Jahrhunderthalle",
-        date: "2025-11-01",
+        date: "2025-09-21",
         time: "20:00",
         location: "Jahrhunderthalle",
         category: "Konzert",
@@ -166,18 +166,18 @@ export const citiesData = [
     name: "Gelsenkirchen",
     events: [
       {
-        title: "Schalke 04 Heimspiel",
-        subtitle: "Bundesliga-Fußball in der Veltins-Arena",
-        date: "2025-11-07",
-        time: "15:30",
-        location: "Veltins-Arena Gelsenkirchen",
-        category: "Sport",
-        price: "35€"
+        title: "ZOOM Erlebniswelt",
+        subtitle: "Weltreise an einem Tag",
+        date: "2025-09-27",
+        time: "09:00",
+        location: "ZOOM Erlebniswelt Gelsenkirchen",
+        category: "Familie",
+        price: "24€"
       },
       {
         title: "Schalke Arena Tour",
         subtitle: "Veltins-Arena entdecken",
-        date: "2025-11-08",
+        date: "2025-09-28",
         time: "13:00",
         location: "Veltins-Arena",
         category: "Sport",
@@ -193,20 +193,20 @@ export const citiesData = [
       {
         title: "Gasometer Ausstellung",
         subtitle: "Das zerbrechliche Paradis",
-        date: "2025-11-04",
+        date: "2025-09-24",
         time: "11:00",
         location: "Gasometer Oberhausen",
         category: "Kunst",
         price: "15€"
       },
       {
-        title: "Herbstkonzert im Gasometer",
-        subtitle: "Konzert in einzigartiger Atmosphäre",
-        date: "2025-11-05",
-        time: "19:30",
-        location: "Gasometer Oberhausen",
-        category: "Musik",
-        price: "28€"
+        title: "CentrO Shopping & Kultur",
+        subtitle: "Einkaufen und Entertainment",
+        date: "2025-09-25",
+        time: "14:00",
+        location: "CentrO Oberhausen",
+        category: "Shopping",
+        price: "Kostenlos"
       }
     ],
     image: "/images/städte/oberhausen/Gasometer Oberhausen.jpg"
@@ -218,7 +218,7 @@ export const citiesData = [
       {
         title: "Tetraeder Aussichtsturm",
         subtitle: "360° Panorama über das Ruhrgebiet",
-        date: "2025-10-28",
+        date: "2025-09-18",
         time: "16:00",
         location: "Tetraeder Bottrop",
         category: "Aussicht",
@@ -227,7 +227,7 @@ export const citiesData = [
       {
         title: "Movie Park Germany",
         subtitle: "Filmpark mit Achterbahnen",
-        date: "2025-10-30",
+        date: "2025-09-20",
         time: "10:00",
         location: "Movie Park Germany",
         category: "Familie",
@@ -241,18 +241,18 @@ export const citiesData = [
     name: "Herten",
     events: [
       {
-        title: "Schloss Herten Konzert",
-        subtitle: "Klassikkonzert im historischen Wasserschloss",
-        date: "2025-12-15",
-        time: "19:00-21:00",
+        title: "Schloss Herten",
+        subtitle: "Wasserschloss im Schlosspark",
+        date: "2025-09-19",
+        time: "11:00",
         location: "Schloss Herten",
-        category: "Musik",
-        price: "25€"
+        category: "Kultur",
+        price: "7€"
       },
       {
         title: "Halde Hoheward Observatorium",
         subtitle: "Horizontalobservatorium und Obelisk",
-        date: "2025-10-27",
+        date: "2025-09-17",
         time: "13:30",
         location: "Halde Hoheward",
         category: "Wissenschaft",
@@ -266,31 +266,22 @@ export const citiesData = [
     name: "Moers",
     events: [
       {
-        title: "Moers Festival 2026",
-        subtitle: "Internationales Jazz & World Music Festival - Pfingsten",
-        date: "2026-05-24",
+        title: "Moers Festival",
+        subtitle: "Internationales Jazz & World Music Festival",
+        date: "2025-09-21",
         time: "20:00",
         location: "Moers Festivalbühne",
         category: "Musik",
-        price: "65€"
+        price: "30€"
       },
       {
         title: "Grafschafter Museum",
         subtitle: "Geschichte der Grafschaft Moers",
-        date: "2025-12-01",
+        date: "2025-09-23",
         time: "14:30",
         location: "Grafschafter Museum Moers",
         category: "Bildung",
         price: "5€"
-      },
-      {
-        title: "Weihnachtsmarkt Moers",
-        subtitle: "Gemütlicher Weihnachtsmarkt in der Altstadt",
-        date: "2025-11-29",
-        time: "16:00",
-        location: "Moers Altstadt",
-        category: "Familie",
-        price: "Kostenlos"
       }
     ],
     image: "/images/städte/moers/Geleucht.jpg"
@@ -300,22 +291,22 @@ export const citiesData = [
     name: "Mülheim an der Ruhr",
     events: [
       {
-        title: "Aquarius Winterfest",
-        subtitle: "Familienfest mit Wasserspielen und Workshops",
-        date: "2025-12-20",
-        time: "14:00-18:00",
+        title: "Aquarius Wassermuseum",
+        subtitle: "Industriekultur der Wasserwirtschaft",
+        date: "2025-09-16",
+        time: "10:30",
         location: "Aquarius Wassermuseum",
-        category: "Familie",
-        price: "12€"
+        category: "Bildung",
+        price: "6€"
       },
       {
-        title: "Ruhrfestspiele Mülheim",
-        subtitle: "Theaterfestival mit Gastspiel",
-        date: "2025-11-05",
-        time: "19:30",
-        location: "Theater an der Ruhr",
-        category: "Theater",
-        price: "22€"
+        title: "Camera Obscura",
+        subtitle: "Weltweit höchste begehbare Kamera",
+        date: "2025-09-25",
+        time: "15:30",
+        location: "Camera Obscura Mülheim",
+        category: "Wissenschaft",
+        price: "3€"
       }
     ],
     image: "/images/städte/mülheim-an-der-ruhr/AquariusMH.jpg"
@@ -327,20 +318,20 @@ export const citiesData = [
       {
         title: "LWL-Industriemuseum Henrichshütte",
         subtitle: "Hochofenanlage und Industriegeschichte",
-        date: "2025-11-02",
+        date: "2025-09-22",
         time: "12:00",
         location: "Henrichshütte Hattingen",
         category: "Bildung",
         price: "8€"
       },
       {
-        title: "Hattinger Kulturnacht",
-        subtitle: "Kunst und Kultur in historischer Kulisse",
-        date: "2025-11-04",
-        time: "19:00",
+        title: "Altstadt Hattingen",
+        subtitle: "Mittelalterliche Fachwerkarchitektur",
+        date: "2025-09-24",
+        time: "15:00",
         location: "Hattinger Altstadt",
         category: "Kultur",
-        price: "12€"
+        price: "Kostenlos"
       }
     ],
     image: "/images/städte/hattingen/GasseHattingen.jpg"
@@ -352,7 +343,7 @@ export const citiesData = [
       {
         title: "Ruhrfestspiele",
         subtitle: "Europas größtes Theaterfestival",
-        date: "2025-11-06",
+        date: "2025-09-26",
         time: "19:00",
         location: "Festspielhaus Recklinghausen",
         category: "Theater",
@@ -361,7 +352,7 @@ export const citiesData = [
       {
         title: "Ikonen-Museum",
         subtitle: "Ostkirchliche Kunst",
-        date: "2025-11-07",
+        date: "2025-09-27",
         time: "14:00",
         location: "Ikonen-Museum Recklinghausen",
         category: "Kunst",
@@ -377,7 +368,7 @@ export const citiesData = [
       {
         title: "Witten Jazz Festival - Herbstedition",
         subtitle: "Internationale Jazz-Künstler live",
-        date: "2025-11-08",
+        date: "2025-09-28",
         time: "19:30",
         location: "Saalbau Witten",
         category: "Musik",
@@ -386,10 +377,10 @@ export const citiesData = [
       {
         title: "Zeche Nachtigall",
         subtitle: "LWL-Industriemuseum",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-18:00",
         location: "Zeche Nachtigall",
-        category: "Event",
+        category: "Museum",
         price: "4€"
       }
     ],
@@ -402,7 +393,7 @@ export const citiesData = [
       {
         title: "Flottmann-Hallen Kunstausstellung",
         subtitle: "Moderne Kunstausstellung in historischen Hallen",
-        date: "2025-11-09",
+        date: "2025-09-29",
         time: "15:00",
         location: "Flottmann-Hallen",
         category: "Kunst",
@@ -411,10 +402,10 @@ export const citiesData = [
       {
         title: "Zeche Hannover",
         subtitle: "LWL-Industriemuseum mit Malakow-Turm",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-18:00",
         location: "Zeche Hannover",
-        category: "Event",
+        category: "Museum",
         price: "4€"
       }
     ],
@@ -427,7 +418,7 @@ export const citiesData = [
       {
         title: "Europaplatz Open-Air Konzert",
         subtitle: "Kostenlose Konzerte für alle",
-        date: "2025-11-10",
+        date: "2025-09-30",
         time: "18:00",
         location: "Europaplatz",
         category: "Musik",
@@ -436,7 +427,7 @@ export const citiesData = [
       {
         title: "Zeche Erin",
         subtitle: "Bergbaukultur und Veranstaltungen",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-17:00",
         location: "Zeche Erin",
         category: "Kultur",
@@ -452,7 +443,7 @@ export const citiesData = [
       {
         title: "Hagen Open Air Festival - Rock & Pop",
         subtitle: "Rock und Pop unter freiem Himmel",
-        date: "2025-11-04",
+        date: "2025-09-24",
         time: "17:00",
         location: "Freilichtbühne Hagen",
         category: "Musik",
@@ -461,10 +452,10 @@ export const citiesData = [
       {
         title: "Osthaus Museum",
         subtitle: "Kunst des 20. und 21. Jahrhunderts",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-18:00",
         location: "Osthaus Museum",
-        category: "Event",
+        category: "Museum",
         price: "8€"
       }
     ],
@@ -486,7 +477,7 @@ export const citiesData = [
       {
         title: "Haus Wittringen",
         subtitle: "Wasserschloss mit Kulturveranstaltungen",
-        date: "2025-12-01",
+        date: "permanent",
         time: "14:00-17:00",
         location: "Haus Wittringen",
         category: "Kultur",
@@ -511,7 +502,7 @@ export const citiesData = [
       {
         title: "Grimme-Institut",
         subtitle: "Zentrum für Medienkultur",
-        date: "2025-12-01",
+        date: "permanent",
         time: "09:00-17:00",
         location: "Grimme-Institut",
         category: "Bildung",
@@ -527,20 +518,20 @@ export const citiesData = [
       {
         title: "Jüdisches Museum Westfalen",
         subtitle: "Geschichte des Judentums in Westfalen",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-17:00",
         location: "Jüdisches Museum",
-        category: "Event",
+        category: "Museum",
         price: "5€"
       },
       {
-        title: "Schloss Lembeck Weihnachtsmarkt",
-        subtitle: "Romantischer Weihnachtsmarkt im Wasserschloss",
-        date: "2025-12-07",
-        time: "16:00-21:00",
+        title: "Schloss Lembeck",
+        subtitle: "Wasserschloss mit Parkanlage",
+        date: "permanent",
+        time: "10:00-18:00",
         location: "Schloss Lembeck",
-        category: "Markt",
-        price: "5€"
+        category: "Kultur",
+        price: "8€"
       }
     ],
     image: "/images/städte/dorsten/SchlossLembeck.jpg"
@@ -552,10 +543,10 @@ export const citiesData = [
       {
         title: "Schiffshebewerk Henrichenburg",
         subtitle: "LWL-Industriemuseum Schifffahrt",
-        date: "2025-12-01",
+        date: "permanent",
         time: "10:00-18:00",
         location: "Schiffshebewerk",
-        category: "Event",
+        category: "Museum",
         price: "4€"
       },
       {
@@ -573,4 +564,3 @@ export const citiesData = [
 ]
 
 export default citiesData
-

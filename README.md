@@ -7,6 +7,26 @@
 
 > Eine moderne, vollständige Event-Plattform für das Ruhrgebiet mit React Frontend, Node.js Backend und intelligenter Datenbank-Integration.
 
+## 📸 Screenshots
+
+### Desktop Ansicht
+![Ruhrpott Events - Desktop](./screenshots/desktop-overview.png)
+*Hauptseite mit Event-Übersicht aller Ruhrgebiet-Städte*
+
+### Mobile Ansicht
+![Ruhrpott Events - Mobile](./screenshots/mobile-responsive.png)
+*Responsive Design optimiert für alle Geräte*
+
+### Event-Details
+![Event-Details](./screenshots/event-details.png)
+*Detailansicht mit Datumsformatierung und Event-Informationen*
+
+### Admin Dashboard
+![Admin Dashboard](./screenshots/admin-dashboard.png)
+*Benutzer- und Event-Management Interface*
+
+---
+
 ## ✨ Features
 
 ### 🚀 **No-Code / Low-Code Ansatz**
@@ -78,6 +98,73 @@ cd Ruhrpott
 
 # Frontend Dependencies installieren
 npm install
+
+# Backend Dependencies installieren
+cd backend
+npm install
+
+# Backend starten (Terminal 1) - PowerShell
+cd backend
+npm start
+# oder für Development mit Auto-Restart:
+npm run dev
+
+# Frontend starten (Terminal 2) 
+cd ..
+npm run dev
+```
+
+### PowerShell Start-Befehle (Windows)
+```powershell
+# Backend starten
+cd backend
+node server.js
+
+# Backend im Hintergrund (PowerShell)
+Start-Process -NoNewWindow -FilePath node -ArgumentList 'server.js'
+
+# Backend Status prüfen
+Invoke-RestMethod -Uri "http://localhost:5000/" -Method GET
+
+# API testen
+Invoke-RestMethod -Uri "http://localhost:5000/api/users" -Method GET
+```
+
+### 🔧 Troubleshooting
+
+#### Backend startet nicht
+```powershell
+# Node-Prozesse prüfen
+Get-Process -Name node -ErrorAction SilentlyContinue
+
+# Port 5000 prüfen
+netstat -ano | findstr :5000
+
+# Alle Node-Prozesse beenden
+taskkill /F /IM node.exe
+
+# Neu starten im richtigen Verzeichnis
+cd backend
+node server.js
+```
+
+#### Häufige Probleme
+- **OneDrive Sync**: Kann Node-Module-Installation stören → OneDrive für Projektordner pausieren
+- **Antivirus**: Kann Node-Prozesse blockieren → Projektordner zur Whitelist hinzufügen  
+- **PowerShell Execution Policy**: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+- **Port 5000 belegt**: `netstat -ano | findstr :5000` und Prozess mit `taskkill /F /PID <PID>` beenden
+
+#### Backend-Logs prüfen
+```powershell
+# Server-Start überwachen
+cd backend
+node server.js
+# Erwartete Ausgabe:
+# ✅ File Database initialized  
+# 🚀 Ruhrpott Backend running on port 5000
+# 📍 Environment: development
+# 💾 Using File Database: Ready
+```
 
 # Backend Dependencies installieren
 cd backend

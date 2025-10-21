@@ -5,6 +5,24 @@ const database = require('../database/fileDatabase');
 
 const router = express.Router();
 
+// Get All Users (for admin)
+router.get('/', async (req, res) => {
+  try {
+    const users = await database.getAllUsers();
+    res.json({
+      success: true,
+      users: users,
+      count: users.length
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching users'
+    });
+  }
+});
+
 // Register User
 router.post('/register', async (req, res) => {
   try {

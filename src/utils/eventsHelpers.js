@@ -4,6 +4,11 @@
 export const formatGermanDate = (dateString) => {
   if (!dateString) return 'Datum unbekannt'
   
+  // Spezielle Behandlung für permanente Attraktionen
+  if (dateString === 'permanent') {
+    return 'Dauerausstellung und wechselnde Ausstellungen'
+  }
+  
   const date = new Date(dateString)
   
   // Prüfe ob das Datum gültig ist

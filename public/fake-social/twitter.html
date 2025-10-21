@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X (Twitter)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #000;
+            color: #e7e9ea;
+            min-height: 100vh;
+        }
+        
+        .twitter-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #000;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #2f3336;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .back-arrow {
+            color: #e7e9ea;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .back-arrow:hover {
+            background: #1d1f23;
+        }
+        
+        .x-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e7e9ea;
+        }
+        
+        .tweet-container {
+            border-bottom: 1px solid #2f3336;
+            padding: 16px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        
+        .tweet-container:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .tweet-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .tweet-info {
+            flex: 1;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .username {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        .handle {
+            color: #71767b;
+            font-size: 15px;
+        }
+        
+        .verified {
+            color: #1d9bf0;
+            font-size: 16px;
+        }
+        
+        .tweet-time {
+            color: #71767b;
+            font-size: 15px;
+        }
+        
+        .tweet-content {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        
+        .hashtag {
+            color: #1d9bf0;
+        }
+        
+        .event-card {
+            border: 1px solid #2f3336;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #16181c;
+            margin-top: 12px;
+        }
+        
+        .event-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+        }
+        
+        .event-details {
+            padding: 16px;
+        }
+        
+        .event-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #e7e9ea;
+        }
+        
+        .event-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 14px;
+            color: #71767b;
+        }
+        
+        .event-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .event-meta {
+            color: #71767b;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .tweet-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            max-width: 425px;
+        }
+        
+        .action-button {
+            background: none;
+            border: none;
+            color: #71767b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        
+        .action-button:hover {
+            background: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+        
+        .reply-button:hover {
+            background: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+        
+        .retweet-button:hover {
+            background: rgba(0, 186, 124, 0.1);
+            color: #00ba7c;
+        }
+        
+        .like-button:hover {
+            background: rgba(249, 24, 128, 0.1);
+            color: #f91880;
+        }
+        
+        .share-button:hover {
+            background: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+        
+        .trending-section {
+            padding: 16px;
+            background: #16181c;
+            margin: 16px;
+            border-radius: 16px;
+        }
+        
+        .trending-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        
+        .trending-item {
+            padding: 8px 0;
+            color: #71767b;
+            font-size: 13px;
+        }
+        
+        .trending-topic {
+            color: #e7e9ea;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        @keyframes tweetAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tweet-container {
+            animation: tweetAppear 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="twitter-container">
+        <div class="header">
+            <div class="back-arrow" onclick="window.close()">←</div>
+            <div class="x-logo">𝕏</div>
+        </div>
+        
+        <div class="tweet-container">
+            <div class="tweet-header">
+                <div class="avatar">MP</div>
+                <div class="tweet-info">
+                    <div class="user-info">
+                        <span class="username">Melting Pott Events</span>
+                        <span class="verified">✓</span>
+                        <span class="handle">@meltingpottevents</span>
+                        <span class="tweet-time">·</span>
+                        <span class="tweet-time" id="tweet-time">2 Min</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tweet-content">
+                🎭 Das <span class="hashtag">#Ruhrgebiet</span> hat so viel zu bieten! Entdecke die einzigartige Mischung aus Industriekultur und modernen Events. 
+                <br><br>
+                Ein Erlebnis, das Geschichte und Gegenwart perfekt verbindet ⚡
+                <br><br>
+                <span class="hashtag">#MeltingPott</span> <span class="hashtag">#RuhrgebietEvents</span> <span class="hashtag">#Industriekultur</span> <span class="hashtag">#UNESCO</span> <span class="hashtag">#NRW</span> <span class="hashtag">#EventTipp</span>
+                
+                <div class="event-card">
+                    <div class="event-image">🏭</div>
+                    <div class="event-details">
+                        <div class="event-title" id="event-title">Zeche Zollverein UNESCO-Welterbe</div>
+                        <div class="event-info">
+                            <div class="event-info-item">
+                                <span>📅</span>
+                                <span id="event-date">Dauerausstellung und wechselnde Ausstellungen</span>
+                            </div>
+                            <div class="event-info-item">
+                                <span>📍</span>
+                                <span id="event-location">Zeche Zollverein, Essen</span>
+                            </div>
+                            <div class="event-info-item">
+                                <span>🎫</span>
+                                <span id="event-price">8€</span>
+                            </div>
+                        </div>
+                        <div class="event-meta">melting-pott-events.de</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tweet-actions">
+                <button class="action-button reply-button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01z"/>
+                    </svg>
+                    <span id="reply-count">42</span>
+                </button>
+                
+                <button class="action-button retweet-button" onclick="this.querySelector('span').textContent = parseInt(this.querySelector('span').textContent) + 1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.791-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.791 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"/>
+                    </svg>
+                    <span>128</span>
+                </button>
+                
+                <button class="action-button like-button" onclick="this.style.color='#f91880'; this.querySelector('span').textContent = parseInt(this.querySelector('span').textContent) + 1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91z"/>
+                    </svg>
+                    <span>1.2K</span>
+                </button>
+                
+                <button class="action-button share-button" onclick="alert('Tweet-Link kopiert! 🔗')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="trending-section">
+            <div class="trending-title">Trend in Deutschland</div>
+            <div class="trending-item">
+                <div style="font-size: 13px; color: #71767b;">Trend in Nordrhein-Westfalen</div>
+                <div class="trending-topic">#RuhrgebietEvents</div>
+                <div style="font-size: 13px; color: #71767b;">8.456 Posts</div>
+            </div>
+            <div class="trending-item">
+                <div style="font-size: 13px; color: #71767b;">Trend in Deutschland</div>
+                <div class="trending-topic">#Industriekultur</div>
+                <div style="font-size: 13px; color: #71767b;">3.742 Posts</div>
+            </div>
+            <div class="trending-item">
+                <div style="font-size: 13px; color: #71767b;">Trend in Essen</div>
+                <div class="trending-topic">#Zollverein</div>
+                <div style="font-size: 13px; color: #71767b;">1.923 Posts</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Event-Details aus URL Parameter extrahieren
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventTitle = urlParams.get('event') || 'Zeche Zollverein UNESCO-Welterbe';
+        
+        document.getElementById('event-title').textContent = eventTitle;
+        
+        // Zufällige Interaktionszahlen generieren
+        function randomizeNumbers() {
+            const replyCount = Math.floor(Math.random() * 100) + 20;
+            const retweetCount = Math.floor(Math.random() * 200) + 50;
+            const likeCount = Math.floor(Math.random() * 2000) + 500;
+            
+            document.getElementById('reply-count').textContent = replyCount;
+            document.querySelector('.retweet-button span').textContent = retweetCount;
+            document.querySelector('.like-button span').textContent = likeCount > 1000 ? (likeCount/1000).toFixed(1) + 'K' : likeCount;
+        }
+        
+        randomizeNumbers();
+        
+        // Alle 5 Sekunden die Zahlen leicht ändern (simuliert Live-Updates)
+        setInterval(() => {
+            const likeButton = document.querySelector('.like-button span');
+            const currentLikes = parseInt(likeButton.textContent.replace('K', '').replace('.', '')) || 0;
+            likeButton.textContent = currentLikes + Math.floor(Math.random() * 3);
+        }, 5000);
+    </script>
+</body>
+</html>

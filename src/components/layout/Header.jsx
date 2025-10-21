@@ -1,43 +1,64 @@
+// === MELTING POTT - HEADER/NAVIGATIONSLEISTE ===
+// Diese Komponente stellt die obere Navigationsleiste der Website dar
+// Funktionen: Navigation, Sprachauswahl, Benutzer-Authentifizierung
+
 import React, { useState, useEffect } from 'react'
-import { AuthModal, MemberDashboard } from '../auth'
-import userService from '../../services/userService'
+import { AuthModal, MemberDashboard } from '../auth' // Anmelde-Modal und Benutzer-Dashboard
+import userService from '../../services/userService'  // Service für Benutzerverwaltung
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
+  // === STATE MANAGEMENT FÜR HEADER ===
+  
+  // Anmelde-Modal ein/ausblenden
   const [showAuthModal, setShowAuthModal] = useState(false)
+  
+  // Benutzer-Dashboard ein/ausblenden (nach erfolgreichem Login)
   const [showMemberDashboard, setShowMemberDashboard] = useState(false)
+  
+  // Aktuell angemeldeter Benutzer (null = nicht angemeldet)
   const [currentUser, setCurrentUser] = useState(null)
+  
+  // Anmelde-Modus: 'login' oder 'register'
   const [authMode, setAuthMode] = useState('login')
 
+  // === INITIALISIERUNG: PRÜFE OB BENUTZER BEREITS ANGEMELDET ===
   useEffect(() => {
-    // Check for existing session on component mount
+    // Beim Laden der Komponente prüfen ob eine aktive Session existiert
     const user = userService.getCurrentUser()
-    setCurrentUser(user)
-  }, [])
+    setCurrentUser(user) // Benutzer-State aktualisieren
+  }, []) // Nur einmal beim ersten Rendern ausführen
 
+  // === EVENT-HANDLER FÜR BENUTZER-AUTHENTIFIZIERUNG ===
+  
+  // Wird nach erfolgreichem Login/Registrierung ausgeführt
   const handleAuthSuccess = (user) => {
-    setCurrentUser(user)
-    setShowAuthModal(false)
-    // Optionally show a welcome message or redirect
+    setCurrentUser(user)      // Benutzer im State speichern
+    setShowAuthModal(false)   // Anmelde-Modal schließen
+    // Optional: Willkommensnachricht oder Weiterleitung
   }
 
+  // Benutzer abmelden
   const handleLogout = () => {
-    userService.logout()
-    setCurrentUser(null)
-    setShowMemberDashboard(false)
+    userService.logout()         // Session im userService beenden
+    setCurrentUser(null)         // Benutzer-State zurücksetzen
+    setShowMemberDashboard(false) // Dashboard schließen
   }
 
+  // Anmelde-Modal öffnen (Login oder Registrierung)
   const openAuthModal = (mode = 'login') => {
-    setAuthMode(mode)
-    setShowAuthModal(true)
+    setAuthMode(mode)        // Modus setzen: 'login' oder 'register'
+    setShowAuthModal(true)   // Modal anzeigen
   }
 
+  // === SPRACHKONFIGURATION ===
+  // Verfügbare Sprachen für die Website (Ruhrgebiet = multikulturell!)
   const languages = [
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'EN', name: 'English', flag: '🇬🇧' },
-    { code: 'TR', name: 'Türkçe', flag: '🇹🇷' },
-    { code: 'PL', name: 'Polski', flag: '🇵🇱' },
-    { code: 'RU', name: 'Русский', flag: '🇷🇺' },
-    { code: 'AR', name: 'العربية', flag: '🇸🇦' },
+    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },   // Deutsche Hauptsprache
+    { code: 'EN', name: 'English', flag: '🇬🇧' },  // Englisch für internationale Besucher
+    { code: 'TR', name: 'Türkçe', flag: '🇹🇷' },   // Türkisch (große Community im Ruhrgebiet)
+    { code: 'PL', name: 'Polski', flag: '🇵🇱' },   // Polnisch (viele polnische Familien)
+    { code: 'RU', name: 'Русский', flag: '🇷🇺' },  // Russisch (russischsprachige Community)
+    { code: 'AR', name: 'العربية', flag: '🇸🇦' },   // Arabisch (wachsende arabische Community)
   ]
 
   const translations = {

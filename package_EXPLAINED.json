@@ -1,0 +1,55 @@
+{
+  // === MELTING POTT - PROJEKT KONFIGURATION ===
+  // Diese package.json definiert alle Dependencies und Scripts für das Projekt
+  
+  // === PROJEKT-METADATEN ===
+  "name": "derruhrpott",           // Projekt-Name (URL-freundlich, kleingeschrieben)
+  "private": true,                 // Verhindert versehentliche Veröffentlichung auf npm
+  "version": "0.0.0",             // Aktuelle Version (Semantic Versioning: major.minor.patch)
+  "type": "module",               // Verwendet ES6 Module statt CommonJS (import/export statt require)
+  
+  // === ENTWICKLUNGS-SCRIPTS ===
+  // Diese Befehle können mit "npm run [script-name]" ausgeführt werden
+  "scripts": {
+    "dev": "vite",                // Startet Development Server auf http://localhost:5173
+    "build": "vite build",        // Erstellt optimierten Production Build im dist/ Ordner
+    "lint": "eslint .",          // Prüft Code-Qualität und Style-Guidelines
+    "preview": "vite preview"     // Testet den Production Build lokal
+  },
+  
+  // === PRODUCTION DEPENDENCIES ===
+  // Diese Pakete sind für das Funktionieren der App in Production notwendig
+  "dependencies": {
+    "react": "^19.1.1",          // React Core Library (neueste Version mit Concurrent Features)
+    "react-dom": "^19.1.1"       // React DOM Renderer für Browser-Integration
+  },
+  
+  // === DEVELOPMENT DEPENDENCIES ===
+  // Diese Pakete werden nur während der Entwicklung benötigt
+  "devDependencies": {
+    // === LINTING & CODE-QUALITÄT ===
+    "@eslint/js": "^9.33.0",                    // ESLint JavaScript Regeln
+    "eslint": "^9.33.0",                        // Code-Linter für konsistenten Stil
+    "eslint-plugin-react-hooks": "^5.2.0",     // React Hooks spezifische Regeln
+    "eslint-plugin-react-refresh": "^0.4.20",  // Hot Reload Optimierungen
+    "globals": "^16.3.0",                      // Globale Variable Definitionen
+    
+    // === REACT ENTWICKLUNG ===
+    "@types/react": "^19.1.10",        // TypeScript Typen für React (für bessere IDE-Unterstützung)
+    "@types/react-dom": "^19.1.7",     // TypeScript Typen für React DOM
+    "@vitejs/plugin-react": "^5.0.0",  // Vite Plugin für React Hot Reload und JSX
+    
+    // === STYLING & CSS ===
+    "autoprefixer": "^10.4.21",  // Fügt automatisch Browser-Prefixe zu CSS hinzu
+    "postcss": "^8.5.6",         // CSS-Postprozessor für Transformationen
+    "tailwindcss": "^3.4.17",    // Utility-first CSS Framework für schnelles Styling
+    
+    // === BUILD TOOL ===
+    "vite": "^7.1.2"             // Ultraschneller Build Tool und Development Server
+  }
+  
+  // === VERSIONS-ERKLÄRUNG ===
+  // ^ Symbol: Akzeptiert Minor und Patch Updates (z.B. ^19.1.1 akzeptiert 19.x.x aber nicht 20.0.0)
+  // ~ Symbol: Akzeptiert nur Patch Updates (z.B. ~19.1.1 akzeptiert 19.1.x aber nicht 19.2.0)
+  // Keine Symbole: Exakte Version erforderlich
+}

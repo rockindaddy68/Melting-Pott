@@ -1,4 +1,9 @@
+import { useState } from 'react';
+
 const ContactSection = ({ selectedLanguage }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('');
+
   const content = {
     DE: {
       title: "Kontakt",
@@ -19,7 +24,7 @@ const ContactSection = ({ selectedLanguage }) => {
       },
       eventbrite: {
         title: "Event Management",
-        description: "Organisieren Sie Ihre eigenen Events über unsere Eventbrite-Integration:",
+        description: "Erstellen Sie Ihre eigenen Events über unser Verwaltungssystem:",
         button: "Event erstellen"
       }
     },
@@ -42,7 +47,7 @@ const ContactSection = ({ selectedLanguage }) => {
       },
       eventbrite: {
         title: "Event Management",
-        description: "Organize your own events through our Eventbrite integration:",
+        description: "Create your own events through our management system:",
         button: "Create Event"
       }
     },
@@ -65,7 +70,7 @@ const ContactSection = ({ selectedLanguage }) => {
       },
       eventbrite: {
         title: "Etkinlik Yönetimi",
-        description: "Eventbrite entegrasyonumuz üzerinden kendi etkinliklerinizi düzenleyin:",
+        description: "Yönetim sistemimiz üzerinden kendi etkinliklerinizi oluşturun:",
         button: "Etkinlik Oluştur"
       }
     }
@@ -73,10 +78,87 @@ const ContactSection = ({ selectedLanguage }) => {
 
   const t = content[selectedLanguage] || content.DE;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Hier würde normalerweise das Formular verarbeitet werden
-    alert(`${selectedLanguage === 'DE' ? 'Nachricht gesendet!' : selectedLanguage === 'EN' ? 'Message sent!' : 'Mesaj gönderildi!'}`);
+    setIsSubmitting(true);
+    setSubmitStatus('');
+
+    const formData = new FormData(e.target);
+    const messageData = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message')
+    };
+
+    try {
+      // Versuche Backend-API
+      const response = await fetch('http://localhost:5000/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messageData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setSubmitStatus('success');
+        e.target.reset();
+        
+        const successMessages = {
+          DE: 'Nachricht erfolgreich gesendet! Vielen Dank für Ihre Kontaktaufnahme.',
+          EN: 'Message sent successfully! Thank you for contacting us.',
+          TR: 'Mesaj başarıyla gönderildi! Bizimle iletişime geçtiğiniz için teşekkürler.'
+        };
+        alert(successMessages[selectedLanguage] || successMessages.DE);
+      } else {
+        throw new Error('Backend response error');
+      }
+    } catch (error) {
+      console.warn('Backend not available, using fallback:', error);
+      
+      // Fallback: Speichere in localStorage
+      const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+      const newMessage = {
+        id: Date.now(),
+        ...messageData,
+        createdAt: new Date().toISOString(),
+        isRead: false,
+        status: 'new'
+      };
+      messages.push(newMessage);
+      localStorage.setItem('contactMessages', JSON.stringify(messages));
+      
+      setSubmitStatus('success');
+      e.target.reset();
+      
+      const fallbackMessages = {
+        DE: 'Nachricht gespeichert! (Offline-Modus) - Wir werden uns bald bei Ihnen melden.',
+        EN: 'Message saved! (Offline mode) - We will get back to you soon.',
+        TR: 'Mesaj kaydedildi! (Çevrimdışı mod) - Yakında size döneceğiz.'
+      };
+      alert(fallbackMessages[selectedLanguage] || fallbackMessages.DE);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // === ADMIN-WARNUNG FÜR EVENT-ERSTELLUNG ===
+  const handleEventCreate = (e) => {
+    e.preventDefault();
+    
+    const messages = {
+      DE: 'Diese Funktion ist ausschließlich Admins der Seite vorbehalten.\n\nUm Events zu erstellen, benötigen Sie Admin-Rechte.\n\nKontaktieren Sie den Administrator für weitere Informationen.',
+      EN: 'This function is exclusively reserved for site administrators.\n\nTo create events, you need admin privileges.\n\nContact the administrator for more information.',
+      TR: 'Bu işlev yalnızca site yöneticileri için ayrılmıştır.\n\nEtkinlik oluşturmak için yönetici ayrıcalıklarına ihtiyacınız vardır.\n\nDaha fazla bilgi için yöneticiyle iletişime geçin.',
+      PL: 'Ta funkcja jest zarezerwowana wyłącznie dla administratorów strony.\n\nAby tworzyć wydarzenia, potrzebujesz uprawnień administratora.\n\nSkontaktuj się z administratorem po więcej informacji.',
+      RU: 'Эта функция предназначена исключительно для администраторов сайта.\n\nДля создания событий вам нужны права администратора.\n\nОбратитесь к администратору за дополнительной информацией.',
+      AR: 'هذه الوظيفة محجوزة حصريا لمديري الموقع.\n\nلإنشاء الأحداث، تحتاج إلى امتيازات المسؤول.\n\nاتصل بالمسؤول للحصول على مزيد من المعلومات.'
+    };
+    
+    const message = messages[selectedLanguage] || messages.DE;
+    alert(message);
   };
 
   return (
@@ -154,9 +236,24 @@ const ContactSection = ({ selectedLanguage }) => {
 
               <button
                 type="submit"
-                className="w-full bg-orange-400 text-black font-semibold py-3 px-6 rounded-lg hover:bg-orange-500 transition-colors"
+                disabled={isSubmitting}
+                className={`w-full font-semibold py-3 px-6 rounded-lg transition-colors ${
+                  isSubmitting 
+                    ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                    : 'bg-orange-400 text-black hover:bg-orange-500'
+                }`}
               >
-                {t.form.send}
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {selectedLanguage === 'DE' ? 'Wird gesendet...' : selectedLanguage === 'EN' ? 'Sending...' : 'Gönderiliyor...'}
+                  </span>
+                ) : (
+                  t.form.send
+                )}
               </button>
             </form>
           </div>
@@ -238,17 +335,15 @@ const ContactSection = ({ selectedLanguage }) => {
               <p className="text-gray-300 mb-6">
                 {t.eventbrite.description}
               </p>
-              <a
-                href="https://www.eventbrite.de/create"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-orange-400 text-black font-semibold rounded-lg hover:bg-orange-500 transition-colors"
+              <button
+                onClick={handleEventCreate}
+                className="inline-flex items-center px-6 py-3 bg-orange-400 text-black font-semibold rounded-lg hover:bg-orange-500 transition-colors cursor-pointer border-none"
               >
                 {t.eventbrite.button}
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>

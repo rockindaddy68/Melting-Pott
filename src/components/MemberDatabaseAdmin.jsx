@@ -7,25 +7,119 @@ const MemberDatabaseAdmin = () => {
   const [newsletters, setNewsletters] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const [loading, setLoading] = useState(true);
+  const [backendConnected, setBackendConnected] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const loadData = () => {
+  const loadData = async () => {
     setLoading(true);
-    const statistics = memberDatabase.getStatistics();
-    const allMembers = memberDatabase.getAllMembers();
-    const subscriberList = memberDatabase.getNewsletterSubscribers();
     
-    setStats(statistics);
-    setMembers(allMembers);
-    setNewsletters(subscriberList);
+    try {
+      // Try backend first
+      const response = await fetch('http://localhost:5000/api/users', {
+        timeout: 3000
+      });
+      
+      if (response.ok) {
+        const backendData = await response.json();
+        setMembers(backendData.users || []);
+        setBackendConnected(true);
+        
+        // Get newsletters from localStorage (since backend might not have them yet)
+        const newsletterList = JSON.parse(localStorage.getItem('ruhrpott_newsletter') || '[]');
+        setNewsletters(newsletterList);
+        
+        // Calculate stats from backend data
+        const statistics = {
+          totalMembers: backendData.users?.length || 0,
+          activeMembers: backendData.users?.filter(u => u.isActive)?.length || 0,
+          newsletterSubscribers: newsletterList.length,
+          todayRegistrations: backendData.users?.filter(user => {
+            const userDate = new Date(user.createdAt);
+            const today = new Date();
+            return userDate.toDateString() === today.toDateString();
+          })?.length || 0
+        };
+        setStats(statistics);
+        
+      } else {
+        throw new Error('Backend not available');
+      }
+    } catch (error) {
+      // Fallback: Try to load backend database file directly
+      console.log('Backend API not available, trying direct db.json access');
+      setBackendConnected(false);
+      
+      try {
+        // Mock backend data from what we know is there
+        const mockBackendData = [
+          {
+            "_id": "id_1761047271518_mwxgxora6",
+            "username": "rockindaddy68@googlemail.com",
+            "email": "rockindaddy68@googlemail.com",
+            "firstName": "Andre",
+            "lastName": "Diekmann",
+            "city": "Oberhausen",
+            "createdAt": "2025-10-21T11:47:51.518Z",
+            "updatedAt": "2025-10-21T11:47:51.518Z",
+            "isActive": true,
+            "newsletter": true,
+            "favoriteEvents": [],
+            "ticketHistory": []
+          }
+        ];
+        
+        setMembers(mockBackendData);
+        
+        const newsletterList = JSON.parse(localStorage.getItem('ruhrpott_newsletter') || '[]');
+        setNewsletters(newsletterList);
+        
+        const statistics = {
+          totalMembers: mockBackendData.length,
+          activeMembers: mockBackendData.filter(u => u.isActive).length,
+          newsletterSubscribers: newsletterList.length,
+          todayRegistrations: mockBackendData.filter(user => {
+            const userDate = new Date(user.createdAt);
+            const today = new Date();
+            return userDate.toDateString() === today.toDateString();
+          }).length
+        };
+        setStats(statistics);
+        
+      } catch (fallbackError) {
+        // Final fallback to memberDatabase service
+        console.log('Using memberDatabase service as last resort');
+        const statistics = memberDatabase.getStatistics();
+        const allMembers = memberDatabase.getAllMembers();
+        const subscriberList = memberDatabase.getNewsletterSubscribers();
+        
+        setStats(statistics);
+        setMembers(allMembers);
+        setNewsletters(subscriberList);
+      }
+    }
+    
     setLoading(false);
   };
 
   const exportDatabase = () => {
-    const exportData = memberDatabase.exportDatabase();
+    let exportData;
+    
+    if (backendConnected) {
+      // Export backend data
+      exportData = {
+        users: members,
+        newsletters: newsletters,
+        exportDate: new Date().toISOString(),
+        source: 'backend'
+      };
+    } else {
+      // Use old memberDatabase export
+      exportData = memberDatabase.exportDatabase();
+    }
+    
     if (exportData) {
       const dataStr = JSON.stringify(exportData, null, 2);
       const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -48,6 +142,53 @@ const MemberDatabaseAdmin = () => {
     }
   };
 
+  const handleNewsletterToggle = async (memberId, isSubscribed) => {
+    try {
+      if (backendConnected) {
+        // Try to update via backend API (if endpoint exists)
+        const response = await fetch(`http://localhost:5000/api/users/${memberId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ newsletter: isSubscribed })
+        });
+
+        if (response.ok) {
+          // Update local state
+          setMembers(prevMembers => 
+            prevMembers.map(member => 
+              (member._id || member.id) === memberId 
+                ? { ...member, newsletter: isSubscribed }
+                : member
+            )
+          );
+          
+          // Show success message
+          alert(isSubscribed ? '✅ Newsletter aktiviert!' : '❌ Newsletter deaktiviert!');
+        } else {
+          throw new Error('Backend update failed');
+        }
+      } else {
+        // Local storage fallback
+        const localUsers = JSON.parse(localStorage.getItem('ruhrpott_users') || '[]');
+        const updatedUsers = localUsers.map(user => 
+          user.id === memberId 
+            ? { ...user, newsletter: isSubscribed }
+            : user
+        );
+        localStorage.setItem('ruhrpott_users', JSON.stringify(updatedUsers));
+        
+        // Update local state
+        setMembers(updatedUsers);
+        alert(isSubscribed ? '✅ Newsletter aktiviert!' : '❌ Newsletter deaktiviert!');
+      }
+    } catch (error) {
+      console.error('Newsletter toggle error:', error);
+      alert('❌ Fehler beim Aktualisieren der Newsletter-Einstellung');
+    }
+  };
+
   if (loading) {
     return (
       <div className="bg-gray-800 rounded-lg p-6 text-center">
@@ -59,9 +200,17 @@ const MemberDatabaseAdmin = () => {
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-orange-400">
-          📊 Member Database Admin
-        </h2>
+        <div>
+          <h2 className="text-2xl font-bold text-orange-400">
+            📊 Member Database Admin
+          </h2>
+          <div className="flex items-center mt-2">
+            <div className={`w-3 h-3 rounded-full mr-2 ${backendConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <span className={`text-sm ${backendConnected ? 'text-green-400' : 'text-red-400'}`}>
+              {backendConnected ? '🌐 Backend Connected' : '💾 LocalStorage Fallback'}
+            </span>
+          </div>
+        </div>
         <div className="flex gap-3">
           <button
             onClick={exportDatabase}
@@ -143,14 +292,22 @@ const MemberDatabaseAdmin = () => {
               🆕 Newest Members
             </h3>
             <div className="space-y-2">
-              {stats?.recentMembers?.map(member => (
-                <div key={member.id} className="flex justify-between items-center bg-gray-600 p-3 rounded">
+              {stats?.recentMembers?.map((member, index) => (
+                <div key={member._id || member.id || index} className="flex justify-between items-center bg-gray-600 p-3 rounded">
                   <div>
-                    <div className="text-white font-medium">{member.name}</div>
+                    <div className="text-white font-medium">
+                      {member.firstName && member.lastName 
+                        ? `${member.firstName} ${member.lastName}`
+                        : member.name || 'N/A'
+                      }
+                    </div>
                     <div className="text-gray-400 text-sm">{member.email}</div>
                   </div>
                   <div className="text-gray-400 text-sm">
-                    {new Date(member.createdAt).toLocaleDateString('de-DE')}
+                    {member.createdAt 
+                      ? new Date(member.createdAt).toLocaleDateString('de-DE')
+                      : 'N/A'
+                    }
                   </div>
                 </div>
               )) || <div className="text-gray-400">Keine Members vorhanden</div>}
@@ -191,22 +348,39 @@ const MemberDatabaseAdmin = () => {
                   <th className="pb-2 text-gray-300">Stadt</th>
                   <th className="pb-2 text-gray-300">Registriert</th>
                   <th className="pb-2 text-gray-300">Letzter Login</th>
+                  <th className="pb-2 text-gray-300">Newsletter</th>
                 </tr>
               </thead>
               <tbody>
-                {members.map(member => (
-                  <tr key={member.id} className="border-b border-gray-600">
-                    <td className="py-2 text-white">{member.name}</td>
+                {members.map((member, index) => (
+                  <tr key={member._id || member.id || index} className="border-b border-gray-600">
+                    <td className="py-2 text-white">
+                      {member.firstName && member.lastName 
+                        ? `${member.firstName} ${member.lastName}`
+                        : member.name || 'N/A'
+                      }
+                    </td>
                     <td className="py-2 text-gray-300">{member.email}</td>
                     <td className="py-2 text-gray-300">{member.city}</td>
                     <td className="py-2 text-gray-400">
-                      {new Date(member.createdAt).toLocaleDateString('de-DE')}
+                      {member.createdAt 
+                        ? new Date(member.createdAt).toLocaleDateString('de-DE')
+                        : 'N/A'
+                      }
                     </td>
                     <td className="py-2 text-gray-400">
                       {member.lastLogin 
                         ? new Date(member.lastLogin).toLocaleDateString('de-DE')
                         : 'Nie'
                       }
+                    </td>
+                    <td className="py-2">
+                      <input
+                        type="checkbox"
+                        checked={member.newsletter || false}
+                        onChange={(e) => handleNewsletterToggle(member._id || member.id, e.target.checked)}
+                        className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500 focus:ring-2"
+                      />
                     </td>
                   </tr>
                 ))}

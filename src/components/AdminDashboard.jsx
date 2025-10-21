@@ -3,6 +3,7 @@ import { formatGermanDate } from '../utils/eventsHelpers';
 import eventService from '../services/adminEventService';
 import MemberDatabaseAdmin from './MemberDatabaseAdmin';
 import EventbriteAdmin from './EventbriteAdmin';
+import MessageAdmin from './MessageAdmin';
 
 const AdminDashboard = ({ onClose }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -150,6 +151,7 @@ const AdminDashboard = ({ onClose }) => {
             {[
               { id: 'overview', label: 'Übersicht', icon: '📊' },
               { id: 'members', label: 'Member Database', icon: '👥' },
+              { id: 'messages', label: 'Kontaktnachrichten', icon: '📧' },
               { id: 'events', label: 'Events verwalten', icon: '🎉' },
               { id: 'eventbrite', label: 'Eventbrite Sync', icon: '🔄' },
               { id: 'export', label: 'Export/Import', icon: '💾' },
@@ -260,6 +262,10 @@ const AdminDashboard = ({ onClose }) => {
 
         {activeTab === 'members' && (
           <MemberDatabaseAdmin />
+        )}
+
+        {activeTab === 'messages' && (
+          <MessageAdmin />
         )}
 
         {activeTab === 'events' && (
