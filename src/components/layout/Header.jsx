@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react'
 import { AuthModal, MemberDashboard } from '../auth' // Anmelde-Modal und Benutzer-Dashboard
 import userService from '../../services/userService'  // Service für Benutzerverwaltung
+// import ThemeToggle from '../ui/ThemeToggle' // Dark/Light Mode Toggle
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
   // === STATE MANAGEMENT FÜR HEADER ===
@@ -163,6 +164,9 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                   ))}
                 </div>
               </div>
+
+              {/* Theme Toggle - Temporarily disabled */}
+              {/* <ThemeToggle /> */}
 
               {/* Navigation Links */}
               <a href="#events" className="text-gray-300 hover:text-orange-400 transition-colors">

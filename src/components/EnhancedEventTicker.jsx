@@ -120,7 +120,7 @@ const EnhancedEventTicker = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
@@ -133,7 +133,7 @@ const EnhancedEventTicker = () => {
 
   if (allEvents.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
           <div className="text-center">
             <div className="text-4xl mb-4">🎫</div>
@@ -153,7 +153,7 @@ const EnhancedEventTicker = () => {
   const category = getEventCategory(currentEvent.date);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
         {/* Header mit Datenquelle */}
         <div className="flex items-center justify-between mb-6">

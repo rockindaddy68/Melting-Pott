@@ -263,7 +263,7 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 via-orange-900/30 to-black/80"></div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>

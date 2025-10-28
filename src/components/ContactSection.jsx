@@ -163,7 +163,7 @@ const ContactSection = ({ selectedLanguage }) => {
 
   return (
     <section id="contact" className="py-20 bg-zinc-900">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">

@@ -25,7 +25,7 @@ const Events = ({ selectedLanguage = 'DE' }) => {
   return (
     <section id="events" className="pt-48 pb-32 bg-black text-gray-400 relative -mt-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%"></div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-6 text-orange-400 rounded-full flex items-center justify-center">

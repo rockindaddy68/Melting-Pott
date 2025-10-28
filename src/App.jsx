@@ -4,14 +4,20 @@
 // React Hooks für State-Management und Lifecycle
 import { useState, useEffect } from 'react'
 
+// === THEME CONTEXT ===
+// Theme Provider für Dark/Light Mode
+// import { ThemeProvider } from './contexts/ThemeContext'
+
 // === LAYOUT-KOMPONENTEN ===
 // Diese Komponenten strukturieren das grundlegende Layout der Website
 import Header from './components/layout/Header'        // Navigationsleiste oben
 import Hero from './components/Hero'                    // Großer Willkommensbereich
+import ExplanationSection from './components/ExplanationSection' // Was bedeutet "Melting Pott"
 import Events from './components/Events'                // Event-Anzeige und Suche
 import EnhancedEventTicker from './components/EnhancedEventTicker' // Laufband mit aktuellen Events
 import ContactSection from './components/ContactSection' // Kontaktformular und Info
 import Footer from './components/layout/Footer'        // Fußzeile mit Links
+import RealEventSearch from './components/RealEventSearch' // Event-Suche Komponente
 
 // === ADMIN-KOMPONENTEN ===
 // Verwaltungsbereich für die Website-Administration
@@ -103,7 +109,7 @@ function App() {
 
   // === HAUPT-WEBSITE STRUKTUR ===
   return (
-    <div className="min-h-screen bg-black"> {/* Vollbild-Container mit schwarzem Hintergrund */}
+    <div className="min-h-screen bg-black">{/* Vollbild-Container */} {/* Vollbild-Container mit Theme-Support */}
       
       {/* === KOPFBEREICH === */}
       <Header 
@@ -145,13 +151,23 @@ function App() {
       
       {/* === HAUPTINHALT === */}
       <main>
-        {/* Hero-Section: Großer Willkommensbereich mit Städte-Auswahl */}
+        {/* 1. Hero-Section: Großer Willkommensbereich mit Städte-Auswahl */}
         <Hero 
           selectedLanguage={selectedLanguage} 
           setSelectedLanguage={setSelectedLanguage} 
         />
         
-        {/* Event-Ticker: Laufende Anzeige aktueller Events */}
+        {/* 2. Erklärung: Was bedeutet "Melting Pott"? */}
+        <ExplanationSection selectedLanguage={selectedLanguage} />
+        
+        {/* 3. Was läuft wo? - Event Suche */}
+        <section className="py-16 bg-black">
+          <div className="max-w-6xl mx-auto px-4">
+            <RealEventSearch language={selectedLanguage.toLowerCase()} />
+          </div>
+        </section>
+        
+        {/* 4. Event-Ticker: Laufende Anzeige aktueller Events */}
         <EnhancedEventTicker />
         
         {/* Event-Bereich: Suche, Filter und Event-Liste */}

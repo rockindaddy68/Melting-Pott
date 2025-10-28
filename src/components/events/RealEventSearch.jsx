@@ -22,7 +22,7 @@ const RealEventSearch = ({ language = 'de' }) => {
   const translations = {
     de: {
       title: 'Event Suche - Live Events',
-      searchPlaceholder: 'Suchen Sie nach echten Events (z.B. "Konzert", "Theater", "Festival")...',
+      searchPlaceholder: 'Event oder Location suchen...',
       cityFilter: 'Stadt wählen',
       allCities: 'Alle Städte',
       noResults: 'Keine Events gefunden',

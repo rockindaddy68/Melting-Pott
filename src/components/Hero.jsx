@@ -22,7 +22,7 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
     DE: {
       title: "Melting Pott",
       subtitle: "Dein Guide für Events im Ruhrgebiet",
-      searchPlaceholder: "Event oder Location suchen...",
+      searchPlaceholder: "Was läuft wo?",
       discoverBtn: "Entdecken",
       explanationTitle: "Was bedeutet \"Melting Pott\"?",
       explanation: "Der Begriff 'Melting Pott' verbindet das englische Wort für Schmelztiegel mit dem regionalen 'Pott' für das Ruhrgebiet. Seit über 150 Jahren leben und arbeiten hier Menschen aus aller Welt zusammen - von polnischen Bergleuten über türkische Gastarbeiter bis hin zu Familien aus über 180 Nationen. Diese kulturelle Vielfalt macht das Ruhrgebiet zu einem einzigartigen Schmelztiegel der Kulturen."
@@ -112,7 +112,7 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Welcome Texts in Different Languages - Higher up */}
         <div className="pt-8 pb-16">
           <div className="flex flex-wrap justify-center gap-4">
@@ -166,156 +166,6 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
           />
         </div>
 
-        {/* Event Suche Container - ÜBER der Erklärung */}
-        <div className="mt-12 mb-8">
-          <RealEventSearch language={currentLanguageCode} />
-        </div>
-
-        {/* Explanation - Bottom */}
-        <div className="mt-12 bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-orange-400">{currentLang.explanationTitle}</h3>
-          </div>
-          <p className="text-gray-400 text-base leading-relaxed">
-            {currentLang.explanation}
-          </p>
-        </div>
-
-        {/* Historical S/W Images Band */}
-        <div className="mt-16 mb-8">
-          <div className="overflow-hidden">
-            <div className="flex animate-scroll gap-8 whitespace-nowrap">
-              {/* Historical Images - First set - using available photos with grayscale filter */}
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600">
-                <img src="/src/assets/images/städte/essen/Extraschicht nacht.jpg" alt="Zeche Zollverein 1932" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Zollverein 1932</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/Kaue.jpg" alt="Bergarbeiter Schicht 1920" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Bergarbeiter 1920</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/Hochofen.jpg" alt="Hochofen Phoenix Hörde" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Phoenix Hörde</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/duisburg/LaPaDu.jpg" alt="Margarethenhöhe Arbeitersiedlung" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Margarethenhöhe</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/dortmund/DortmunderU.jpg" alt="Zeche Germania Dortmund 1890" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Germania 1890</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/hattingen/Henrichshütte.jpeg" alt="Kokerei Hansa Dortmund 1928" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Kokerei Hansa 1928</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/duisburg/TigerAndTurtle2.jpg" alt="Rhein-Herne-Kanal Bau 1906" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Rhein-Herne-Kanal</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/oberhausen/Gasometer.jpg" alt="Völklingen Hütte 1873" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Gasometer 1929</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/gelsenkirchen/NordsternHerkules.jpg" alt="Zeche Consolidation Gelsenkirchen" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Consolidation</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/bochum/Bergbaumuseum.jpg" alt="Thyssen Stahlwerk 1871" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Thyssen Stahlwerk</div>
-                </div>
-              </div>
-
-              {/* Duplicate set for seamless loop */}
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/essen/Extraschicht nacht.jpg" alt="Zeche Zollverein 1932" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Zollverein 1932</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/Kaue.jpg" alt="Bergarbeiter Schicht 1920" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Bergarbeiter 1920</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/Hochofen.jpg" alt="Hochofen Phoenix Hörde" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Phoenix Hörde</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/duisburg/LaPaDu.jpg" alt="Margarethenhöhe Arbeitersiedlung" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Margarethenhöhe</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/dortmund/DortmunderU.jpg" alt="Zeche Germania Dortmund 1890" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Germania 1890</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/hattingen/Henrichshütte.jpeg" alt="Kokerei Hansa Dortmund 1928" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Kokerei Hansa 1928</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/duisburg/TigerAndTurtle2.jpg" alt="Rhein-Herne-Kanal Bau 1906" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Rhein-Herne-Kanal</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/oberhausen/Gasometer.jpg" alt="Völklingen Hütte 1873" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Gasometer 1929</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/gelsenkirchen/NordsternHerkules.jpg" alt="Zeche Consolidation Gelsenkirchen" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Zeche Consolidation</div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-40 h-32 bg-gray-800 rounded-lg overflow-hidden border border-gray-600 relative">
-                <img src="/src/assets/images/städte/bochum/Bergbaumuseum.jpg" alt="Thyssen Stahlwerk 1871" className="w-full h-full object-cover grayscale sepia-0 contrast-125 brightness-90" />
-                <div className="absolute inset-0 bg-black/20 flex items-end">
-                  <div className="text-white text-xs p-2 bg-black/60 w-full text-center">Thyssen Stahlwerk</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         </div>
       </div>
     </section>
