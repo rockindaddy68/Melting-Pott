@@ -5,7 +5,7 @@ import EventbriteService from '../services/eventbriteService.js';
 import realEventsService from '../services/realEventsService.js';
 import { useTheme } from '../contexts/ThemeContext';
 
-const EnhancedEventTicker = () => {
+const EnhancedEventTicker = ({ selectedLanguage = 'DE' }) => {
   const { theme } = useTheme();
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -13,6 +13,65 @@ const EnhancedEventTicker = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [dataSource, setDataSource] = useState('loading');
   const [realEventsEnabled, setRealEventsEnabled] = useState(true);
+
+  const translations = {
+    DE: {
+      today: "HEUTE",
+      tomorrow: "MORGEN", 
+      thisWeek: "DIESE WOCHE",
+      upcoming: "DEMNÄCHST",
+      loading: "Lade Events...",
+      noEvents: "Keine aktuellen Veranstaltungen verfügbar",
+      noEventsSubtitle: "Alle Events wurden bereits durchgeführt oder sind noch nicht geplant."
+    },
+    EN: {
+      today: "TODAY",
+      tomorrow: "TOMORROW",
+      thisWeek: "THIS WEEK", 
+      upcoming: "UPCOMING",
+      loading: "Loading events...",
+      noEvents: "No current events available",
+      noEventsSubtitle: "All events have already been completed or are not yet planned."
+    },
+    TR: {
+      today: "BUGÜN",
+      tomorrow: "YARIN",
+      thisWeek: "BU HAFTA",
+      upcoming: "YAKINDA",
+      loading: "Etkinlikler yükleniyor...",
+      noEvents: "Şu anda mevcut etkinlik yok",
+      noEventsSubtitle: "Tüm etkinlikler tamamlandı veya henüz planlanmadı."
+    },
+    PL: {
+      today: "DZISIAJ",
+      tomorrow: "JUTRO", 
+      thisWeek: "W TYM TYGODNIU",
+      upcoming: "WKRÓTCE",
+      loading: "Ładowanie wydarzeń...",
+      noEvents: "Brak dostępnych wydarzeń",
+      noEventsSubtitle: "Wszystkie wydarzenia zostały już zakończone lub nie są jeszcze zaplanowane."
+    },
+    RU: {
+      today: "СЕГОДНЯ",
+      tomorrow: "ЗАВТРА",
+      thisWeek: "НА ЭТОЙ НЕДЕЛЕ", 
+      upcoming: "СКОРО",
+      loading: "Загрузка событий...",
+      noEvents: "Нет доступных событий",
+      noEventsSubtitle: "Все события уже завершены или еще не запланированы."
+    },
+    AR: {
+      today: "اليوم",
+      tomorrow: "غداً",
+      thisWeek: "هذا الأسبوع",
+      upcoming: "قريباً", 
+      loading: "تحميل الأحداث...",
+      noEvents: "لا توجد أحداث متاحة حالياً",
+      noEventsSubtitle: "جميع الأحداث تم إنجازها بالفعل أو لم يتم التخطيط لها بعد."
+    }
+  }
+
+  const t = translations[selectedLanguage] || translations.DE;
 
   // Eventbrite Service initialisieren
   const eventbriteService = new EventbriteService();
@@ -110,13 +169,13 @@ const EnhancedEventTicker = () => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays <= 1) {
-      return { label: "HEUTE", color: "text-orange-400", pulse: true };
+      return { label: t.today, color: "text-orange-400", pulse: true };
     } else if (diffDays <= 2) {
-      return { label: "MORGEN", color: "text-orange-400", pulse: false };
+      return { label: t.tomorrow, color: "text-orange-400", pulse: false };
     } else if (diffDays <= 7) {
-      return { label: "DIESE WOCHE", color: "text-orange-400", pulse: false };
+      return { label: t.thisWeek, color: "text-orange-400", pulse: false };
     } else {
-      return { label: "DEMNÄCHST", color: "text-orange-400", pulse: false };
+      return { label: t.upcoming, color: "text-orange-400", pulse: false };
     }
   };
 
@@ -130,7 +189,7 @@ const EnhancedEventTicker = () => {
             <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${
               theme === 'dark' ? 'border-white' : 'border-gray-900'
             }`}></div>
-            <p>Lade Events...</p>
+            <p>{t.loading}</p>
           </div>
         </div>
       </div>
@@ -146,10 +205,10 @@ const EnhancedEventTicker = () => {
           <div className="text-center">
             <div className="text-4xl mb-4">🎫</div>
             <span className="text-xl font-semibold text-white">
-              Keine aktuellen Veranstaltungen verfügbar
+              {t.noEvents}
             </span>
             <p className="text-gray-400 text-sm">
-              Alle Events wurden bereits durchgeführt oder sind noch nicht geplant.
+              {t.noEventsSubtitle}
             </p>
           </div>
         </div>

@@ -5,7 +5,6 @@
 import React, { useState, useEffect } from 'react'
 import { AuthModal, MemberDashboard } from '../auth' // Anmelde-Modal und Benutzer-Dashboard
 import userService from '../../services/userService'  // Service für Benutzerverwaltung
-import ThemeToggle from '../ui/ThemeToggle' // Dark/Light Mode Toggle
 import { useTheme } from '../../contexts/ThemeContext' // Theme Context
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
@@ -77,7 +76,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     },
     EN: {
       events: 'Events',
-      about: 'About us',
+      about: 'About us',,
       contact: 'Contact',
       login: 'Login',
       register: 'Register',
@@ -132,7 +131,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
   return (
     <>
       <header className={`shadow-lg transition-colors duration-500 ${
-        theme === 'dark' ? 'bg-gray-900 border-b border-gray-700' : 'bg-white border-b border-gray-200'
+        theme === 'dark' ? 'bg-black border-b border-gray-700' : 'bg-white border-b border-gray-200'
       }`}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -156,7 +155,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 
                 {/* Language Dropdown */}
                 <div className={`absolute right-0 top-full mt-2 w-48 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
-                  theme === 'dark' ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-200'
+                  theme === 'dark' ? 'bg-black border border-gray-700' : 'bg-white border border-gray-200'
                 }`}>
                   {languages.map((lang) => (
                     <button
@@ -172,9 +171,6 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                   ))}
                 </div>
               </div>
-
-              {/* Theme Toggle */}
-              <ThemeToggle />
 
               {/* Navigation Links */}
               <a href="#events" className={`hover:text-orange-400 transition-colors ${

@@ -3,9 +3,6 @@ import { useTheme } from '../contexts/ThemeContext'
 
 const ExplanationSection = ({ selectedLanguage }) => {
   const { theme } = useTheme()
-  
-  // Aktuelle Sprache ableiten
-  const currentLanguageCode = selectedLanguage.toLowerCase();
 
   const translations = {
     DE: {
@@ -18,11 +15,23 @@ const ExplanationSection = ({ selectedLanguage }) => {
     },
     TR: {
       explanationTitle: "\"Melting Pott\" ne anlama gelir?",
-      explanation: "Melting Pott terimi, İngilizce eritme potası anlamındaki kelime ile bölgesel 'Pott'u birleştirir. 150 yılı aşkın süredir dünyanın her yerinden insanlar burada birlikte yaşıyor ve çalışıyor - Polonyalı madencilerden Türk misafir işçilere, 180'den fazla ulustan ailelere kadar."
+      explanation: "Melting Pott terimi, İngilizce eritme potası anlamındaki kelime ile bölgesel 'Pott'u birleştirir. 150 yılı aşkın süredir dünyanın her yerinden insanlar burada birlikte yaşıyor ve çalışıyor - Polonyalı madencilerden Türk misafir işçilere, 180'den fazla ulustan ailelere kadar. Bu kültürel çeşitlilik Ruhr bölgesini eşsiz bir kültür eritme potası haline getiriyor."
+    },
+    PL: {
+      explanationTitle: "Co oznacza \"Melting Pott\"?",
+      explanation: "Termin 'Melting Pott' łączy angielskie słowo oznaczające tygiel z regionalnym 'Pott' dla Zagłębia Ruhry. Od ponad 150 lat żyją i pracują tu razem ludzie z całego świata - od polskich górników przez tureckich pracowników-gości po rodziny z ponad 180 narodów. Ta różnorodność kulturowa czyni Zagłębie Ruhry wyjątkowym tyglem kultur."
+    },
+    RU: {
+      explanationTitle: "Что означает \"Melting Pott\"?",
+      explanation: "Термин 'Melting Pott' сочетает английское слово 'плавильный котёл' с региональным 'Pott' для Рурской области. Уже более 150 лет здесь живут и работают вместе люди со всего мира - от польских шахтёров до турецких рабочих-мигрантов и семей из более чем 180 стран. Это культурное разнообразие делает Рурскую область уникальным плавильным котлом культур."
+    },
+    AR: {
+      explanationTitle: "ماذا يعني \"Melting Pott\"؟",
+      explanation: "يجمع مصطلح 'Melting Pott' بين الكلمة الإنجليزية التي تعني بوتقة الانصهار مع 'Pott' الإقليمي لمنطقة الرور. منذ أكثر من 150 عاماً، يعيش ويعمل هنا أشخاص من جميع أنحاء العالم معاً - من عمال المناجم البولنديين إلى العمال الضيوف الأتراك وصولاً إلى عائلات من أكثر من 180 دولة. هذا التنوع الثقافي يجعل منطقة الرور بوتقة انصهار فريدة للثقافات."
     }
   }
 
-  const currentLang = translations[currentLanguageCode] || translations.DE;
+  const currentLang = translations[selectedLanguage] || translations.DE;
 
   return (
     <section className={`py-16 ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-orange-50 to-yellow-50'}`}>

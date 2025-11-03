@@ -182,7 +182,7 @@ function MainApp() {
             ✕ Schließen
           </button>
         </div>
-        <EventReviewsViewer />
+        <EventReviewsViewer selectedLanguage={selectedLanguage} />
       </div>
     )
   }
@@ -294,7 +294,7 @@ function MainApp() {
         </section>
         
         {/* 4. Event-Ticker: Laufende Anzeige aktueller Events */}
-        <EnhancedEventTicker />
+        <EnhancedEventTicker selectedLanguage={selectedLanguage} />
         
         {/* Event-Bereich: Suche, Filter und Event-Liste */}
         <Events selectedLanguage={selectedLanguage} />

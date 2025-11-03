@@ -1,11 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 
-const EventReviewsViewer = () => {
+const EventReviewsViewer = ({ selectedLanguage = 'DE' }) => {
   const { theme } = useTheme();
   const [events, setEvents] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const translations = {
+    DE: {
+      title: "🏭 Ruhrgebiet Events & Reviews",
+      loading: "Lade Events und Reviews...",
+      events: "Events",
+      reviews: "Bewertungen", 
+      reviewsCount: "Bewertungen",
+      free: "Kostenlos",
+      from: "aus",
+      verified: "Verifiziert",
+      noReviews: "Noch keine Bewertungen für dieses Event"
+    },
+    EN: {
+      title: "🏭 Ruhr Area Events & Reviews",
+      loading: "Loading Events and Reviews...",
+      events: "Events",
+      reviews: "Reviews",
+      reviewsCount: "Reviews", 
+      free: "Free",
+      from: "from",
+      verified: "Verified",
+      noReviews: "No reviews yet for this event"
+    },
+    TR: {
+      title: "🏭 Ruhr Bölgesi Etkinlikler & Değerlendirmeler",
+      loading: "Etkinlikler ve Değerlendirmeler yükleniyor...",
+      events: "Etkinlikler",
+      reviews: "Değerlendirmeler",
+      reviewsCount: "Değerlendirmeler",
+      free: "Ücretsiz", 
+      from: "dan",
+      verified: "Doğrulanmış",
+      noReviews: "Bu etkinlik için henüz değerlendirme yok"
+    },
+    PL: {
+      title: "🏭 Wydarzenia i Recenzje Zagłębia Ruhry",
+      loading: "Ładowanie wydarzeń i recenzji...",
+      events: "Wydarzenia",
+      reviews: "Recenzje",
+      reviewsCount: "Recenzje",
+      free: "Bezpłatne",
+      from: "z",
+      verified: "Zweryfikowane", 
+      noReviews: "Brak recenzji dla tego wydarzenia"
+    },
+    RU: {
+      title: "🏭 События и Отзывы Рурской области",
+      loading: "Загрузка событий и отзывов...",
+      events: "События",
+      reviews: "Отзывы",
+      reviewsCount: "Отзывы",
+      free: "Бесплатно",
+      from: "из",
+      verified: "Проверено",
+      noReviews: "Пока нет отзывов для этого события"
+    },
+    AR: {
+      title: "🏭 أحداث ومراجعات منطقة الرور",
+      loading: "تحميل الأحداث والمراجعات...",
+      events: "الأحداث", 
+      reviews: "المراجعات",
+      reviewsCount: "المراجعات",
+      free: "مجاني",
+      from: "من",
+      verified: "تم التحقق",
+      noReviews: "لا توجد مراجعات حتى الآن لهذا الحدث"
+    }
+  }
+
+  const t = translations[selectedLanguage] || translations.DE;
 
   useEffect(() => {
     loadData();
@@ -42,7 +113,7 @@ const EventReviewsViewer = () => {
     return (
       <div className="p-8 text-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-500 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Lade Events und Reviews...</p>
+        <p className="mt-4 text-gray-600">{t.loading}</p>
       </div>
     );
   }
@@ -55,12 +126,12 @@ const EventReviewsViewer = () => {
         <h1 className={`text-3xl font-bold mb-2 ${
           theme === 'dark' ? 'text-white' : 'text-gray-900'
         }`}>
-          🏭 Ruhrgebiet Events & Reviews
+          {t.title}
         </h1>
         <p className={`${
           theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
         }`}>
-          {events.length} Events • {reviews.length} Bewertungen
+          {events.length} {t.events} • {reviews.length} {t.reviews}
         </p>
       </div>
 
@@ -84,7 +155,7 @@ const EventReviewsViewer = () => {
                     🏷️ {event.category}
                   </span>
                   <span className="bg-white/20 px-3 py-1 rounded-full">
-                    💰 {event.price === 0 ? 'Kostenlos' : `€${event.price}`}
+                    💰 {event.price === 0 ? t.free : `€${event.price}`}
                   </span>
                   {avgRating > 0 && (
                     <span className="bg-white/20 px-3 py-1 rounded-full">
@@ -99,7 +170,7 @@ const EventReviewsViewer = () => {
               {eventReviews.length > 0 ? (
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                    💬 Bewertungen ({eventReviews.length})
+                    💬 {t.reviewsCount} ({eventReviews.length})
                   </h3>
                   <div className="space-y-4">
                     {eventReviews.map(review => (
@@ -110,10 +181,10 @@ const EventReviewsViewer = () => {
                               {review.userName}
                             </span>
                             <span className="text-gray-500 text-sm">
-                              aus {review.userCity}
+                              {t.from} {review.userCity}
                             </span>
                             {review.isVerified && (
-                              <span className="text-green-500 text-xs">✓ Verifiziert</span>
+                              <span className="text-green-500 text-xs">✓ {t.verified}</span>
                             )}
                           </div>
                           <div className="flex items-center gap-2">
@@ -138,7 +209,7 @@ const EventReviewsViewer = () => {
                 </div>
               ) : (
                 <div className="p-6 text-center text-gray-500">
-                  <p>Noch keine Bewertungen für dieses Event</p>
+                  <p>{t.noReviews}</p>
                 </div>
               )}
             </div>
