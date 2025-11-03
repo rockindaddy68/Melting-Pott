@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 
 // === THEME CONTEXT ===
 // Theme Provider für Dark/Light Mode
-// import { ThemeProvider } from './contexts/ThemeContext'
+import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 
 // === LAYOUT-KOMPONENTEN ===
 // Diese Komponenten strukturieren das grundlegende Layout der Website
@@ -20,6 +20,42 @@ import Footer from './components/layout/Footer'        // Fußzeile mit Links
 import RealEventSearch from './components/RealEventSearch' // Event-Suche Komponente
 import EventReviewsViewer from './components/EventReviewsViewer' // Event-Reviews Anzeige
 
+// === KI-KOMPONENTEN ===
+// Intelligente Features für bessere User Experience
+import SimpleHotte from './components/ai/SimpleHotte' // Einfache Hotte-Version
+
+// Einfacher Theme-Toggle-Button
+function ThemeToggleButton() {
+  const { theme, toggleTheme } = useTheme();
+  
+  return (
+    <button
+      onClick={toggleTheme}
+      style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 1000,
+        width: '60px',
+        height: '60px',
+        borderRadius: '50%',
+        background: theme === 'dark' ? '#ff6600' : '#0066ff',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+        fontSize: '24px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+    >
+      {theme === 'dark' ? '🌞' : '🌙'}
+    </button>
+  );
+}
+
 // === ADMIN-KOMPONENTEN ===
 // Verwaltungsbereich für die Website-Administration
 import AdminDashboard from './components/AdminDashboard' // Admin-Panel für Event-Management
@@ -32,7 +68,22 @@ import SQLViewer from './components/SQLViewer'           // SQL-ähnliche Datenb
 import userService from './services/userService'         // Benutzerverwaltung
 import ticketShopService from './services/ticketShopService' // Ticket-System
 
-function App() {
+// AppContent-Komponente die das Theme verwendet
+function AppContent() {
+  const { theme } = useTheme();
+  
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${
+      theme === 'dark' 
+        ? 'bg-black text-white' 
+        : 'bg-white text-gray-900'
+    }`}>
+      <MainApp />
+    </div>
+  );
+}
+
+function MainApp() {
   // === STATE MANAGEMENT ===
   // Zentrale Zustandsverwaltung für die gesamte App
   
@@ -137,8 +188,12 @@ function App() {
   }
 
   // === HAUPT-WEBSITE STRUKTUR ===
+  const { theme } = useTheme();
+  
   return (
-    <div className="min-h-screen bg-black">{/* Vollbild-Container */} {/* Vollbild-Container mit Theme-Support */}
+    <div className={`min-h-screen transition-colors duration-500 ${
+      theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900'
+    }`}>
       
       {/* === KOPFBEREICH === */}
       <Header 
@@ -199,19 +254,27 @@ function App() {
         <ExplanationSection selectedLanguage={selectedLanguage} />
         
         {/* 3. Was läuft wo? - Event Suche */}
-        <section className="py-16 bg-black">
+        <section className={`py-16 transition-colors duration-500 ${
+          theme === 'dark' ? 'bg-black' : 'bg-gray-50'
+        }`}>
           <div className="max-w-6xl mx-auto px-4">
             <RealEventSearch language={selectedLanguage.toLowerCase()} />
           </div>
         </section>
         
         {/* Event Reviews CTA Section */}
-        <section className="py-16 bg-black">
+        <section className={`py-16 transition-colors duration-500 ${
+          theme === 'dark' ? 'bg-black' : 'bg-gray-50'
+        }`}>
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className={`text-3xl lg:text-4xl font-bold mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
               🏭 Echte Erfahrungen aus dem Ruhrpott
             </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className={`text-xl mb-8 max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Entdecke authentische Bewertungen von Events in Essen, Bochum, Dortmund und dem ganzen Ruhrgebiet. Von Zollverein bis Gasometer - erfahre, was andere Besucher wirklich denken!
             </p>
             <button
@@ -242,7 +305,21 @@ function App() {
       
       {/* === FUSSBEREICH === */}
       <Footer selectedLanguage={selectedLanguage} />
+      
+      {/* === THEME TOGGLE BUTTON === */}
+      <ThemeToggleButton />
+      
+      {/* === ANIMIERTER KI-ASSISTENT HOTTE === */}
+      <SimpleHotte />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

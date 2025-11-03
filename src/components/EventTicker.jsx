@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { citiesData } from '../data/citiesData.js';
 import { formatGermanDate } from '../utils/eventsHelpers.js';
+import { useTheme } from '../contexts/ThemeContext';
 
 const EventTicker = () => {
+  const { theme } = useTheme();
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -74,11 +76,15 @@ const EventTicker = () => {
 
   if (upcomingEvents.length === 0) {
     return (
-      <div className="bg-black text-white p-8 rounded-xl shadow-2xl mb-12 min-h-[200px]">
+      <div className={`p-8 rounded-xl shadow-2xl mb-12 min-h-[200px] transition-colors duration-500 ${
+        theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900 border border-gray-200'
+      }`}>
         <div className="flex items-center justify-center h-full">
           <div className="text-center space-y-4">
             <div className="text-4xl mb-4">🎫</div>
-            <span className="text-xl font-semibold text-white">
+            <span className={`text-xl font-semibold ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
               Keine aktuellen Veranstaltungen verfügbar
             </span>
             <p className="text-gray-400 text-sm">
@@ -95,18 +101,24 @@ const EventTicker = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-      <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
+      <div className={`p-8 rounded-xl shadow-2xl min-h-[280px] transition-colors duration-500 ${
+        theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900 border border-gray-200'
+      }`}>
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <div className="animate-pulse">
             <span className="text-3xl">🎫</span>
           </div>
-          <h2 className="text-2xl font-bold text-white">LIVE EVENT-TICKER</h2>
+          <h2 className={`text-2xl font-bold ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>LIVE EVENT-TICKER</h2>
         </div>
         
         <div className="flex items-center space-x-3 text-sm">
-          <span className="opacity-75 text-gray-300">
+          <span className={`opacity-75 ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             {currentEventIndex + 1} von {upcomingEvents.length}
           </span>
           <div className="flex space-x-1">

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const EventReviewsViewer = () => {
+  const { theme } = useTheme();
   const [events, setEvents] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,12 +48,18 @@ const EventReviewsViewer = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className={`max-w-6xl mx-auto p-6 transition-colors duration-500 ${
+      theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900'
+    }`}>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className={`text-3xl font-bold mb-2 ${
+          theme === 'dark' ? 'text-white' : 'text-gray-900'
+        }`}>
           🏭 Ruhrgebiet Events & Reviews
         </h1>
-        <p className="text-gray-600">
+        <p className={`${
+          theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+        }`}>
           {events.length} Events • {reviews.length} Bewertungen
         </p>
       </div>

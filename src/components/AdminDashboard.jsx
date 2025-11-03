@@ -4,6 +4,7 @@ import eventService from '../services/adminEventService';
 import MemberDatabaseAdmin from './MemberDatabaseAdmin';
 import EventbriteAdmin from './EventbriteAdmin';
 import MessageAdmin from './MessageAdmin';
+import ChatAnalyticsAdmin from './admin/ChatAnalyticsAdmin';
 
 const AdminDashboard = ({ onClose }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -153,6 +154,7 @@ const AdminDashboard = ({ onClose }) => {
               { id: 'members', label: 'Member Database', icon: '👥' },
               { id: 'messages', label: 'Kontaktnachrichten', icon: '📧' },
               { id: 'events', label: 'Events verwalten', icon: '🎉' },
+              { id: 'ai-chat', label: 'KI Chat Analytics', icon: '🤖' },
               { id: 'eventbrite', label: 'Eventbrite Sync', icon: '🔄' },
               { id: 'export', label: 'Export/Import', icon: '💾' },
               { id: 'settings', label: 'Einstellungen', icon: '⚙️' }
@@ -266,6 +268,10 @@ const AdminDashboard = ({ onClose }) => {
 
         {activeTab === 'messages' && (
           <MessageAdmin />
+        )}
+
+        {activeTab === 'ai-chat' && (
+          <ChatAnalyticsAdmin />
         )}
 
         {activeTab === 'events' && (

@@ -3,9 +3,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === THEME SYSTEM CSS CUSTOM PROPERTIES === */
+:root {
+  /* Diese werden vom ThemeProvider dynamisch überschrieben */
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1f1f1f;
+  --bg-card: #000000;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  
+  --accent-primary: #fb923c;
+  --accent-secondary: #ef4444;
+  --accent-success: #10b981;
+  --accent-info: #06b6d4;
+  
+  --border-primary: #374151;
+  --border-secondary: #4b5563;
+}
+
+/* Theme-spezifische Body Klassen */
+.theme-dark {
+  /* Dark Mode ist der Standard */
+  color-scheme: dark;
+}
+
+.theme-light {
+  /* Light Mode Overrides */
+  color-scheme: light;
+}
+
 /* Custom styles for Ruhrpott website */
 body {
   font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Historical Images Scroll Animation */

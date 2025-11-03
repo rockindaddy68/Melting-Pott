@@ -1,6 +1,9 @@
 import React from 'react'
+import { useTheme } from '../contexts/ThemeContext'
 
 const ExplanationSection = ({ selectedLanguage }) => {
+  const { theme } = useTheme()
+  
   // Aktuelle Sprache ableiten
   const currentLanguageCode = selectedLanguage.toLowerCase();
 
@@ -22,19 +25,19 @@ const ExplanationSection = ({ selectedLanguage }) => {
   const currentLang = translations[currentLanguageCode] || translations.DE;
 
   return (
-    <section className="py-16 bg-black">
+    <section className={`py-16 ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-orange-50 to-yellow-50'}`}>
       <div className="max-w-6xl mx-auto px-4">
         {/* Explanation */}
-        <div className="bg-transparent backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
+        <div className={`${theme === 'dark' ? 'bg-transparent' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto ${theme === 'dark' ? 'border-0' : 'border border-orange-200/30 shadow-lg'}`}>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-orange-400">{currentLang.explanationTitle}</h3>
+            <h3 className={`text-2xl md:text-3xl font-bold ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>{currentLang.explanationTitle}</h3>
           </div>
-          <p className="text-gray-400 text-base leading-relaxed">
+          <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'} text-base leading-relaxed`}>
             {currentLang.explanation}
           </p>
         </div>

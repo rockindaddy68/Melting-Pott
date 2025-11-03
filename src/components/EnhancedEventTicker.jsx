@@ -3,8 +3,10 @@ import { citiesData } from '../data/citiesData.js';
 import { formatGermanDate } from '../utils/eventsHelpers.js';
 import EventbriteService from '../services/eventbriteService.js';
 import realEventsService from '../services/realEventsService.js';
+import { useTheme } from '../contexts/ThemeContext';
 
 const EnhancedEventTicker = () => {
+  const { theme } = useTheme();
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
@@ -121,9 +123,13 @@ const EnhancedEventTicker = () => {
   if (isLoading) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
+        <div className={`p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center transition-colors duration-500 ${
+          theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900 border border-gray-200'
+        }`}>
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+            <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${
+              theme === 'dark' ? 'border-white' : 'border-gray-900'
+            }`}></div>
             <p>Lade Events...</p>
           </div>
         </div>
@@ -134,7 +140,9 @@ const EnhancedEventTicker = () => {
   if (allEvents.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center">
+        <div className={`p-8 rounded-xl shadow-2xl min-h-[280px] flex items-center justify-center transition-colors duration-500 ${
+          theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900 border border-gray-200'
+        }`}>
           <div className="text-center">
             <div className="text-4xl mb-4">🎫</div>
             <span className="text-xl font-semibold text-white">
@@ -154,7 +162,9 @@ const EnhancedEventTicker = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-      <div className="bg-black text-white p-8 rounded-xl shadow-2xl min-h-[280px]">
+      <div className={`p-8 rounded-xl shadow-2xl min-h-[280px] transition-colors duration-500 ${
+        theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900 border border-gray-200'
+      }`}>
         {/* Header mit Datenquelle */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">

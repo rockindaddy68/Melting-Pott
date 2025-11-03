@@ -1,7 +1,9 @@
 import React from 'react'
 import RealEventSearch from './RealEventSearch'
+import { useTheme } from '../contexts/ThemeContext'
 
 const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
+  const { theme } = useTheme();
   // Aktuelle Sprache ableiten
   const currentLanguageCode = selectedLanguage.toLowerCase();
 
@@ -97,7 +99,13 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
   const currentLang = translations[selectedLanguage] || translations.DE
 
   return (
-    <section className="relative min-h-screen bg-gray-900 text-gray-400 overflow-hidden">
+    <section 
+      className="relative min-h-screen overflow-hidden"
+      style={{ 
+        backgroundColor: 'var(--bg-primary)', 
+        color: 'var(--text-secondary)' 
+      }}
+    >
 
 
       {/* WegeLaPaDu Background */}
@@ -108,8 +116,12 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
             backgroundImage: 'url(/WegeLaPaDu.jpg)'
           }}
         ></div>
-        <div className="absolute inset-0 bg-black/70"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black"></div>
+        <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-black/70' : 'bg-white/90'}`}></div>
+        <div className={`absolute inset-0 ${
+          theme === 'dark' 
+            ? 'bg-gradient-to-b from-black/60 via-black/50 to-black' 
+            : 'bg-gradient-to-b from-white/60 via-white/80 to-white'
+        }`}></div>
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -120,11 +132,12 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
               <div
                 key={button.code}
                 onClick={() => setSelectedLanguage(button.code)}
-                className={`cursor-pointer transition-all duration-300 ${
-                  selectedLanguage === button.code
-                    ? 'text-orange-400 opacity-100'
-                    : 'text-gray-300 opacity-80 hover:text-orange-300 hover:opacity-100'
-                }`}
+                className={`cursor-pointer transition-all duration-300 opacity-80 hover:opacity-100 ${
+                  selectedLanguage === button.code 
+                    ? (theme === 'dark' ? 'text-orange-400' : 'text-blue-600') 
+                    : (theme === 'dark' ? 'text-gray-300' : 'text-gray-600')
+                }
+                `}
                 title={`Switch to ${button.code}`}
               >
                 <span className="mr-2">{button.flag}</span>
@@ -139,10 +152,16 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
         <div className="flex items-center justify-between gap-4 mb-12">
           {/* Left Side - Title */}
           <div className="flex-1 max-w-2xl">
-            <h1 className="text-6xl lg:text-8xl font-bold mb-6 tracking-tight text-orange-400">
+            <h1 
+              className="text-6xl lg:text-8xl font-bold mb-6 tracking-tight"
+              style={{ color: 'var(--accent-primary)' }}
+            >
               {currentLang.title}
             </h1>
-            <p className="text-2xl lg:text-3xl text-gray-300 mb-12 font-light">
+            <p 
+              className="text-2xl lg:text-3xl mb-12 font-light"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {currentLang.subtitle}
             </p>
           </div>

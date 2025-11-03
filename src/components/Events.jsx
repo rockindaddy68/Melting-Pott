@@ -6,8 +6,11 @@ import React, { useEffect, useState } from 'react'
 import eventsTranslations from '../translations/eventsTranslations' // Übersetzungen für UI-Texte
 import citiesData from '../data/permanentAttractions'              // Statische Daten der Ruhrgebiet-Städte
 import { formatGermanDate, getCategoryColor, getCityImageClass } from '../utils/eventsHelpers' // Hilfsfunktionen
+import { useTheme } from '../contexts/ThemeContext' // Theme Context
 
 const Events = ({ selectedLanguage = 'DE' }) => {
+  const { theme } = useTheme();
+  
   // === STATE MANAGEMENT ===
   // Lokaler Sprach-State, der mit dem globalen selectedLanguage synchronisiert wird
   const [currentLang, setCurrentLang] = useState('DE')
@@ -23,13 +26,19 @@ const Events = ({ selectedLanguage = 'DE' }) => {
   const lang = eventsTranslations[currentLang] || eventsTranslations.DE
 
   return (
-    <section id="events" className="pt-48 pb-32 bg-black text-gray-400 relative -mt-32">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%"></div>
+    <section id="events" className={`pt-48 pb-32 relative -mt-32 transition-colors duration-500 ${
+      theme === 'dark' ? 'bg-black text-gray-400' : 'bg-gray-50 text-gray-700'
+    }`}>
+      <div className={`absolute inset-0 ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-b from-transparent from-0% via-black/20 via-40% via-black/60 via-70% to-black to-100%'
+          : 'bg-gradient-to-b from-transparent from-0% via-gray-50/20 via-40% via-gray-50/60 via-70% to-gray-50 to-100%'
+      }`}></div>
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-6 text-orange-400 rounded-full flex items-center justify-center">
-              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`} fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
               </svg>
             </div>
@@ -37,23 +46,33 @@ const Events = ({ selectedLanguage = 'DE' }) => {
               {lang.title}
             </h2>
           </div>
-          <p className="text-gray-400">
+          <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
             {lang.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {citiesData.map((city) => (
-            <div key={city.id} className="bg-transparent backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-gray-700/60 hover:shadow-2xl hover:shadow-gray-400/50 transition-all duration-500 group hover:-translate-y-3 hover:scale-105">
+            <div key={city.id} className={`bg-transparent backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-500 group hover:-translate-y-3 hover:scale-105 ${
+              theme === 'dark' 
+                ? 'hover:bg-gray-700/60 hover:shadow-2xl hover:shadow-gray-400/50'
+                : 'hover:bg-white/80 hover:shadow-2xl hover:shadow-gray-300/50'
+            }`}>
               <div className="aspect-w-16 aspect-h-10 relative">
                 <img 
                   src={city.image} 
                   alt={city.name}
                   className={`w-full h-72 group-hover:scale-110 transition-transform duration-700 ${getCityImageClass(city.name)}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-orange-900/40 group-hover:via-orange-800/10 transition-all duration-500">
+                <div className={`absolute inset-0 transition-all duration-500 ${
+                  theme === 'dark'
+                    ? 'bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-orange-900/40 group-hover:via-orange-800/10'
+                    : 'bg-gradient-to-t from-white/80 via-white/20 to-transparent group-hover:from-orange-100/60 group-hover:via-orange-50/20'
+                }`}>
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-gray-400 text-2xl font-bold group-hover:text-orange-400 transition-colors duration-300">{city.name}</h3>
+                    <h3 className={`text-2xl font-bold group-hover:text-orange-400 transition-colors duration-300 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-700'
+                    }`}>{city.name}</h3>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">
                       <span className="text-orange-400 text-sm font-medium px-3 py-1 rounded-full backdrop-blur-sm">
                         {city.events.length} Events verfügbar
@@ -65,7 +84,9 @@ const Events = ({ selectedLanguage = 'DE' }) => {
               
               <div className="p-4 space-y-4">
                 {city.events.map((event, index) => (
-                  <div key={index} className="border-l-4 border-orange-400 hover:border-orange-400 pl-4 py-2 hover:bg-gray-700/50 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg">
+                  <div key={index} className={`border-l-4 border-orange-400 hover:border-orange-400 pl-4 py-2 hover:pl-6 transition-all duration-300 cursor-pointer rounded-r-lg ${
+                    theme === 'dark' ? 'hover:bg-gray-700/50' : 'hover:bg-gray-100/70'
+                  }`}>
                     <div className="flex justify-between items-start mb-2">
                       <span className="px-2 py-1 rounded text-orange-400 text-xs font-medium bg-transparent border border-orange-400/40 hover:text-orange-400 hover:shadow-lg hover:scale-105 transition-all duration-300">
                         {lang.categories[event.category] || event.category}

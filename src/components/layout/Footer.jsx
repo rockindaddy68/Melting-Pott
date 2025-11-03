@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const Footer = ({ selectedLanguage = 'DE' }) => {
+  const { theme } = useTheme();
   const [lang, setLang] = useState({})
 
   // Wikipedia URLs für jede Stadt in verschiedenen Sprachen
@@ -253,7 +255,9 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
 
   return (
     <footer 
-      className="text-gray-400 py-12 relative -mt-16"
+      className={`py-12 relative -mt-16 transition-colors duration-500 ${
+        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+      }`}
       style={{
         backgroundImage: 'url(/src/assets/hochofen.jpg)',
         backgroundSize: 'cover',
@@ -262,7 +266,11 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
         filter: 'contrast(1.3) brightness(0.8) saturate(1.5) hue-rotate(10deg)'
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 via-orange-900/30 to-black/80"></div>
+      <div className={`absolute inset-0 ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-b from-black via-black/70 via-orange-900/30 to-black/80'
+          : 'bg-gradient-to-b from-white via-white/70 via-orange-100/30 to-white/80'
+      }`}></div>
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}

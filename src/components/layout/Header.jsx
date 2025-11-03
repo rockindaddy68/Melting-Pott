@@ -5,10 +5,12 @@
 import React, { useState, useEffect } from 'react'
 import { AuthModal, MemberDashboard } from '../auth' // Anmelde-Modal und Benutzer-Dashboard
 import userService from '../../services/userService'  // Service für Benutzerverwaltung
-// import ThemeToggle from '../ui/ThemeToggle' // Dark/Light Mode Toggle
+import ThemeToggle from '../ui/ThemeToggle' // Dark/Light Mode Toggle
+import { useTheme } from '../../contexts/ThemeContext' // Theme Context
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
   // === STATE MANAGEMENT FÜR HEADER ===
+  const { theme } = useTheme(); // Theme Context
   
   // Anmelde-Modal ein/ausblenden
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -129,11 +131,13 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
 
   return (
     <>
-      <header className="bg-black shadow-lg border-b border-orange-400/30">
+      <header className={`shadow-lg transition-colors duration-500 ${
+        theme === 'dark' ? 'bg-gray-900 border-b border-gray-700' : 'bg-white border-b border-gray-200'
+      }`}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-orange-400">
+              <h1 className={`text-2xl font-bold text-orange-400`}>
                 Ruhrpott Events
               </h1>
             </div>
@@ -151,12 +155,16 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 </button>
                 
                 {/* Language Dropdown */}
-                <div className="absolute right-0 top-full mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className={`absolute right-0 top-full mt-2 w-48 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
+                  theme === 'dark' ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-200'
+                }`}>
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => setSelectedLanguage(lang.code)}
-                      className="w-full px-4 py-2 text-left text-gray-300 hover:text-orange-400 hover:bg-gray-800 first:rounded-t-lg last:rounded-b-lg transition-colors flex items-center"
+                      className={`w-full px-4 py-2 text-left hover:text-orange-400 first:rounded-t-lg last:rounded-b-lg transition-colors flex items-center ${
+                        theme === 'dark' ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-50'
+                      }`}
                     >
                       <span className="mr-3">{lang.flag}</span>
                       <span className="text-sm">{lang.name}</span>
@@ -165,18 +173,24 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 </div>
               </div>
 
-              {/* Theme Toggle - Temporarily disabled */}
-              {/* <ThemeToggle /> */}
+              {/* Theme Toggle */}
+              <ThemeToggle />
 
               {/* Navigation Links */}
-              <a href="#events" className="text-gray-300 hover:text-orange-400 transition-colors">
+              <a href="#events" className={`hover:text-orange-400 transition-colors ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 {t.events}
               </a>
               
-              <a href="#about" className="text-gray-300 hover:text-orange-400 transition-colors">
+              <a href="#about" className={`hover:text-orange-400 transition-colors ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 {t.about}
               </a>
-              <a href="#contact" className="text-gray-300 hover:text-orange-400 transition-colors">
+              <a href="#contact" className={`hover:text-orange-400 transition-colors ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 {t.contact}
               </a>
 

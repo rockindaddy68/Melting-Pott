@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ContactSection = ({ selectedLanguage }) => {
+  const { theme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
 
@@ -162,14 +164,20 @@ const ContactSection = ({ selectedLanguage }) => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-zinc-900">
+    <section id="contact" className={`py-20 transition-colors duration-500 ${
+      theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-100'
+    }`}>
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
             {t.title}
           </h2>
-          <p className="text-xl text-gray-300">
+          <p className={`text-xl ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             {t.subtitle}
           </p>
         </div>
