@@ -172,6 +172,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
               <a href="#events" className="text-gray-300 hover:text-orange-400 transition-colors">
                 {t.events}
               </a>
+              
               <a href="#about" className="text-gray-300 hover:text-orange-400 transition-colors">
                 {t.about}
               </a>

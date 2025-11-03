@@ -90,7 +90,7 @@ const AdminDashboard = ({ onClose }) => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="bg-black p-8 rounded-2xl max-w-md w-full">
           <h1 className="text-2xl font-bold text-orange-400 mb-6 text-center">
             🔐 Admin Login
@@ -117,7 +117,7 @@ const AdminDashboard = ({ onClose }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-black">
       {/* Header */}
       <div className="bg-black border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -190,7 +190,7 @@ const AdminDashboard = ({ onClose }) => {
                 </div>
                 <div className="bg-black p-6 rounded-2xl">
                   <h3 className="text-lg font-semibold text-white mb-2">🏙️ Städte</h3>
-                  <p className="text-3xl font-bold text-blue-400">{statistics.cities}</p>
+                  <p className="text-3xl font-bold text-cyan-400">{statistics.cities}</p>
                 </div>
                 <div className="bg-black p-6 rounded-2xl">
                   <h3 className="text-lg font-semibold text-white mb-2">🏷️ Kategorien</h3>
@@ -243,7 +243,7 @@ const AdminDashboard = ({ onClose }) => {
                     <span className={`px-2 py-1 rounded text-xs ${
                       event.category === 'Music' ? 'bg-purple-600' :
                       event.category === 'Theater' ? 'bg-red-600' :
-                      event.category === 'Arts' ? 'bg-blue-600' :
+                      event.category === 'Arts' ? 'bg-orange-600' :
                       'bg-gray-600'
                     } text-white`}>
                       {event.category}
@@ -351,7 +351,7 @@ const AdminDashboard = ({ onClose }) => {
                 <h2 className="text-xl font-bold text-white">📅 Alle Events ({events.length})</h2>
                 <button
                   onClick={exportEvents}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
                 >
                   📥 Export JSON
                 </button>

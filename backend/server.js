@@ -43,10 +43,37 @@ app.get('/', (req, res) => {
   });
 });
 
+// Simple File Database API routes
+app.get('/api/events', (req, res) => {
+  try {
+    const db = database.loadDatabase();
+    res.json({
+      success: true,
+      events: db.events || [],
+      count: db.events?.length || 0
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Database error', error: error.message });
+  }
+});
+
+app.get('/api/reviews', (req, res) => {
+  try {
+    const db = database.loadDatabase();
+    res.json({
+      success: true,
+      reviews: db.eventReviews || [],
+      count: db.eventReviews?.length || 0
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Database error', error: error.message });
+  }
+});
+
 // Import routes (we'll create these next)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
-app.use('/api/events', require('./routes/events'));
+// app.use('/api/events', require('./routes/events')); // Disabled for file database
 app.use('/api/newsletter', require('./routes/newsletter'));
 app.use('/api/messages', require('./routes/messages'));
 

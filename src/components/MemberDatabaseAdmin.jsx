@@ -220,7 +220,7 @@ const MemberDatabaseAdmin = () => {
           </button>
           <button
             onClick={loadData}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg"
           >
             🔄 Refresh
           </button>
@@ -273,7 +273,7 @@ const MemberDatabaseAdmin = () => {
               <div className="text-gray-300">Newsletter Subscribers</div>
             </div>
             <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-blue-400">
+              <div className="text-2xl font-bold text-cyan-400">
                 {stats?.totalTicketsSold || 0}
               </div>
               <div className="text-gray-300">Tickets Sold</div>

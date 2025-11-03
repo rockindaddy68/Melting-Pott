@@ -300,7 +300,7 @@ const EventbriteAdmin = () => {
               
               <button
                 onClick={testConnection}
-                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
               >
                 Verbindung Testen
               </button>
@@ -376,12 +376,12 @@ const EventbriteAdmin = () => {
           </div>
 
           {/* Auto-Sync Konfiguration */}
-          <div className="bg-blue-50 rounded-lg p-4 mb-4">
-            <h4 className="text-md font-semibold text-blue-900 mb-3">🚀 Eventbrite Auto-Sync</h4>
+          <div className="bg-gray-800 rounded-lg p-4 mb-4">
+            <h4 className="text-md font-semibold text-orange-400 mb-3">🚀 Eventbrite Auto-Sync</h4>
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-blue-700">Auto-Sync aktivieren</label>
+                <label className="text-sm font-medium text-gray-300">Auto-Sync aktivieren</label>
                 <button
                   onClick={() => updateAutoSyncConfig({ 
                     enabled: !autoSyncStatus.config.enabled 
@@ -397,7 +397,7 @@ const EventbriteAdmin = () => {
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-blue-700">Sync-Intervall</label>
+                <label className="text-sm font-medium text-gray-300">Sync-Intervall</label>
                 <select
                   value={autoSyncStatus.config.frequency || 15}
                   onChange={(e) => updateAutoSyncConfig({ 
@@ -414,7 +414,7 @@ const EventbriteAdmin = () => {
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-blue-700">Auto-Start</label>
+                <label className="text-sm font-medium text-gray-300">Auto-Start</label>
                 <button
                   onClick={() => updateAutoSyncConfig({ 
                     autoStart: !autoSyncStatus.config.autoStart 
@@ -432,10 +432,10 @@ const EventbriteAdmin = () => {
 
             {/* Auto-Sync Statistiken */}
             {autoSyncStatus.stats && Object.keys(autoSyncStatus.stats).length > 0 && (
-              <div className="mt-4 pt-3 border-t border-blue-200">
+              <div className="mt-4 pt-3 border-t border-gray-600">
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-blue-600">Gesamt:</span>
+                    <span className="text-orange-400">Gesamt:</span>
                     <span className="ml-1 font-medium">{autoSyncStatus.stats.totalSyncs || 0}</span>
                   </div>
                   <div>
@@ -447,7 +447,7 @@ const EventbriteAdmin = () => {
                     <span className="ml-1 font-medium">{autoSyncStatus.stats.failedSyncs || 0}</span>
                   </div>
                   <div>
-                    <span className="text-blue-600">Events:</span>
+                    <span className="text-orange-400">Events:</span>
                     <span className="ml-1 font-medium">{autoSyncStatus.stats.eventsAdded || 0} neu</span>
                   </div>
                 </div>

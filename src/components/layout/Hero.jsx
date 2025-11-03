@@ -150,7 +150,7 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
           {/* Right Side - Large Zollverein Image */}
           <div className="hidden lg:block flex-shrink-0">
             <img 
-              src="/src/assets/images/städte/essen/Extraschicht nacht.jpg"
+              src="/images/städte/essen/Extraschicht nacht.jpg"
               alt="Zeche Zollverein bei Nacht"
               className="w-[32rem] h-96 object-cover rounded-2xl shadow-2xl"
             />
@@ -160,7 +160,7 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
         {/* Mobile Zollverein Image */}
         <div className="lg:hidden mb-12 flex justify-center">
           <img 
-            src="/src/assets/images/städte/essen/Extraschicht nacht.jpg"
+            src="/images/städte/essen/Extraschicht nacht.jpg"
             alt="Zeche Zollverein bei Nacht"
             className="w-full max-w-md h-64 object-cover rounded-2xl shadow-2xl"
           />

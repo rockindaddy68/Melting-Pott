@@ -18,6 +18,7 @@ import EnhancedEventTicker from './components/EnhancedEventTicker' // Laufband m
 import ContactSection from './components/ContactSection' // Kontaktformular und Info
 import Footer from './components/layout/Footer'        // Fußzeile mit Links
 import RealEventSearch from './components/RealEventSearch' // Event-Suche Komponente
+import EventReviewsViewer from './components/EventReviewsViewer' // Event-Reviews Anzeige
 
 // === ADMIN-KOMPONENTEN ===
 // Verwaltungsbereich für die Website-Administration
@@ -47,6 +48,9 @@ function App() {
   // SQL Viewer Ein/Aus - SQL-ähnliche Abfragen
   const [showSQL, setShowSQL] = useState(false)
 
+  // Event Reviews Viewer Ein/Aus
+  const [showReviews, setShowReviews] = useState(false)
+
   // === INITIALISIERUNG BEI APP-START ===
   // useEffect wird beim ersten Laden der App ausgeführt
   useEffect(() => {
@@ -55,7 +59,10 @@ function App() {
     
     // Demo-Events und Ticket-Daten initialisieren
     ticketShopService.initializeDemoData()
-  }, []) // Leeres Array [] bedeutet: nur einmal beim ersten Rendern ausführen
+
+    // Event Reviews Toggle global verfügbar machen
+    window.eventReviewsToggle = () => setShowReviews(!showReviews)
+  }, [showReviews]) // showReviews als Dependency damit die Funktion aktuell bleibt
 
   // === ADMIN-FUNKTIONALITÄT ===
   // Funktion zum Ein-/Ausblenden des Admin-Panels
@@ -82,6 +89,11 @@ function App() {
         e.preventDefault()
         setShowSQL(!showSQL) // SQL Viewer öffnen/schließen
       }
+      // Prüfe ob Strg + Shift + R gedrückt wurde
+      if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+        e.preventDefault()
+        setShowReviews(!showReviews) // Reviews Viewer öffnen/schließen
+      }
     }
     
     // Event-Listener für Tastatur-Events registrieren
@@ -105,6 +117,23 @@ function App() {
   if (showSQL) {
     // Wenn SQL Viewer aktiv: Zeige SQL-Interface
     return <SQLViewer onClose={() => setShowSQL(false)} />
+  }
+
+  if (showReviews) {
+    // Wenn Reviews Viewer aktiv: Zeige Event Reviews
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="fixed top-4 right-4 z-50">
+          <button
+            onClick={() => setShowReviews(false)}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow-lg"
+          >
+            ✕ Schließen
+          </button>
+        </div>
+        <EventReviewsViewer />
+      </div>
+    )
   }
 
   // === HAUPT-WEBSITE STRUKTUR ===
@@ -148,6 +177,15 @@ function App() {
       >
         🗃️
       </button>
+
+      {/* Reviews Viewer Button */}
+      <button
+        onClick={() => setShowReviews(!showReviews)}
+        className="fixed bottom-4 left-52 w-12 h-12 text-purple-400 rounded-full opacity-30 hover:opacity-100 transition-all z-50 text-xs border border-purple-400/20 hover:border-purple-400/40"
+        title="Event Reviews (Strg+Shift+R)"
+      >
+        ⭐
+      </button>
       
       {/* === HAUPTINHALT === */}
       <main>
@@ -164,6 +202,31 @@ function App() {
         <section className="py-16 bg-black">
           <div className="max-w-6xl mx-auto px-4">
             <RealEventSearch language={selectedLanguage.toLowerCase()} />
+          </div>
+        </section>
+        
+        {/* Event Reviews CTA Section */}
+        <section className="py-16 bg-black">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              🏭 Echte Erfahrungen aus dem Ruhrpott
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Entdecke authentische Bewertungen von Events in Essen, Bochum, Dortmund und dem ganzen Ruhrgebiet. Von Zollverein bis Gasometer - erfahre, was andere Besucher wirklich denken!
+            </p>
+            <button
+              onClick={() => setShowReviews(true)}
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-xl font-semibold rounded-xl shadow-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-orange-500/25"
+            >
+              <span className="mr-3 text-2xl">⭐</span>
+              Event Reviews entdecken
+              <svg className="ml-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+            <p className="text-sm text-gray-400 mt-4">
+              8 Bewertungen • 5 Events • Authentisch & ehrlich
+            </p>
           </div>
         </section>
         
