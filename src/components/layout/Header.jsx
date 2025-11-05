@@ -1,11 +1,13 @@
 // === MELTING POTT - HEADER/NAVIGATIONSLEISTE ===
 // Diese Komponente stellt die obere Navigationsleiste der Website dar
 // Funktionen: Navigation, Sprachauswahl, Benutzer-Authentifizierung
+// REFACTORED: Nutzt jetzt den zentralen TranslationService
 
 import React, { useState, useEffect } from 'react'
 import { AuthModal, MemberDashboard } from '../auth' // Anmelde-Modal und Benutzer-Dashboard
 import userService from '../../services/userService'  // Service für Benutzerverwaltung
 import { useTheme } from '../../contexts/ThemeContext' // Theme Context
+import { useTranslation } from '../../hooks/useTranslation' // Zentralisierte Übersetzungen
 
 const Header = ({ selectedLanguage, setSelectedLanguage }) => {
   // === STATE MANAGEMENT FÜR HEADER ===
@@ -52,125 +54,29 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     setShowAuthModal(true)   // Modal anzeigen
   }
 
-  // === SPRACHKONFIGURATION ===
-  // Verfügbare Sprachen für die Website (Ruhrgebiet = multikulturell!)
-  const languages = [
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },   // Deutsche Hauptsprache
-    { code: 'EN', name: 'English', flag: '🇬🇧' },  // Englisch für internationale Besucher
-    { code: 'TR', name: 'Türkçe', flag: '🇹🇷' },   // Türkisch (große Community im Ruhrgebiet)
-    { code: 'PL', name: 'Polski', flag: '🇵🇱' },   // Polnisch (viele polnische Familien)
-    { code: 'RU', name: 'Русский', flag: '🇷🇺' },  // Russisch (russischsprachige Community)
-    { code: 'AR', name: 'العربية', flag: '🇸🇦' },   // Arabisch (wachsende arabische Community)
-    { code: 'IT', name: 'Italiano', flag: '🇮🇹' },  // Italienisch (italienische Community)
-    { code: 'NL', name: 'Nederlands', flag: '🇳🇱' }, // Niederländisch (viele niederländische Besucher)
-    { code: 'FR', name: 'Français', flag: '🇫🇷' },  // Französisch (französische Besucher)
-    { code: 'ES', name: 'Español', flag: '🇪🇸' },   // Spanisch (spanische Community)
-  ]
+  // === ZENTRALISIERTE ÜBERSETZUNGEN ===
+  // Nutze den refactorierten useTranslation Hook mit TranslationService
+  const { 
+    language, 
+    navigation, 
+    common, 
+    changeLanguage, 
+    availableLanguages 
+  } = useTranslation(selectedLanguage)
 
-  const translations = {
-    DE: {
-      events: 'Events',
-      about: 'Über uns',
-      contact: 'Kontakt',
-      login: 'Anmelden',
-      register: 'Registrieren',
-      dashboard: 'Mein Bereich',
-      logout: 'Abmelden',
-      welcome: 'Willkommen'
-    },
-    EN: {
-      events: 'Events',
-      about: 'About us',
-      contact: 'Contact',
-      login: 'Login',
-      register: 'Register',
-      dashboard: 'My Area',
-      logout: 'Logout',
-      welcome: 'Welcome'
-    },
-    TR: {
-      events: 'Etkinlikler',
-      about: 'Hakkımızda',
-      contact: 'İletişim',
-      login: 'Giriş',
-      register: 'Kayıt',
-      dashboard: 'Benim Alanım',
-      logout: 'Çıkış',
-      welcome: 'Hoş geldiniz'
-    },
-    PL: {
-      events: 'Wydarzenia',
-      about: 'O nas',
-      contact: 'Kontakt',
-      login: 'Zaloguj',
-      register: 'Zarejestruj',
-      dashboard: 'Mój obszar',
-      logout: 'Wyloguj',
-      welcome: 'Witamy'
-    },
-    RU: {
-      events: 'События',
-      about: 'О нас',
-      contact: 'Контакт',
-      login: 'Войти',
-      register: 'Регистрация',
-      dashboard: 'Моя область',
-      logout: 'Выйти',
-      welcome: 'Добро пожаловать'
-    },
-    AR: {
-      events: 'الأحداث',
-      about: 'معلومات عنا',
-      contact: 'اتصل',
-      login: 'تسجيل الدخول',
-      register: 'التسجيل',
-      dashboard: 'منطقتي',
-      logout: 'تسجيل الخروج',
-      welcome: 'مرحبا'
-    },
-    IT: {
-      events: 'Eventi',
-      about: 'Chi siamo',
-      contact: 'Contatto',
-      login: 'Accedi',
-      register: 'Registrati',
-      dashboard: 'La mia area',
-      logout: 'Esci',
-      welcome: 'Benvenuti'
-    },
-    NL: {
-      events: 'Evenementen',
-      about: 'Over ons',
-      contact: 'Contact',
-      login: 'Inloggen',
-      register: 'Registreren',
-      dashboard: 'Mijn gebied',
-      logout: 'Uitloggen',
-      welcome: 'Welkom'
-    },
-    FR: {
-      events: 'Événements',
-      about: 'À propos',
-      contact: 'Contact',
-      login: 'Se connecter',
-      register: 'S\'inscrire',
-      dashboard: 'Mon espace',
-      logout: 'Se déconnecter',
-      welcome: 'Bienvenue'
-    },
-    ES: {
-      events: 'Eventos',
-      about: 'Acerca de',
-      contact: 'Contacto',
-      login: 'Iniciar sesión',
-      register: 'Registrarse',
-      dashboard: 'Mi área',
-      logout: 'Cerrar sesión',
-      welcome: 'Bienvenidos'
+  // Synchronisiere mit dem Parent-State für Kompatibilität
+  useEffect(() => {
+    if (selectedLanguage !== language) {
+      changeLanguage(selectedLanguage)
     }
+  }, [selectedLanguage, language, changeLanguage])
+
+  const handleLanguageChange = (newLang) => {
+    changeLanguage(newLang)
+    setSelectedLanguage(newLang)
   }
 
-  const t = translations[selectedLanguage] || translations.DE
+  // Entferne das duplicate translations-Objekt - nutze jetzt zentralen Service!
 
   return (
     <>
@@ -187,10 +93,10 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              {/* Language Selector */}
+              {/* Language Selector - Nutzt jetzt availableLanguages vom TranslationService */}
               <div className="relative group">
                 <button className="flex items-center text-orange-400 transition-colors">
-                  <span className="mr-2">{languages.find(l => l.code === selectedLanguage)?.flag}</span>
+                  <span className="mr-2">{availableLanguages.find(l => l.code === selectedLanguage)?.flag}</span>
                   <span className="text-sm">{selectedLanguage}</span>
                   <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -201,10 +107,10 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 <div className={`absolute right-0 top-full mt-2 w-48 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
                   theme === 'dark' ? 'bg-black border border-gray-700' : 'bg-white border border-gray-200'
                 }`}>
-                  {languages.map((lang) => (
+                  {availableLanguages.map((lang) => (
                     <button
                       key={lang.code}
-                      onClick={() => setSelectedLanguage(lang.code)}
+                      onClick={() => handleLanguageChange(lang.code)}
                       className={`w-full px-4 py-2 text-left hover:text-orange-400 first:rounded-t-lg last:rounded-b-lg transition-colors flex items-center ${
                         theme === 'dark' ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-50'
                       }`}
@@ -216,29 +122,29 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 </div>
               </div>
 
-              {/* Navigation Links */}
+              {/* Navigation Links - Nutzt jetzt zentralisierte Übersetzungen */}
               <a href="#events" className={`hover:text-orange-400 transition-colors ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                {t.events}
+                {navigation('events')}
               </a>
               
               <a href="#about" className={`hover:text-orange-400 transition-colors ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                {t.about}
+                {navigation('about')}
               </a>
               <a href="#contact" className={`hover:text-orange-400 transition-colors ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                {t.contact}
+                {navigation('contact')}
               </a>
 
-              {/* User Authentication */}
+              {/* User Authentication - Nutzt jetzt zentralisierte Übersetzungen */}
               {currentUser ? (
                 <div className="flex items-center space-x-4">
                   <span className="text-orange-400 text-sm">
-                    {t.welcome}, {currentUser.name?.split(' ')[0]}!
+                    {common('welcome')}, {currentUser.name?.split(' ')[0]}!
                   </span>
                   <button
                     onClick={() => setShowMemberDashboard(true)}
@@ -247,13 +153,13 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    {t.dashboard}
+                    {navigation('dashboard')}
                   </button>
                   <button
                     onClick={handleLogout}
                     className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
                   >
-                    {t.logout}
+                    {navigation('logout')}
                   </button>
                 </div>
               ) : (
@@ -262,25 +168,25 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                     onClick={() => openAuthModal('login')}
                     className="text-gray-300 hover:text-orange-400 transition-colors text-sm"
                   >
-                    {t.login}
+                    {navigation('login')}
                   </button>
                   <button
                     onClick={() => openAuthModal('register')}
                     className="px-4 py-2 text-orange-400 rounded-lg transition-all text-sm border border-orange-400/40 hover:border-orange-400/60"
                   >
-                    {t.register}
+                    {navigation('register')}
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Nutzt jetzt zentralisierte Übersetzungen */}
             <div className="md:hidden flex items-center space-x-2">
               {currentUser ? (
                 <button
                   onClick={() => setShowMemberDashboard(true)}
                   className="text-orange-400 hover:text-orange-300 p-2"
-                  title={t.dashboard}
+                  title={navigation('dashboard')}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -290,7 +196,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
                 <button
                   onClick={() => openAuthModal('login')}
                   className="text-orange-400 hover:text-orange-300 p-2"
-                  title={t.login}
+                  title={navigation('login')}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />

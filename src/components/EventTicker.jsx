@@ -106,7 +106,7 @@ const EventTicker = () => {
       }`}>
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
           <div className="animate-pulse">
             <span className="text-3xl">🎫</span>
           </div>
@@ -115,24 +115,24 @@ const EventTicker = () => {
           }`}>LIVE EVENT-TICKER</h2>
         </div>
         
-        <div className="flex items-center space-x-3 text-sm">
-          <span className={`opacity-75 ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            {currentEventIndex + 1} von {upcomingEvents.length}
-          </span>
-          <div className="flex space-x-1">
-            {upcomingEvents.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentEventIndex ? 'bg-white' : 'bg-white/30'
-                }`}
-              />
-            ))}
+          <div className="flex items-center space-x-3 text-sm">
+            <span className={`opacity-75 ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              {currentEventIndex + 1} von {upcomingEvents.length}
+            </span>
+            <div className="flex space-x-1">
+              {upcomingEvents.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentEventIndex ? 'bg-white' : 'bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Event Content */}
       <div 
@@ -257,6 +257,7 @@ const EventTicker = () => {
             <span>Automatische Aktualisierung alle 4 Sekunden</span>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

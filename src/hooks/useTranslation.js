@@ -1,98 +1,71 @@
-import { useState } from 'react';
+// === REFACTORED TRANSLATION HOOK ===
+// Nutzt den zentralen TranslationService für konsistente Übersetzungen
+import { useState, useEffect } from 'react';
+import TranslationService, { LANGUAGES } from '../services/translationService';
 
-const translations = {
-  de: {
-    welcome: 'Willkommen im Ruhrgebiet',
-    search: 'Suchen',
-    events: 'Events',
-    login: 'Anmelden',
-    register: 'Registrieren',
-    logout: 'Abmelden',
-    profile: 'Profil',
-    favorites: 'Favoriten',
-    tickets: 'Tickets',
-    newsletter: 'Newsletter',
-    admin: 'Admin',
-    loading: 'Wird geladen...',
-    error: 'Fehler',
-    noResults: 'Keine Ergebnisse gefunden',
-    cancel: 'Abbrechen',
-    save: 'Speichern',
-    delete: 'Löschen',
-    edit: 'Bearbeiten',
-    close: 'Schließen'
-  },
-  en: {
-    welcome: 'Welcome to the Ruhr Area',
-    search: 'Search',
-    events: 'Events',
-    login: 'Login',
-    register: 'Register',
-    logout: 'Logout',
-    profile: 'Profile',
-    favorites: 'Favorites',
-    tickets: 'Tickets',
-    newsletter: 'Newsletter',
-    admin: 'Admin',
-    loading: 'Loading...',
-    error: 'Error',
-    noResults: 'No results found',
-    cancel: 'Cancel',
-    save: 'Save',
-    delete: 'Delete',
-    edit: 'Edit',
-    close: 'Close'
-  },
-  tr: {
-    welcome: 'Ruhr Bölgesine Hoş Geldiniz',
-    search: 'Ara',
-    events: 'Etkinlikler',
-    login: 'Giriş',
-    register: 'Kayıt Ol',
-    logout: 'Çıkış',
-    profile: 'Profil',
-    favorites: 'Favoriler',
-    tickets: 'Biletler',
-    newsletter: 'Haber Bülteni',
-    admin: 'Yönetici',
-    loading: 'Yükleniyor...',
-    error: 'Hata',
-    noResults: 'Sonuç bulunamadı',
-    cancel: 'İptal',
-    save: 'Kaydet',
-    delete: 'Sil',
-    edit: 'Düzenle',
-    close: 'Kapat'
-  }
-};
+export const useTranslation = (initialLanguage = 'DE') => {
+  const [language, setLanguage] = useState(initialLanguage);
 
-export const useTranslation = () => {
-  const [language, setLanguage] = useState('de');
-
-  const t = (key, fallback = key) => {
-    return translations[language]?.[key] || translations.de?.[key] || fallback;
+  // Allgemeine Übersetzungsfunktion
+  const t = (section, key, fallback = key) => {
+    return TranslationService.getTranslation(section, language, key, fallback);
   };
 
+  // Spezifische Übersetzungsfunktionen für bessere DX
+  const navigation = (key) => TranslationService.getNavigationText(language, key);
+  const hero = (key) => TranslationService.getHeroText(language, key);
+  const welcome = () => TranslationService.getWelcomeText(language);
+  const explanation = (key) => TranslationService.getExplanationText(language, key);
+  const experiences = (key) => TranslationService.getExperiencesText(language, key);
+  const eventReviews = (key) => TranslationService.getEventReviewsText(language, key);
+  const eventTicker = (key) => TranslationService.getEventTickerText(language, key);
+  const footer = (key) => TranslationService.getFooterText(language, key);
+  const common = (key) => TranslationService.getCommonText(language, key);
+
+  // Sprache ändern mit Persistierung
   const changeLanguage = (newLanguage) => {
-    if (translations[newLanguage]) {
-      setLanguage(newLanguage);
-      localStorage.setItem('ruhrpott-language', newLanguage);
+    const lang = newLanguage?.toUpperCase();
+    if (LANGUAGES.find(l => l.code === lang)) {
+      setLanguage(lang);
+      localStorage.setItem('ruhrpott-language', lang);
     }
   };
 
-  // Initialize language from localStorage
+  // Sprache aus localStorage initialisieren
   const initializeLanguage = () => {
     const savedLanguage = localStorage.getItem('ruhrpott-language');
-    if (savedLanguage && translations[savedLanguage]) {
+    if (savedLanguage && LANGUAGES.find(l => l.code === savedLanguage)) {
       setLanguage(savedLanguage);
     }
   };
 
+  // Auto-initialisierung beim ersten Laden
+  useEffect(() => {
+    initializeLanguage();
+  }, []);
+
   return {
+    // Current language
     language,
+    
+    // Translation functions
     t,
+    navigation,
+    hero,
+    welcome,
+    explanation,
+    experiences,
+    eventReviews,
+    eventTicker,
+    footer,
+    common,
+    
+    // Language management
     changeLanguage,
     initializeLanguage,
-    availableLanguages: Object.keys(translations)
+    
+    // Available languages
+    availableLanguages: LANGUAGES,
+    supportedLanguageCodes: LANGUAGES.map(l => l.code)
   };
 };

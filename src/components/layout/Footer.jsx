@@ -1,9 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useTranslation } from '../../hooks/useTranslation' // Zentralisierte Übersetzungen
 
 const Footer = ({ selectedLanguage = 'DE' }) => {
   const { theme } = useTheme();
-  const [lang, setLang] = useState({})
+  
+  // === ZENTRALISIERTE ÜBERSETZUNGEN ===
+  // Nutze den refactorierten useTranslation Hook mit TranslationService
+  const { 
+    language, 
+    navigation, 
+    footer, 
+    common, 
+    changeLanguage
+  } = useTranslation(selectedLanguage)
+
+  // Synchronisiere mit dem Parent-State für Kompatibilität
+  useEffect(() => {
+    if (selectedLanguage !== language) {
+      changeLanguage(selectedLanguage)
+    }
+  }, [selectedLanguage, language, changeLanguage])
 
   // Wikipedia URLs für jede Stadt in verschiedenen Sprachen
   const cityWikipediaLinks = {
@@ -160,96 +177,11 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
     return cityData[selectedLanguage] || cityData.DE || '#'
   }
 
-  const translations = {
-    DE: {
-      title: "Melting Pott",
-      subtitle: "Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts.",
-      cities: "Ruhrgebietsstädte",
-      socialMedia: "Social Media",
-      copyright: "Alle Rechte vorbehalten.",
-      learnMore: "Mehr über {city} erfahren"
-    },
-    EN: {
-      title: "Melting Pott",
-      subtitle: "Your guide for events in the Ruhr area. Discover the culture and history of the Ruhrpott.",
-      cities: "Ruhr Area Cities",
-      socialMedia: "Social Media",
-      copyright: "All rights reserved.",
-      learnMore: "Learn more about {city}"
-    },
-    TR: {
-      title: "Melting Pott",
-      subtitle: "Ruhr bölgesindeki etkinlikler için rehberiniz. Ruhrpott'un kültürünü ve tarihini keşfedin.",
-      cities: "Ruhr Bölgesi Şehirleri",
-      socialMedia: "Sosyal Medya",
-      copyright: "Tüm hakları saklıdır.",
-      learnMore: "{city} hakkında daha fazla bilgi edinin"
-    },
-    IT: {
-      title: "Melting Pott",
-      subtitle: "La tua guida per gli eventi nella regione della Ruhr. Scopri la cultura e la storia del Ruhrpott.",
-      cities: "Città della Ruhr",
-      socialMedia: "Social Media",
-      copyright: "Tutti i diritti riservati.",
-      learnMore: "Scopri di più su {city}"
-    },
-    FR: {
-      title: "Melting Pott",
-      subtitle: "Votre guide pour les événements dans la région de la Ruhr. Découvrez la culture et l'histoire du Ruhrpott.",
-      cities: "Villes de la Ruhr",
-      socialMedia: "Médias Sociaux",
-      copyright: "Tous droits réservés.",
-      learnMore: "En savoir plus sur {city}"
-    },
-    ES: {
-      title: "Melting Pott",
-      subtitle: "Tu guía para eventos en la región del Ruhr. Descubre la cultura e historia del Ruhrpott.",
-      cities: "Ciudades del Ruhr",
-      socialMedia: "Redes Sociales",
-      copyright: "Todos los derechos reservados.",
-      learnMore: "Conoce más sobre {city}"
-    },
-    PL: {
-      title: "Melting Pott",
-      subtitle: "Twój przewodnik po wydarzeniach w regionie Ruhry. Odkryj kulturę i historię Ruhrpott.",
-      cities: "Miasta Zagłębia Ruhry",
-      socialMedia: "Media Społecznościowe",
-      copyright: "Wszelkie prawa zastrzeżone.",
-      learnMore: "Dowiedz się więcej o {city}"
-    },
-    RU: {
-      title: "Melting Pott",
-      subtitle: "Ваш гид по событиям в Рурской области. Откройте культуру и историю Рурпотта.",
-      cities: "Города Рурской области",
-      socialMedia: "Социальные сети",
-      copyright: "Все права защищены.",
-      learnMore: "Узнать больше о {city}"
-    },
-    AR: {
-      title: "Melting Pott",
-      subtitle: "دليلك للأحداث في منطقة الرور. اكتشف ثقافة وتاريخ الرورپوت.",
-      cities: "مدن منطقة الرور",
-      socialMedia: "وسائل التواصل الاجتماعي",
-      copyright: "جميع الحقوق محفوظة.",
-      learnMore: "تعرف على المزيد حول {city}"
-    },
-    NL: {
-      title: "Melting Pott",
-      subtitle: "Jouw gids voor evenementen in het Ruhrgebied. Ontdek de cultuur en geschiedenis van het Ruhrpott.",
-      cities: "Ruhrgebied Steden",
-      socialMedia: "Sociale Media",
-      copyright: "Alle rechten voorbehouden.",
-      learnMore: "Leer meer over {city}"
-    }
-  }
-
-  useEffect(() => {
-    setLang(translations[selectedLanguage] || translations.DE)
-  }, [selectedLanguage])
-
-  // Funktion für lokalisierten Tooltip-Text
+  // Entferne das duplicate translations-Objekt - nutze jetzt zentralen Service!
+  
+  // Funktion für lokalisierten Tooltip-Text mit zentraler Übersetzung
   const getTooltipText = (cityName) => {
-    const template = lang.learnMore || translations.DE.learnMore || "Mehr über {city} erfahren"
+    const template = footer('learnMore') || "Mehr über {city} erfahren"
     return template.replace('{city}', cityName)
   }
 
@@ -273,17 +205,17 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
       }`}></div>
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
+          {/* Brand - Nutzt jetzt zentralisierte Übersetzungen */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">{lang.title || "Melting Pott"}</h3>
+            <h3 className="text-2xl font-bold mb-4">{footer('title')}</h3>
             <p className="text-gray-400 mb-4">
-              {lang.subtitle || "Dein Guide für Events im Ruhrgebiet. Entdecke die Kultur und Geschichte des Ruhrpotts."}
+              {footer('subtitle')}
             </p>
           </div>
 
-          {/* Städte */}
+          {/* Städte - Nutzt jetzt zentralisierte Übersetzungen */}
           <div>
-            <h4 className="font-semibold mb-4">{lang.cities || "Ruhrgebietsstädte"}</h4>
+            <h4 className="font-semibold mb-4">{footer('cities')}</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>
                 <a 
@@ -464,7 +396,7 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
 
           {/* Social Media */}
           <div>
-            <h4 className="font-semibold mb-4">{lang.socialMedia || "Social Media"}</h4>
+            <h4 className="font-semibold mb-4">{footer('socialMedia')}</h4>
             <div className="grid grid-cols-4 gap-3">
               <button 
                 onClick={() => window.open('/fake-social/facebook.html?event=Ruhrpott Events', '_blank')}
@@ -523,7 +455,7 @@ const Footer = ({ selectedLanguage = 'DE' }) => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          <p>&copy; 2025 Melting Pott. {lang.copyright || "Alle Rechte vorbehalten."}</p>
+          <p>&copy; 2025 Melting Pott. {footer('copyright')}</p>
         </div>
       </div>
     </footer>
