@@ -73,6 +73,50 @@ const EventReviewsViewer = ({ selectedLanguage = 'DE' }) => {
       from: "من",
       verified: "تم التحقق",
       noReviews: "لا توجد مراجعات حتى الآن لهذا الحدث"
+    },
+    IT: {
+      title: "🏭 Eventi e Recensioni della Ruhr",
+      loading: "Caricamento eventi e recensioni...",
+      events: "Eventi",
+      reviews: "Recensioni",
+      reviewsCount: "Recensioni",
+      free: "Gratuito",
+      from: "da",
+      verified: "Verificato",
+      noReviews: "Nessuna recensione ancora per questo evento"
+    },
+    NL: {
+      title: "🏭 Ruhrgebied Evenementen & Beoordelingen",
+      loading: "Evenementen en beoordelingen laden...",
+      events: "Evenementen",
+      reviews: "Beoordelingen",
+      reviewsCount: "Beoordelingen",
+      free: "Gratis",
+      from: "uit",
+      verified: "Geverifieerd",
+      noReviews: "Nog geen beoordelingen voor dit evenement"
+    },
+    FR: {
+      title: "🏭 Événements et Avis de la Ruhr",
+      loading: "Chargement des événements et avis...",
+      events: "Événements",
+      reviews: "Avis",
+      reviewsCount: "Avis",
+      free: "Gratuit",
+      from: "de",
+      verified: "Vérifié",
+      noReviews: "Pas encore d'avis pour cet événement"
+    },
+    ES: {
+      title: "🏭 Eventos y Reseñas del Ruhr",
+      loading: "Cargando eventos y reseñas...",
+      events: "Eventos",
+      reviews: "Reseñas",
+      reviewsCount: "Reseñas",
+      free: "Gratis",
+      from: "desde",
+      verified: "Verificado",
+      noReviews: "Aún no hay reseñas para este evento"
     }
   }
 

@@ -61,6 +61,10 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     { code: 'PL', name: 'Polski', flag: '🇵🇱' },   // Polnisch (viele polnische Familien)
     { code: 'RU', name: 'Русский', flag: '🇷🇺' },  // Russisch (russischsprachige Community)
     { code: 'AR', name: 'العربية', flag: '🇸🇦' },   // Arabisch (wachsende arabische Community)
+    { code: 'IT', name: 'Italiano', flag: '🇮🇹' },  // Italienisch (italienische Community)
+    { code: 'NL', name: 'Nederlands', flag: '🇳🇱' }, // Niederländisch (viele niederländische Besucher)
+    { code: 'FR', name: 'Français', flag: '🇫🇷' },  // Französisch (französische Besucher)
+    { code: 'ES', name: 'Español', flag: '🇪🇸' },   // Spanisch (spanische Community)
   ]
 
   const translations = {
@@ -76,7 +80,7 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
     },
     EN: {
       events: 'Events',
-      about: 'About us',,
+      about: 'About us',
       contact: 'Contact',
       login: 'Login',
       register: 'Register',
@@ -123,6 +127,46 @@ const Header = ({ selectedLanguage, setSelectedLanguage }) => {
       dashboard: 'منطقتي',
       logout: 'تسجيل الخروج',
       welcome: 'مرحبا'
+    },
+    IT: {
+      events: 'Eventi',
+      about: 'Chi siamo',
+      contact: 'Contatto',
+      login: 'Accedi',
+      register: 'Registrati',
+      dashboard: 'La mia area',
+      logout: 'Esci',
+      welcome: 'Benvenuti'
+    },
+    NL: {
+      events: 'Evenementen',
+      about: 'Over ons',
+      contact: 'Contact',
+      login: 'Inloggen',
+      register: 'Registreren',
+      dashboard: 'Mijn gebied',
+      logout: 'Uitloggen',
+      welcome: 'Welkom'
+    },
+    FR: {
+      events: 'Événements',
+      about: 'À propos',
+      contact: 'Contact',
+      login: 'Se connecter',
+      register: 'S\'inscrire',
+      dashboard: 'Mon espace',
+      logout: 'Se déconnecter',
+      welcome: 'Bienvenue'
+    },
+    ES: {
+      events: 'Eventos',
+      about: 'Acerca de',
+      contact: 'Contacto',
+      login: 'Iniciar sesión',
+      register: 'Registrarse',
+      dashboard: 'Mi área',
+      logout: 'Cerrar sesión',
+      welcome: 'Bienvenidos'
     }
   }
 

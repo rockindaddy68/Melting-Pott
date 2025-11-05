@@ -90,6 +90,58 @@ function MainApp() {
   // Sprachauswahl (DE/EN) - wird an alle Komponenten weitergegeben
   const [selectedLanguage, setSelectedLanguage] = useState('DE')
   
+  // === ÜBERSETZUNGEN FÜR EXPERIENCES SEKTION ===
+  const experiencesTranslations = {
+    DE: {
+      title: "🏭 Echte Erfahrungen aus dem Ruhrpott",
+      description: "Entdecke authentische Bewertungen von Events in Essen, Bochum, Dortmund und dem ganzen Ruhrgebiet. Von Zollverein bis Gasometer - erfahre, was andere Besucher wirklich denken!"
+    },
+    EN: {
+      title: "🏭 Real Experiences from the Ruhr Area",
+      description: "Discover authentic reviews of events in Essen, Bochum, Dortmund and the entire Ruhr area. From Zollverein to Gasometer - find out what other visitors really think!"
+    },
+    TR: {
+      title: "🏭 Ruhr Bölgesi'nden Gerçek Deneyimler",
+      description: "Essen, Bochum, Dortmund ve tüm Ruhr bölgesindeki etkinliklerin otantik değerlendirmelerini keşfedin. Zollverein'dan Gasometer'e kadar - diğer ziyaretçilerin gerçekten ne düşündüğünü öğrenin!"
+    },
+    PL: {
+      title: "🏭 Prawdziwe Doświadczenia z Zagłębia Ruhry",
+      description: "Odkryj autentyczne recenzje wydarzeń w Essen, Bochum, Dortmundzie i całym Zagłębiu Ruhry. Od Zollverein do Gasometer - dowiedz się, co naprawdę myślą inni odwiedzający!"
+    },
+    RU: {
+      title: "🏭 Реальный Опыт из Рурской области",
+      description: "Откройте для себя подлинные отзывы о событиях в Эссене, Бохуме, Дортмунде и всей Рурской области. От Цольферайна до Газометра - узнайте, что на самом деле думают другие посетители!"
+    },
+    AR: {
+      title: "🏭 تجارب حقيقية من منطقة الرور",
+      description: "اكتشف تقييمات حقيقية للأحداث في إيسن وبوخوم ودورتموند وكامل منطقة الرور. من تسولفيراين إلى غازوميتر - تعرف على ما يفكر فيه الزوار الآخرون حقاً!"
+    },
+    IT: {
+      title: "🏭 Esperienze Autentiche dalla Ruhr",
+      description: "Scopri recensioni autentiche di eventi a Essen, Bochum, Dortmund e in tutta l'area della Ruhr. Da Zollverein al Gasometer - scopri cosa pensano davvero gli altri visitatori!"
+    },
+    NL: {
+      title: "🏭 Echte Ervaringen uit het Ruhrgebied",
+      description: "Ontdek authentieke beoordelingen van evenementen in Essen, Bochum, Dortmund en het hele Ruhrgebied. Van Zollverein tot Gasometer - ontdek wat andere bezoekers echt denken!"
+    },
+    FR: {
+      title: "🏭 Expériences Authentiques de la Ruhr",
+      description: "Découvrez des avis authentiques d'événements à Essen, Bochum, Dortmund et dans toute la région de la Ruhr. De Zollverein au Gasomètre - découvrez ce que pensent vraiment les autres visiteurs !"
+    },
+    ES: {
+      title: "🏭 Experiencias Auténticas del Ruhr",
+      description: "Descubre reseñas auténticas de eventos en Essen, Bochum, Dortmund y toda la región del Ruhr. De Zollverein al Gasómetro - ¡descubre lo que realmente piensan otros visitantes!"
+    }
+  };
+
+  const getExperiencesTitle = () => {
+    return experiencesTranslations[selectedLanguage]?.title || experiencesTranslations.DE.title;
+  };
+
+  const getExperiencesDescription = () => {
+    return experiencesTranslations[selectedLanguage]?.description || experiencesTranslations.DE.description;
+  };
+  
   // Admin-Panel Ein/Aus - versteckter Verwaltungsbereich
   const [showAdmin, setShowAdmin] = useState(false)
   
@@ -270,12 +322,12 @@ function MainApp() {
             <h2 className={`text-3xl lg:text-4xl font-bold mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              🏭 Echte Erfahrungen aus dem Ruhrpott
+              {getExperiencesTitle()}
             </h2>
             <p className={`text-xl mb-8 max-w-2xl mx-auto ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              Entdecke authentische Bewertungen von Events in Essen, Bochum, Dortmund und dem ganzen Ruhrgebiet. Von Zollverein bis Gasometer - erfahre, was andere Besucher wirklich denken!
+              {getExperiencesDescription()}
             </p>
             <button
               onClick={() => setShowReviews(true)}

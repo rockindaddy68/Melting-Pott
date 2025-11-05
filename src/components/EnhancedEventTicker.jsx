@@ -68,6 +68,42 @@ const EnhancedEventTicker = ({ selectedLanguage = 'DE' }) => {
       loading: "تحميل الأحداث...",
       noEvents: "لا توجد أحداث متاحة حالياً",
       noEventsSubtitle: "جميع الأحداث تم إنجازها بالفعل أو لم يتم التخطيط لها بعد."
+    },
+    IT: {
+      today: "OGGI",
+      tomorrow: "DOMANI", 
+      thisWeek: "QUESTA SETTIMANA",
+      upcoming: "PROSSIMAMENTE",
+      loading: "Caricamento eventi...",
+      noEvents: "Nessun evento attualmente disponibile",
+      noEventsSubtitle: "Tutti gli eventi sono già terminati o non sono ancora stati pianificati."
+    },
+    NL: {
+      today: "VANDAAG",
+      tomorrow: "MORGEN",
+      thisWeek: "DEZE WEEK", 
+      upcoming: "BINNENKORT",
+      loading: "Evenementen laden...",
+      noEvents: "Momenteel geen evenementen beschikbaar",
+      noEventsSubtitle: "Alle evenementen zijn al afgelopen of nog niet gepland."
+    },
+    FR: {
+      today: "AUJOURD'HUI",
+      tomorrow: "DEMAIN",
+      thisWeek: "CETTE SEMAINE",
+      upcoming: "À VENIR",
+      loading: "Chargement des événements...",
+      noEvents: "Aucun événement actuellement disponible",
+      noEventsSubtitle: "Tous les événements sont déjà terminés ou pas encore planifiés."
+    },
+    ES: {
+      today: "HOY",
+      tomorrow: "MAÑANA",
+      thisWeek: "ESTA SEMANA",
+      upcoming: "PRÓXIMAMENTE", 
+      loading: "Cargando eventos...",
+      noEvents: "No hay eventos disponibles actualmente",
+      noEventsSubtitle: "Todos los eventos ya han terminado o aún no están planificados."
     }
   }
 

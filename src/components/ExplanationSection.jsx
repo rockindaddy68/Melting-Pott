@@ -28,6 +28,22 @@ const ExplanationSection = ({ selectedLanguage }) => {
     AR: {
       explanationTitle: "ماذا يعني \"Melting Pott\"؟",
       explanation: "يجمع مصطلح 'Melting Pott' بين الكلمة الإنجليزية التي تعني بوتقة الانصهار مع 'Pott' الإقليمي لمنطقة الرور. منذ أكثر من 150 عاماً، يعيش ويعمل هنا أشخاص من جميع أنحاء العالم معاً - من عمال المناجم البولنديين إلى العمال الضيوف الأتراك وصولاً إلى عائلات من أكثر من 180 دولة. هذا التنوع الثقافي يجعل منطقة الرور بوتقة انصهار فريدة للثقافات."
+    },
+    IT: {
+      explanationTitle: "Cosa significa \"Melting Pott\"?",
+      explanation: "Il termine 'Melting Pott' combina la parola inglese 'melting pot' con il termine regionale 'Pott' per la regione della Ruhr. Da oltre 150 anni, qui vivono e lavorano insieme persone provenienti da tutto il mondo - dai minatori polacchi ai lavoratori ospiti turchi fino alle famiglie di oltre 180 paesi. Questa diversità culturale rende la regione della Ruhr un crogiolo unico di culture."
+    },
+    NL: {
+      explanationTitle: "Wat betekent \"Melting Pott\"?",
+      explanation: "De term 'Melting Pott' combineert het Engelse woord 'melting pot' met het regionale 'Pott' voor het Ruhrgebied. Al meer dan 150 jaar wonen en werken hier mensen uit de hele wereld samen - van Poolse mijnwerkers tot Turkse gastarbeiders tot families uit meer dan 180 landen. Deze culturele diversiteit maakt het Ruhrgebied tot een unieke smeltkroes van culturen."
+    },
+    FR: {
+      explanationTitle: "Que signifie \"Melting Pott\" ?",
+      explanation: "Le terme 'Melting Pott' combine le mot anglais 'melting pot' avec le terme régional 'Pott' pour la région de la Ruhr. Depuis plus de 150 ans, des personnes du monde entier vivent et travaillent ici ensemble - des mineurs polonais aux travailleurs invités turcs jusqu'aux familles de plus de 180 pays. Cette diversité culturelle fait de la région de la Ruhr un creuset unique de cultures."
+    },
+    ES: {
+      explanationTitle: "¿Qué significa \"Melting Pott\"?",
+      explanation: "El término 'Melting Pott' combina la palabra inglesa 'melting pot' con el término regional 'Pott' para la región del Ruhr. Durante más de 150 años, personas de todo el mundo han vivido y trabajado aquí juntas - desde mineros polacos hasta trabajadores invitados turcos y familias de más de 180 países. Esta diversidad cultural convierte la región del Ruhr en un crisol único de culturas."
     }
   }
 
