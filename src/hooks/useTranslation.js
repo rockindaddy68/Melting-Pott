@@ -6,6 +6,16 @@ import TranslationService, { LANGUAGES } from '../services/translationService';
 export const useTranslation = (initialLanguage = 'DE') => {
   const [language, setLanguage] = useState(initialLanguage);
 
+  // Sprache synchronisieren wenn sich initialLanguage ändert
+  useEffect(() => {
+    if (initialLanguage !== language) {
+      const lang = initialLanguage?.toUpperCase();
+      if (LANGUAGES.find(l => l.code === lang)) {
+        setLanguage(lang);
+      }
+    }
+  }, [initialLanguage, language]);
+
   // Allgemeine Übersetzungsfunktion
   const t = (section, key, fallback = key) => {
     return TranslationService.getTranslation(section, language, key, fallback);

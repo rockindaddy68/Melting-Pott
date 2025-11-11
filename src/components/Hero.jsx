@@ -2,6 +2,7 @@ import React from 'react'
 import RealEventSearch from './RealEventSearch'
 import { useTheme } from '../contexts/ThemeContext'
 import { useTranslation } from '../hooks/useTranslation' // Zentralisierte Übersetzungen
+import TranslationService from '../services/translationService'
 
 const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
   const { theme } = useTheme();
@@ -9,18 +10,14 @@ const Hero = ({ selectedLanguage, setSelectedLanguage }) => {
   // === ZENTRALISIERTE ÜBERSETZUNGEN ===
   const { 
     hero, 
-    welcome, 
     changeLanguage,
     availableLanguages 
   } = useTranslation(selectedLanguage)
 
-  // Aktuelle Sprache ableiten
-  const currentLanguageCode = selectedLanguage.toLowerCase();
-
-  // Nutze availableLanguages vom TranslationService (erweitere um Welcome-Text)
+  // Nutze availableLanguages vom TranslationService mit korrekten Welcome-Texten
   const welcomeButtons = availableLanguages.map(lang => ({
     code: lang.code,
-    text: welcome() || lang.name, // Fallback auf Sprachname
+    text: TranslationService.getWelcomeText(lang.code), // Korrekte Übersetzung für jede Sprache
     flag: lang.flag
   }));
 
